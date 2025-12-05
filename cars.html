@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Inventory | Vinvel</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CORE STYLES --- */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            --text-dark: #1A1A1A;
+            --text-grey: #666666;
+            --bg-light: #F8F9FA;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-grey); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        h1, h2, h3, h4 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* HEADER */
+        header { background: white; padding: 15px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Jost', sans-serif; font-size: 1.5rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* LAYOUT GRID */
+        .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 40px 0; flex: 1; align-items: start; }
+        
+        /* SIDEBAR FILTERS */
+        .sidebar { background: white; padding: 25px; border-radius: var(--radius-md); box-shadow: var(--card-shadow); position: sticky; top: 90px; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dark); }
+        .filter-group select, .filter-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; outline: none; }
+        .filter-btn { width: 100%; background: var(--text-dark); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: 600; transition: 0.3s; }
+        .filter-btn:hover { background: #6600FF; }
+        .reset-btn { width: 100%; background: transparent; color: #666; padding: 8px; border: none; cursor: pointer; margin-top: 5px; font-size: 0.85rem; text-decoration: underline; }
+
+        /* MAIN LIST AREA & VIEW CONTROLS */
+        .car-list { min-width: 0; }
+        
+        .list-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .view-toggles { display: flex; gap: 10px; align-items: center; }
+        .view-btn { background: white; border: 1px solid #ddd; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; color: #666; transition: 0.2s; }
+        .view-btn.active { background: #6600FF; color: white; border-color: #6600FF; }
+        
+        .search-bar-top { width: 100%; position: relative; max-width: 400px; }
+        .search-bar-top input { width: 100%; padding: 10px 10px 10px 40px; border-radius: 50px; border: 1px solid #ddd; font-size: 0.95rem; outline: none; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 1rem; }
+
+        /* CAR GRID SYSTEM */
+        .grid-container { display: grid; gap: 25px; transition: 0.3s; }
+        .cols-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        .cols-5 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+        /* CAR CARD - UNIFORM TILE STYLES */
+        .car-card { 
+            background: white; 
+            border-radius: var(--radius-lg); 
+            overflow: hidden; 
+            box-shadow: var(--card-shadow); 
+            transition: 0.3s; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #eee; 
+            height: 100%; /* Ensures all cards in a row match height */
+        }
+        .car-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(102, 0, 255, 0.1); border-color: #00CCFF; }
+        
+        /* IMAGE WRAPPER - FORCE ASPECT RATIO */
+        .car-img-wrapper { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 16/10; /* Fixed Aspect Ratio */
+            background: #f0f0f0; 
+            overflow: hidden;
+        }
+        .car-img-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Crops image to fill container without stretching */
+            object-position: center;
+            transition: 0.5s;
+        }
+        .car-card:hover .car-img-wrapper img { transform: scale(1.05); }
+
+        .badge-grade { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; backdrop-filter: blur(4px); z-index: 2; }
+        
+        .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { display: flex; gap: 8px; font-size: 0.75rem; color: #888; margin-bottom: 12px; flex-wrap: wrap; }
+        .card-meta span { display: flex; align-items: center; gap: 4px; background: #f9f9f9; padding: 3px 6px; border-radius: 4px; }
+        
+        .price-tag { font-family: 'Jost', sans-serif; font-size: 1.2rem; font-weight: 700; color: #6600FF; display: block; margin-bottom: 12px; }
+        .price-hidden { color: #333; font-size: 1rem; }
+        
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+        .btn-view, .btn-whatsapp { padding: 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; }
+        .btn-view { background: #f0f0f0; color: #333; }
+        .btn-view:hover { background: #e0e0e0; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1ebc57; }
+
+        /* MODAL STYLES */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-content { background: white; width: 100%; max-width: 1000px; max-height: 90vh; border-radius: 20px; overflow: hidden; display: flex; position: relative; animation: slideUp 0.3s ease; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #333; cursor: pointer; z-index: 10; background: rgba(255,255,255,0.8); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .modal-close:hover { background: #ff4d4d; color: white; }
+        .modal-gallery { flex: 1.5; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .modal-gallery img { width: 100%; height: 100%; object-fit: contain; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .carousel-btn:hover { background: rgba(255,255,255,0.4); }
+        .prev-btn { left: 0; } .next-btn { right: 0; }
+        .modal-details { flex: 1; padding: 30px; overflow-y: auto; background: white; }
+        .modal-title { font-size: 2rem; margin-bottom: 5px; }
+        .modal-price { font-size: 1.8rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; margin-bottom: 20px; display: block; }
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .spec-item { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
+        .spec-item strong { display: block; color: #888; font-size: 0.75rem; margin-bottom: 3px; }
+
+        /* FOOTER */
+        footer { background: #0a0a0a; color: #aaa; padding: 60px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.3rem; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a:hover { color: #00CCFF; text-decoration: none; }
+        .footer-logo-text { font-family: 'Jost'; font-size: 2.5rem; color: white; font-weight: 700; display: block; margin-bottom: 15px; letter-spacing: -1px; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.9rem; margin-top: 20px; }
+
+        /* MOBILE RESPONSIVE */
+        .mobile-filter-toggle { display: none; width: 100%; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 8px; font-weight: 600; margin-bottom: 20px; text-align: center; cursor: pointer; }
+        
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        @media (max-width: 900px) {
+            .inventory-wrapper { display: block; }
+            .sidebar { display: none; margin-bottom: 20px; }
+            .sidebar.active { display: block; }
+            .mobile-filter-toggle { display: block; }
+            .view-toggles { display: none; } 
+            .grid-container { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)) !important; }
+            .modal-content { flex-direction: column; height: 100%; border-radius: 0; }
+            .modal-gallery { height: 40vh; flex: none; }
+            .modal-details { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header>
+        <div class="container nav-inner">
+            <a href="index.html" class="logo">vinvel</a>
+            <a href="index.html" style="font-weight: 500; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-arrow-left"></i> <span style="font-size: 0.9rem;">Back to Home</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container inventory-wrapper">
+        
+        <button class="mobile-filter-toggle" onclick="toggleSidebar()">
+            <i class="fa-solid fa-sliders"></i> Filters
+        </button>
+
+        <!-- Sidebar Filters -->
+        <aside class="sidebar" id="filterSidebar">
+            <div class="sidebar-header">
+                <h3>Filter Cars</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer; display: none;" onclick="toggleSidebar()" id="closeFilters"></i>
+            </div>
+            
+            <div class="filter-group">
+                <label>Make</label>
+                <select id="makeSelect" onchange="updateModels()">
+                    <option value="All">All Makes</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Suzuki">Suzuki</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Model</label>
+                <select id="modelSelect">
+                    <option value="All">All Models</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Min Year</label>
+                <input type="number" id="minYear" placeholder="e.g. 2015">
+            </div>
+
+             <div class="filter-group">
+                <label>Max Price (LKR)</label>
+                <input type="number" id="maxPrice" placeholder="e.g. 10000000">
+            </div>
+
+            <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+            <button class="reset-btn" onclick="resetFilters()">Reset All</button>
+        </aside>
+
+        <!-- Main Car List -->
+        <main class="car-list">
+            
+            <div class="list-controls">
+                <h2 id="resultCount" style="font-size: 1.4rem;">Loading...</h2>
+                
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div class="search-bar-top">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search inventory..." onkeyup="applyFilters()">
+                    </div>
+
+                    <div class="view-toggles">
+                        <span style="font-size: 0.85rem; font-weight: 600;">View:</span>
+                        <button class="view-btn active" onclick="setGrid(3, this)" title="3 Columns">3</button>
+                        <button class="view-btn" onclick="setGrid(5, this)" title="5 Columns">5</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-container cols-3" id="carsGrid">
+                <!-- Cars injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- CAR DETAIL MODAL -->
+    <div id="carModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">&times;</div>
+            <div class="modal-gallery">
+                <button class="carousel-btn prev-btn" onclick="changeSlide(-1)">&#10094;</button>
+                <img id="modalImage" src="" alt="Car Detail">
+                <button class="carousel-btn next-btn" onclick="changeSlide(1)">&#10095;</button>
+            </div>
+            <div class="modal-details">
+                <h2 class="modal-title" id="modalTitle">Car Title</h2>
+                <span class="modal-price" id="modalPrice">LKR 0</span>
+                <p style="margin-bottom: 20px; color: #666; font-size: 0.95rem;">
+                    Verified Auction Grade <span id="modalGrade" style="font-weight: 700; color: #333;">4.5</span>. 
+                    This vehicle includes a full translation sheet and mechanical warranty.
+                </p>
+                <div class="spec-grid">
+                    <div class="spec-item"><strong>Year</strong> <span id="modalYear">2019</span></div>
+                    <div class="spec-item"><strong>Mileage</strong> <span id="modalMileage">45k km</span></div>
+                    <div class="spec-item"><strong>Engine</strong> <span id="modalEngine">1.5L</span></div>
+                    <div class="spec-item"><strong>Fuel</strong> <span id="modalFuel">Petrol</span></div>
+                    <div class="spec-item"><strong>Transmission</strong> <span id="modalTrans">Auto</span></div>
+                    <div class="spec-item"><strong>Ref ID</strong> <span id="modalRef">001</span></div>
+                </div>
+                <a href="#" id="modalWhatsapp" class="btn-whatsapp" style="width: 100%; padding: 15px; font-size: 1rem;">
+                    <i class="fa-brands fa-whatsapp"></i> Enquire Now on WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <span class="footer-logo-text">vinvel</span>
+                    <p style="margin-bottom: 15px;">A Beginning, A Victory.</p>
+                    <p>Vinvel Motor Trading (Pvt) Ltd.<br>
+                    459/D/S/3, Lake Road,<br>
+                    Akuregoda, Battaramulla,<br>
+                    Sri Lanka</p>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Explore</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cars.html">Available Inventory</a></li>
+                        <li><a href="#process">How it Works</a></li>
+                        <li><a href="#broker">Broker Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> +94 77 622 66 55</a></li>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> vinvelmotortrading@gmail.com</a></li>
+                        <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Vinvel (Pvt) Ltd. All rights reserved. | <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* --- HIGH RES MOCK DATA (Unsplash URLS optimized with width param) --- */
+        const carData = [
+            {
+                id: "001",
+                make: "Toyota",
+                model: "Vitz",
+                title: "Toyota Vitz F-Safety Edition",
+                year: 2019,
+                mileage: "42,000 km",
+                engine: "1.0L",
+                fuel: "Petrol",
+                trans: "Auto",
+                grade: "4.5",
+                price: 7800000,
+                hidePrice: false,
+                images: [
+                    "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80"
+                ]
+            },
+            {
+                id: "002",
+                make: "Honda",
+                model: "Civic",
+                title: "Honda Civic Turbo RS",
+                year: 2021,
+                mileage: "12,000 km",
+                engine: "1.5L Turbo",
+                fuel: "Petrol",
+                trans: "Auto",
+                grade: "5.0",
+                price: 0,
+                hidePrice: true, 
+                images: [
+                    "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1580273916550-e323be2ebccd?auto=format&fit=crop&w=800&q=80"
+                ]
+            },
+            {
+                id: "003",
+                make: "Nissan",
+                model: "X-Trail",
+                title: "Nissan X-Trail Hybrid Xi",
+                year: 2016,
+                mileage: "85,000 km",
+                engine: "2.0L Hybrid",
+                fuel: "Hybrid",
+                trans: "Auto",
+                grade: "3.5",
+                price: 8900000,
+                hidePrice: false,
+                images: [
+                    "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1519245659620-e859806a8d3b?auto=format&fit=crop&w=800&q=80"
+                ]
+            },
+            {
+                id: "004",
+                make: "Toyota",
+                model: "Premio",
+                title: "Toyota Premio F-EX",
+                year: 2018,
+                mileage: "32,000 km",
+                engine: "1.5L",
+                fuel: "Petrol",
+                trans: "Auto",
+                grade: "4.5",
+                price: 9500000,
+                hidePrice: false,
+                images: [
+                    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80" 
+                    // Using a generic sedan placeholder for Premio as specific Creative Commons image is hard to find
+                ]
+            },
+            {
+                id: "005",
+                make: "Suzuki",
+                model: "WagonR",
+                title: "Suzuki WagonR Stingray",
+                year: 2017,
+                mileage: "55,000 km",
+                engine: "660cc",
+                fuel: "Hybrid",
+                trans: "Auto",
+                grade: "4.0",
+                price: 5200000,
+                hidePrice: false,
+                images: [
+                    "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=80"
+                    // Generic hatchback placeholder
+                ]
+            }
+        ];
+
+        const modelsByMake = {
+            "Toyota": ["Vitz", "Premio", "Aqua", "Raize"],
+            "Honda": ["Civic", "Vezel", "Fit"],
+            "Nissan": ["X-Trail", "Leaf", "Note"],
+            "Suzuki": ["WagonR", "Swift", "Hustler"]
+        };
+
+        window.onload = function() { displayCars(carData); };
+
+        function displayCars(cars) {
+            const grid = document.getElementById('carsGrid');
+            const countLabel = document.getElementById('resultCount');
+            grid.innerHTML = "";
+            
+            if (cars.length === 0) {
+                grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding: 40px;'><p>No cars found matching your criteria.</p></div>";
+                countLabel.innerText = "0 Results";
+                return;
+            }
+
+            countLabel.innerText = `Showing ${cars.length} Results`;
+
+            cars.forEach(car => {
+                let priceDisplay = `LKR ${car.price.toLocaleString()}`;
+                let priceClass = "price-tag";
+                if (car.hidePrice) {
+                    priceDisplay = "Call for Price";
+                    priceClass = "price-tag price-hidden";
+                }
+                const mainImage = car.images && car.images.length > 0 ? car.images[0] : "https://via.placeholder.com/800x600?text=No+Image";
+
+                const cardHTML = `
+                    <div class="car-card">
+                        <div class="car-img-wrapper">
+                            <span class="badge-grade">Grade ${car.grade}</span>
+                            <img src="${mainImage}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/800x600?text=No+Image'">
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title" title="${car.title}">${car.title}</h3>
+                                <div class="card-meta">
+                                    <span>${car.year}</span>
+                                    <span>${car.mileage}</span>
+                                    <span>${car.engine}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="${priceClass}">${priceDisplay}</span>
+                                <div class="card-actions">
+                                    <button class="btn-view" onclick="openModal('${car.id}')">View Details</button>
+                                    <button class="btn-whatsapp" onclick="openWhatsApp(event, '${car.title}', '${car.id}')">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        function setGrid(cols, btn) {
+            const grid = document.getElementById('carsGrid');
+            const buttons = document.querySelectorAll('.view-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            if (cols === 5) {
+                grid.classList.remove('cols-3');
+                grid.classList.add('cols-5');
+                document.querySelector('.container').style.maxWidth = "1600px";
+            } else {
+                grid.classList.remove('cols-5');
+                grid.classList.add('cols-3');
+                document.querySelector('.container').style.maxWidth = "1400px";
+            }
+        }
+
+        let currentCarImages = [];
+        let currentSlideIndex = 0;
+
+        function openModal(carId) {
+            const car = carData.find(c => c.id === carId);
+            if (!car) return;
+            document.getElementById('modalTitle').innerText = car.title;
+            document.getElementById('modalPrice').innerText = car.hidePrice ? "Call for Price" : `LKR ${car.price.toLocaleString()}`;
+            document.getElementById('modalGrade').innerText = car.grade;
+            document.getElementById('modalYear').innerText = car.year;
+            document.getElementById('modalMileage').innerText = car.mileage;
+            document.getElementById('modalEngine').innerText = car.engine;
+            document.getElementById('modalFuel').innerText = car.fuel;
+            document.getElementById('modalTrans').innerText = car.trans;
+            document.getElementById('modalRef').innerText = car.id;
+            
+            currentCarImages = car.images;
+            currentSlideIndex = 0;
+            updateSlide();
+
+            const phone = "94776226655";
+            const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${car.id}). Is it still available?`;
+            document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            document.getElementById('carModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('carModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('carModal')) { closeModal(); }
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            if (currentSlideIndex >= currentCarImages.length) currentSlideIndex = 0;
+            if (currentSlideIndex < 0) currentSlideIndex = currentCarImages.length - 1;
+            updateSlide();
+        }
+
+        function updateSlide() {
+            const imgElement = document.getElementById('modalImage');
+            if(currentCarImages.length > 0) {
+                imgElement.src = currentCarImages[currentSlideIndex];
+            } else {
+                imgElement.src = "https://via.placeholder.com/800x600?text=No+Image";
+            }
+        }
+
+        function applyFilters() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const make = document.getElementById('makeSelect').value;
+            const model = document.getElementById('modelSelect').value;
+            const minYear = document.getElementById('minYear').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+
+            const filtered = carData.filter(car => {
+                const matchesSearch = car.title.toLowerCase().includes(searchText) || car.id.includes(searchText);
+                const matchesMake = (make === "All") || (car.make === make);
+                const matchesModel = (model === "All") || (car.model === model);
+                const matchesYear = !minYear || (car.year >= parseInt(minYear));
+                const matchesPrice = !maxPrice || (car.price > 0 && car.price <= parseInt(maxPrice));
+                return matchesSearch && matchesMake && matchesModel && matchesYear && matchesPrice;
+            });
+            displayCars(filtered);
+        }
+
+        function updateModels() {
+            const make = document.getElementById('makeSelect').value;
+            const modelSelect = document.getElementById('modelSelect');
+            modelSelect.innerHTML = '<option value="All">All Models</option>';
+            if (make !== "All" && modelsByMake[make]) {
+                modelsByMake[make].forEach(model => {
+                    const option = document.createElement("option");
+                    option.value = model;
+                    option.text = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = "";
+            document.getElementById('makeSelect').value = "All";
+            document.getElementById('modelSelect').value = "All";
+            document.getElementById('minYear').value = "";
+            document.getElementById('maxPrice').value = "";
+            updateModels();
+            displayCars(carData);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('filterSidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        }
+
+        function openWhatsApp(e, title, ref) {
+            e.preventDefault();
+            const phone = "94776226655";
+            const text = `Hi Vinvel, I am interested in the ${title} (Ref: ${ref}). Is it still available?`;
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

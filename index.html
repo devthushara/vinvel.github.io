@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinvel Motor Trading | Direct from Japan</title>
+    
+    <!-- Fonts: Jost (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- BRAND VARIABLES --- */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            --secondary-dark: #0a0a0a;
+            --text-dark: #1A1A1A;
+            --text-grey: #666666;
+            --bg-light: #F8F9FA;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        /* --- RESET & TYPOGRAPHY --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
+        body { background-color: var(--white); color: var(--text-grey); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        input, select, textarea { font-family: 'Inter', sans-serif; }
+
+        /* --- COMPONENTS --- */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 0, 255, 0.4); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #6600FF;
+            color: #6600FF;
+        }
+        .btn-outline:hover { background: #6600FF; color: white; }
+        .btn-white-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        .btn-white-outline:hover { background: white; color: var(--text-dark); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .section-title p { color: var(--text-grey); font-size: 1.1rem; }
+
+        /* --- HEADER --- */
+        header { padding: 15px 0; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Jost', sans-serif; font-size: 1.8rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { font-weight: 500; color: var(--text-dark); position: relative; }
+        .nav-links a:hover { color: #6600FF; }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--text-dark); cursor: pointer; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .hero-content { max-width: 800px; }
+        .hero-content h1 { color: white; font-size: 3.8rem; margin-bottom: 1.5rem; line-height: 1.1; font-weight: 700; }
+        .hero-content p { font-size: 1.25rem; margin-bottom: 2.5rem; opacity: 0.9; font-weight: 300; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; }
+
+        /* --- FEATURES --- */
+        .features { padding: 100px 0; background: white; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .feature-card { padding: 40px 30px; border-radius: var(--radius-lg); text-align: left; background: var(--bg-light); transition: 0.3s; border: 1px solid transparent; }
+        .feature-card:hover { transform: translateY(-5px); border-color: #00CCFF; box-shadow: var(--card-shadow); }
+        .feature-icon { font-size: 2.5rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; display: inline-block; }
+        .feature-card h3 { margin-bottom: 15px; font-size: 1.5rem; }
+
+        /* --- FEATURED CARS --- */
+        .featured-cars { padding: 80px 0; background: #fff; }
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .car-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--card-shadow); transition: 0.3s; position: relative; border: 1px solid #eee; }
+        .car-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        .car-image { height: 220px; width: 100%; object-fit: cover; background: #f0f0f0; }
+        .grade-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; backdrop-filter: blur(5px); }
+        
+        .car-details { padding: 25px; }
+        .car-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+        .car-specs { font-size: 0.9rem; color: #777; display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .car-specs i { color: #6600FF; margin-right: 5px; }
+        .car-price { font-family: 'Jost', sans-serif; font-size: 1.4rem; font-weight: 700; color: #6600FF; display: block; margin-bottom: 15px; }
+
+        /* --- PROCESS --- */
+        .process { padding: 100px 0; background: var(--bg-light); }
+        .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+        .step { text-align: center; padding: 20px; position: relative; }
+        .step-icon-box { width: 80px; height: 80px; background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #6600FF; position: relative; z-index: 2; }
+        
+        /* --- BROKER SECTION --- */
+        .broker-section { padding: 100px 0; background: var(--secondary-dark); color: white; position: relative; overflow: hidden; }
+        .broker-bg { position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2073&auto=format&fit=crop') no-repeat center center/cover; opacity: 0.2; }
+        .broker-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .broker-text h2 { color: white; font-size: 3rem; margin-bottom: 20px; }
+        .broker-text p { font-size: 1.1rem; opacity: 0.8; margin-bottom: 30px; }
+        .broker-list li { display: flex; align-items: center; margin-bottom: 15px; font-size: 1.1rem; }
+        .broker-list i { color: #00CCFF; margin-right: 15px; }
+        
+        .broker-form { background: white; padding: 40px; border-radius: var(--radius-lg); color: var(--text-dark); }
+        .broker-form h3 { margin-bottom: 20px; font-size: 1.5rem; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.3s; }
+        .form-group input:focus { border-color: #6600FF; }
+
+        /* --- TESTIMONIALS --- */
+        .testimonials { padding: 100px 0; }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .testi-card { background: #fff; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--card-shadow); border: 1px solid #f0f0f0; }
+        .testi-quote { font-size: 1.1rem; font-style: italic; color: #555; margin-bottom: 20px; }
+        .testi-author { display: flex; align-items: center; gap: 15px; }
+        .author-img { width: 50px; height: 50px; border-radius: 50%; background: #ccc; object-fit: cover; }
+        .author-info h4 { font-size: 1rem; margin-bottom: 2px; }
+        .author-info span { font-size: 0.85rem; color: #888; }
+
+        /* --- FOOTER --- */
+        footer { background: #0a0a0a; color: #aaa; padding: 70px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.3rem; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { transition: 0.3s; }
+        .footer-links a:hover { color: #00CCFF; padding-left: 5px; }
+        .footer-logo-text { font-family: 'Jost'; font-size: 2.5rem; color: white; font-weight: 700; display: block; margin-bottom: 15px; letter-spacing: -1px; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.9rem; margin-top: 20px; }
+
+        /* --- STICKY WHATSAPP --- */
+        .sticky-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 999;
+            transition: 0.3s;
+        }
+        .sticky-whatsapp:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 968px) {
+            .hero-content h1 { font-size: 3rem; }
+            .broker-content { grid-template-columns: 1fr; }
+            .broker-bg { width: 100%; height: 300px; bottom: 0; top: auto; opacity: 0.1; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } 
+            .mobile-menu-btn { display: block; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-btns { flex-direction: column; }
+            .section-title h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">vinvel</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cars.html">Inventory</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                    <li><a href="#broker" class="btn btn-primary" style="padding: 10px 25px;">Partner Login</a></li>
+                </ul>
+                <div class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Victory Starts With<br>The Keys.</h1>
+            <p>Your trusted partner for high-grade Japanese vehicle imports.<br>Access over 50,000+ vehicles daily from USS, TAA, and ARAI auctions.</p>
+            <div class="hero-btns">
+                <a href="cars.html" class="btn btn-primary">Browse Inventory</a>
+                <a href="#broker" class="btn btn-white-outline">Become a Broker</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Vinvel -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Vinvel?</h2>
+                <p>We simplify the import process from Tokyo to Colombo.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fa-solid fa-gavel feature-icon"></i>
+                    <h3>Direct Auction Access</h3>
+                    <p>No middlemen. We bid directly on your behalf at major Japanese auction houses ensuring transparent pricing.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-check-circle feature-icon"></i>
+                    <h3>Verified Inspections</h3>
+                    <p>Every car includes a Grade Sheet translation and a detailed video walkaround before you pay.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-ship feature-icon"></i>
+                    <h3>Fast Logistics</h3>
+                    <p>We handle all documentation, deregistration, and shipping logistics to ensure timely arrival.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Inventory Preview -->
+    <section class="featured-cars">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Arrivals</h2>
+                <p>Hand-picked vehicles ready for immediate export.</p>
+            </div>
+            
+            <div class="car-grid">
+                <!-- Car 1 -->
+                <div class="car-card">
+                    <div class="grade-badge">Grade 4.5</div>
+                    <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=2069&auto=format&fit=crop" alt="Car" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Toyota Vitz Safety Ed.</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2019</span>
+                            <span><i class="fa-solid fa-road"></i> 42k km</span>
+                            <span><i class="fa-solid fa-gas-pump"></i> 1.0L</span>
+                        </div>
+                        <span class="car-price">LKR 7,800,000</span>
+                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car 2 -->
+                <div class="car-card">
+                    <div class="grade-badge">Grade 5.0</div>
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Car" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Honda Civic Turbo RS</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2021</span>
+                            <span><i class="fa-solid fa-road"></i> 12k km</span>
+                            <span><i class="fa-solid fa-bolt"></i> Auto</span>
+                        </div>
+                        <span class="car-price" style="color:#333">Call for Price</span>
+                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Car 3 -->
+                <div class="car-card">
+                    <div class="grade-badge">Grade 3.5</div>
+                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=2574&auto=format&fit=crop" alt="Car" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Nissan X-Trail Hybrid</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2016</span>
+                            <span><i class="fa-solid fa-road"></i> 85k km</span>
+                            <span><i class="fa-solid fa-leaf"></i> Hybrid</span>
+                        </div>
+                        <span class="car-price">LKR 8,900,000</span>
+                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Export Journey</h2>
+                <p>From auction house to your driveway in 4 simple steps.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h4>1. Select Car</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Browse our stock or request a specific auction search.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-file-contract"></i></div>
+                    <h4>2. Inspection</h4>
+                    <p style="font-size: 0.95rem; color: #666;">We verify condition, translate sheets, and share videos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                    <h4>3. Payment</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Secure deposit and LC/TT documentation processing.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <h4>4. Delivery</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Fast shipping to Hambantota or Colombo port.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BROKER PROGRAM SECTION -->
+    <section class="broker-section" id="broker">
+        <div class="broker-bg"></div>
+        <div class="container broker-content">
+            <div class="broker-text">
+                <h2>Partner with Vinvel</h2>
+                <p>Are you a vehicle broker? Join our network and get exclusive access to auction data, wholesale pricing, and priority shipping.</p>
+                <ul class="broker-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Competitive Commission Rates</li>
+                    <li><i class="fa-solid fa-circle-check"></i> White-label Auction Sheets</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dedicated Account Manager</li>
+                </ul>
+            </div>
+            <div class="broker-form">
+                <h3>Register as Broker</h3>
+                <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you on WhatsApp shortly.');">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" placeholder="+94 77..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Region / City</label>
+                        <input type="text" placeholder="e.g. Kurunegala" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Stories</h2>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card">
+                    <p class="testi-quote">"Vinvel made the import process so easy. The car was exactly as described in the auction sheet. Highly recommended!"</p>
+                    <div class="testi-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-img">
+                        <div class="author-info">
+                            <h4>Nimal Perera</h4>
+                            <span>Colombo, Sri Lanka</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"Transparency is key in this business, and Gayan and his team delivered 100%. The video walkaround gave me confidence."</p>
+                    <div class="testi-author">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="author-img">
+                        <div class="author-info">
+                            <h4>Suresh Kumar</h4>
+                            <span>Kandy, Sri Lanka</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <p class="testi-quote">"Great service for brokers. I've imported 5 cars through Vinvel this year and the logistics are always on point."</p>
+                    <div class="testi-author">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="author-img">
+                        <div class="author-info">
+                            <h4>Kasun Jayawardena</h4>
+                            <span>Galle, Sri Lanka</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <span class="footer-logo-text">vinvel</span>
+                    <p style="margin-bottom: 15px;">A Beginning, A Victory.</p>
+                    <p>Vinvel Motor Trading (Pvt) Ltd.<br>
+                    459/D/S/3, Lake Road,<br>
+                    Akuregoda, Battaramulla,<br>
+                    Sri Lanka</p>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Explore</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cars.html">Available Inventory</a></li>
+                        <li><a href="#process">How it Works</a></li>
+                        <li><a href="#broker">Broker Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> +94 77 622 66 55</a></li>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> vinvelmotortrading@gmail.com</a></li>
+                        <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Vinvel (Pvt) Ltd. All rights reserved. | <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky WhatsApp Button -->
+    <a href="https://wa.me/94776226655?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+</body>
+</html>

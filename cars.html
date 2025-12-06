@@ -52,6 +52,15 @@
         .view-toggles { display: flex; gap: 10px; align-items: center; }
         .view-btn { background: white; border: 1px solid #ddd; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; color: #666; transition: 0.2s; }
         .view-btn.active { background: #6600FF; color: white; border-color: #6600FF; }
+
+        /* PAGINATION */
+        .pagination-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 16px; flex-wrap: wrap; font-size: 0.9rem; color: #555; }
+        .page-controls { display: flex; gap: 8px; align-items: center; }
+        .page-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 0.85rem; min-width: 34px; text-align: center; transition: 0.2s; }
+        .page-btn:hover { background: #f3f3ff; border-color: #6600FF; }
+        .page-btn.active { background: #6600FF; color: #fff; border-color: #6600FF; }
+        .page-btn[disabled] { opacity: 0.4; cursor: default; background: #f5f5f5; }
+        .page-size-select { padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; font-size: 0.85rem; }
         
         .search-bar-top { width: 100%; position: relative; max-width: 400px; }
         .search-bar-top input { width: 100%; padding: 10px 10px 10px 40px; border-radius: 50px; border: 1px solid #ddd; font-size: 0.95rem; outline: none; }
@@ -59,8 +68,9 @@
 
         /* CAR GRID SYSTEM */
         .grid-container { display: grid; gap: 25px; transition: 0.3s; align-items: stretch; }
-        .cols-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-        .cols-5 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+        /* "3" = three cards per row, "2" = two larger cards per row */
+        .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
         /* CAR CARD - UNIFORM TILE STYLES */
         .car-card { 
@@ -95,6 +105,10 @@
         .car-card:hover .car-img-wrapper img { transform: scale(1.05); }
 
         .badge-grade { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; backdrop-filter: blur(4px); z-index: 2; }
+        .badge-status { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; color: #fff; z-index: 2; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
+        .badge-status.ready { background: linear-gradient(135deg, #16a34a, #22c55e); }
+        .badge-status.transit { background: linear-gradient(135deg, #eab308, #f97316); }
+        .badge-status.arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); }
         
         .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -123,7 +137,12 @@
         .prev-btn { left: 0; } .next-btn { right: 0; }
         .modal-details { flex: 1; padding: 26px 24px 28px; overflow-y: auto; background: white; }
         .modal-title { font-size: 1.8rem; margin-bottom: 6px; }
-        .modal-price { font-size: 1.6rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; margin-bottom: 18px; display: block; }
+        .modal-price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+        .modal-price { font-size: 1.6rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; display: block; }
+        .modal-status-pill { font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .modal-status-ready { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
+        .modal-status-transit { background: linear-gradient(135deg, #eab308, #f97316); color: #fff; }
+        .modal-status-arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; }
         .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .spec-item { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
         .spec-item strong { display: block; color: #888; font-size: 0.75rem; margin-bottom: 3px; }
@@ -279,14 +298,27 @@
 
                     <div class="view-toggles">
                         <span style="font-size: 0.85rem; font-weight: 600;">View:</span>
-                        <button class="view-btn active" onclick="setGrid(3, this)" title="3 Columns">3</button>
-                        <button class="view-btn" onclick="setGrid(5, this)" title="5 Columns">5</button>
+                        <button class="view-btn active" onclick="setGrid(2, this)" title="2 per row">2</button>
+                        <button class="view-btn" onclick="setGrid(3, this)" title="3 per row">3</button>
                     </div>
                 </div>
             </div>
 
-            <div class="grid-container cols-3" id="carsGrid">
+            <div class="grid-container cols-2" id="carsGrid">
                 <!-- Cars injected via JS -->
+            </div>
+            <div class="pagination-bar" id="paginationBar" style="display:none;">
+                <div id="paginationInfo">Showing 0 of 0 cars</div>
+                <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <label for="pageSizeSelect" style="margin-right:6px;">Per page:</label>
+                        <select id="pageSizeSelect" class="page-size-select" onchange="changePageSize()">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="page-controls" id="pageControls"></div>
+                </div>
             </div>
         </main>
     </div>
@@ -302,7 +334,10 @@
             </div>
             <div class="modal-details">
                 <h2 class="modal-title" id="modalTitle">Car Title</h2>
-                <span class="modal-price" id="modalPrice">LKR 0</span>
+                <div class="modal-price-row">
+                    <span class="modal-price" id="modalPrice">LKR 0</span>
+                    <span id="modalStatus" class="modal-status-pill modal-status-ready">Ready to Ship</span>
+                </div>
                 <p style="margin-bottom: 20px; color: #666; font-size: 0.95rem;">
                     Verified Auction Grade <span id="modalGrade" style="font-weight: 700; color: #333;">4.5</span>. 
                     This vehicle includes a full translation sheet and mechanical warranty.
@@ -348,7 +383,7 @@
                     <h3>Support</h3>
                     <ul>
                         <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
-                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="https://wa.me/94714878393"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
                         <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
                         <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
                     </ul>
@@ -390,6 +425,7 @@
                 fuel: "Petrol",
                 trans: "Auto",
                 grade: "4.5",
+                status: "Ready to Ship",
                 price: 7800000,
                 hidePrice: false,
                 images: [
@@ -408,6 +444,7 @@
                 fuel: "Petrol",
                 trans: "Auto",
                 grade: "5.0",
+                status: "In Transit",
                 price: 0,
                 hidePrice: true, 
                 images: [
@@ -426,6 +463,7 @@
                 fuel: "Hybrid",
                 trans: "Auto",
                 grade: "3.5",
+                status: "Arrived in SL",
                 price: 8900000,
                 hidePrice: false,
                 images: [
@@ -444,6 +482,7 @@
                 fuel: "Petrol",
                 trans: "Auto",
                 grade: "4.5",
+                status: "Ready to Ship",
                 price: 9500000,
                 hidePrice: false,
                 images: [
@@ -462,6 +501,7 @@
                 fuel: "Hybrid",
                 trans: "Auto",
                 grade: "4.0",
+                status: "Arrived in SL",
                 price: 5200000,
                 hidePrice: false,
                 images: [
@@ -471,6 +511,10 @@
             }
         ];
 
+        let filteredCars = [];
+        let currentPage = 1;
+        let pageSize = 10; // default 10 per page
+
         const modelsByMake = {
             "Toyota": ["Vitz", "Premio", "Aqua", "Raize"],
             "Honda": ["Civic", "Vezel", "Fit"],
@@ -478,9 +522,22 @@
             "Suzuki": ["WagonR", "Swift", "Hustler"]
         };
 
-        window.onload = function() { displayCars(carData); };
+        window.onload = function() {
+            filteredCars = carData.slice();
+            render();
+        };
 
-        function displayCars(cars) {
+        function render() {
+            const total = filteredCars.length;
+            const totalPages = Math.max(1, Math.ceil(total / pageSize));
+            if (currentPage > totalPages) currentPage = totalPages;
+            const start = (currentPage - 1) * pageSize;
+            const pageItems = filteredCars.slice(start, start + pageSize);
+            displayCars(pageItems, total);
+            updatePagination(total, totalPages);
+        }
+
+        function displayCars(cars, totalCount) {
             const grid = document.getElementById('carsGrid');
             const countLabel = document.getElementById('resultCount');
             grid.innerHTML = "";
@@ -491,7 +548,7 @@
                 return;
             }
 
-            countLabel.innerText = `Showing ${cars.length} Results`;
+            countLabel.innerText = `Showing ${cars.length} of ${totalCount} Results`;
 
             cars.forEach(car => {
                 let priceDisplay = `LKR ${car.price.toLocaleString()}`;
@@ -502,9 +559,15 @@
                 }
                 const mainImage = car.images && car.images.length > 0 ? car.images[0] : "https://via.placeholder.com/800x600?text=No+Image";
 
+                let statusLabel = car.status || "Ready to Ship";
+                let statusClass = "ready";
+                if (statusLabel === "In Transit") statusClass = "transit";
+                if (statusLabel === "Arrived in SL") statusClass = "arrived";
+
                 const cardHTML = `
                     <div class="car-card">
                         <div class="car-img-wrapper">
+                            <span class="badge-status ${statusClass}">${statusLabel}</span>
                             <span class="badge-grade">Grade ${car.grade}</span>
                             <img src="${mainImage}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/800x600?text=No+Image'">
                         </div>
@@ -537,15 +600,15 @@
             const grid = document.getElementById('carsGrid');
             const buttons = document.querySelectorAll('.view-btn');
             buttons.forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
-            if (cols === 5) {
-                grid.classList.remove('cols-3');
-                grid.classList.add('cols-5');
-                document.querySelector('.container').style.maxWidth = "1600px";
-            } else {
-                grid.classList.remove('cols-5');
+            if (btn) btn.classList.add('active');
+
+            grid.classList.remove('cols-2', 'cols-3');
+            if (cols === 3) {
                 grid.classList.add('cols-3');
                 document.querySelector('.container').style.maxWidth = "1400px";
+            } else {
+                grid.classList.add('cols-2');
+                document.querySelector('.container').style.maxWidth = "1200px";
             }
         }
 
@@ -557,6 +620,13 @@
             if (!car) return;
             document.getElementById('modalTitle').innerText = car.title;
             document.getElementById('modalPrice').innerText = car.hidePrice ? "Call for Price" : `LKR ${car.price.toLocaleString()}`;
+            const statusLabel = car.status || "Ready to Ship";
+            let statusClass = "modal-status-ready";
+            if (statusLabel === "In Transit") statusClass = "modal-status-transit";
+            if (statusLabel === "Arrived in SL") statusClass = "modal-status-arrived";
+            const statusEl = document.getElementById('modalStatus');
+            statusEl.textContent = statusLabel;
+            statusEl.className = `modal-status-pill ${statusClass}`;
             document.getElementById('modalGrade').innerText = car.grade;
             document.getElementById('modalYear').innerText = car.year;
             document.getElementById('modalMileage').innerText = car.mileage;
@@ -569,7 +639,7 @@
             currentSlideIndex = 0;
             updateSlide();
 
-            const phone = "94776226655";
+            const phone = "94714878393";
             const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${car.id}). Is it still available?`;
             document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             document.getElementById('carModal').style.display = 'flex';
@@ -606,7 +676,7 @@
             const minYear = document.getElementById('minYear').value;
             const maxPrice = document.getElementById('maxPrice').value;
 
-            const filtered = carData.filter(car => {
+            filteredCars = carData.filter(car => {
                 const matchesSearch = car.title.toLowerCase().includes(searchText) || car.id.includes(searchText);
                 const matchesMake = (make === "All") || (car.make === make);
                 const matchesModel = (model === "All") || (car.model === model);
@@ -614,7 +684,8 @@
                 const matchesPrice = !maxPrice || (car.price > 0 && car.price <= parseInt(maxPrice));
                 return matchesSearch && matchesMake && matchesModel && matchesYear && matchesPrice;
             });
-            displayCars(filtered);
+            currentPage = 1;
+            render();
         }
 
         function updateModels() {
@@ -632,6 +703,53 @@
             applyFilters();
         }
 
+        function updatePagination(total, totalPages) {
+            const bar = document.getElementById('paginationBar');
+            const info = document.getElementById('paginationInfo');
+            const controls = document.getElementById('pageControls');
+
+            if (total <= pageSize) {
+                bar.style.display = 'none';
+                return;
+            }
+
+            bar.style.display = 'flex';
+            const start = (currentPage - 1) * pageSize + 1;
+            const end = Math.min(currentPage * pageSize, total);
+            info.textContent = `Showing ${start}-${end} of ${total} cars`;
+
+            controls.innerHTML = '';
+
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '<';
+            prevBtn.className = 'page-btn';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; render(); } };
+            controls.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+                btn.onclick = () => { currentPage = i; render(); };
+                controls.appendChild(btn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = '>';
+            nextBtn.className = 'page-btn';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; render(); } };
+            controls.appendChild(nextBtn);
+        }
+
+        function changePageSize() {
+            const select = document.getElementById('pageSizeSelect');
+            pageSize = parseInt(select.value, 10) || 10;
+            currentPage = 1;
+            render();
+        }
+
         function resetFilters() {
             document.getElementById('searchInput').value = "";
             document.getElementById('makeSelect').value = "All";
@@ -639,7 +757,9 @@
             document.getElementById('minYear').value = "";
             document.getElementById('maxPrice').value = "";
             updateModels();
-            displayCars(carData);
+            filteredCars = carData.slice();
+            currentPage = 1;
+            render();
         }
 
         function toggleSidebar() {
@@ -653,7 +773,7 @@
 
         function openWhatsApp(e, title, ref) {
             e.preventDefault();
-            const phone = "94776226655";
+            const phone = "94714878393";
             const text = `Hi Vinvel, I am interested in the ${title} (Ref: ${ref}). Is it still available?`;
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');

@@ -123,15 +123,48 @@
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .car-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--card-shadow); transition: 0.3s; position: relative; border: 1px solid #eee; }
         .car-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        
         .car-image { height: 220px; width: 100%; object-fit: cover; background: #f0f0f0; }
         .grade-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; backdrop-filter: blur(5px); }
+        .status-badge { position: absolute; top: 15px; left: 15px; padding: 4px 12px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
+        .status-ready { background: linear-gradient(135deg, #16a34a, #22c55e); }
+        .status-transit { background: linear-gradient(135deg, #eab308, #f97316); }
+        .status-arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); }
         
         .car-details { padding: 25px; }
         .car-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
         .car-specs { font-size: 0.9rem; color: #777; display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .car-specs i { color: #6600FF; margin-right: 5px; }
         .car-price { font-family: 'Jost', sans-serif; font-size: 1.4rem; font-weight: 700; color: #6600FF; display: block; margin-bottom: 15px; }
+
+        /* Featured car modal (home page) */
+        .home-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 14px; backdrop-filter: blur(5px); }
+        .home-modal-content { background: white; width: 100%; max-width: 900px; max-height: 92vh; border-radius: 20px; overflow: hidden; display: flex; position: relative; animation: slideUp 0.3s ease; }
+        .home-modal-close { position: absolute; top: 14px; right: 20px; font-size: 1.4rem; color: #333; cursor: pointer; z-index: 10; background: rgba(255,255,255,0.9); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .home-modal-close:hover { background: #ff4d4d; color: white; }
+        .home-modal-image { flex: 1.4; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .home-modal-image img { width: 100%; height: 100%; object-fit: contain; }
+        .home-modal-details { flex: 1; padding: 24px 22px 26px; overflow-y: auto; }
+        .home-modal-title { font-size: 1.6rem; margin-bottom: 6px; }
+        .home-modal-price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .home-modal-price { font-size: 1.4rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; }
+        .home-modal-status-pill { font-size: 0.8rem; font-weight: 600; padding: 5px 11px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .home-modal-status-ready { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
+        .home-modal-status-transit { background: linear-gradient(135deg, #eab308, #f97316); color: #fff; }
+        .home-modal-status-arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; }
+        .home-modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; font-size: 0.9rem; }
+        .home-modal-spec-item { background: #f8f9fa; padding: 8px 9px; border-radius: 8px; }
+        .home-modal-spec-item strong { display: block; color: #888; font-size: 0.76rem; margin-bottom: 2px; }
+        .home-modal-actions { display: flex; flex-direction: column; gap: 10px; }
+        .home-modal-browse-btn { width: 100%; }
+
+        @media (max-width: 900px) {
+            .home-modal-content { flex-direction: column; max-height: 100vh; border-radius: 18px; }
+            .home-modal-image { height: 36vh; flex: none; }
+            .home-modal-details { padding: 20px 18px 22px; }
+            .home-modal-title { font-size: 1.35rem; }
+            .home-modal-price { font-size: 1.2rem; }
+            .home-modal-specs { grid-template-columns: 1fr 1fr; gap: 8px; }
+        }
 
         /* --- PROCESS --- */
         .process { padding: 100px 0; background: var(--bg-light); }
@@ -364,136 +397,6 @@
         </div>
     </section>
 
-    <!-- Featured Inventory Preview -->
-    <section class="featured-cars">
-        <div class="container">
-            <div class="section-title">
-                <h2>Latest Arrivals</h2>
-                <p>Hand-picked vehicles ready for immediate export.</p>
-            </div>
-            
-            <div class="car-grid">
-                <!-- Car 1 -->
-                <div class="car-card">
-                    <div class="grade-badge">Grade 4.5</div>
-                    <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=2069&auto=format&fit=crop" alt="Car" class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Toyota Vitz Safety Ed.</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2019</span>
-                            <span><i class="fa-solid fa-road"></i> 42k km</span>
-                            <span><i class="fa-solid fa-gas-pump"></i> 1.0L</span>
-                        </div>
-                        <span class="car-price">LKR 7,800,000</span>
-                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
-                    </div>
-                </div>
-
-                <!-- Car 2 -->
-                <div class="car-card">
-                    <div class="grade-badge">Grade 5.0</div>
-                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Car" class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Honda Civic Turbo RS</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2021</span>
-                            <span><i class="fa-solid fa-road"></i> 12k km</span>
-                            <span><i class="fa-solid fa-bolt"></i> Auto</span>
-                        </div>
-                        <span class="car-price" style="color:#333">Call for Price</span>
-                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
-                    </div>
-                </div>
-
-                <!-- Car 3 -->
-                <div class="car-card">
-                    <div class="grade-badge">Grade 3.5</div>
-                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=2574&auto=format&fit=crop" alt="Car" class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Nissan X-Trail Hybrid</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2016</span>
-                            <span><i class="fa-solid fa-road"></i> 85k km</span>
-                            <span><i class="fa-solid fa-leaf"></i> Hybrid</span>
-                        </div>
-                        <span class="car-price">LKR 8,900,000</span>
-                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px;">View Details</a>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="process" id="process">
-        <div class="container">
-            <div class="section-title">
-                <h2>The Export Journey</h2>
-                <p>From auction house to your driveway in 4 simple steps.</p>
-            </div>
-            <div class="process-steps">
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-magnifying-glass"></i></div>
-                    <h4>1. Select Car</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Browse our stock or request a specific auction search.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-file-contract"></i></div>
-                    <h4>2. Inspection</h4>
-                    <p style="font-size: 0.95rem; color: #666;">We verify condition, translate sheets, and share videos.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                    <h4>3. Payment</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Secure deposit and LC/TT documentation processing.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-truck-ramp-box"></i></div>
-                    <h4>4. Delivery</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Fast shipping to Hambantota or Colombo port.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BROKER PROGRAM SECTION -->
-    <section class="broker-section" id="broker">
-        <div class="broker-bg"></div>
-        <div class="container broker-content">
-            <div class="broker-text">
-                <h2>Partner with Vinvel</h2>
-                <p>Are you a vehicle broker? Join our network and get exclusive access to auction data, wholesale pricing, and priority shipping.</p>
-                <ul class="broker-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Competitive Commission Rates</li>
-                    <li><i class="fa-solid fa-circle-check"></i> White-label Auction Sheets</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Dedicated Account Manager</li>
-                </ul>
-            </div>
-            <div class="broker-form">
-                <h3>Register as Broker</h3>
-                <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you on WhatsApp shortly.');">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="John Doe" required>
-                    </div>
-                    <div class="form-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" placeholder="+94 77..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Region / City</label>
-                        <input type="text" placeholder="e.g. Kurunegala" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
     <!-- TESTIMONIALS -->
     <section class="testimonials" id="testimonials">
         <div class="container">
@@ -628,6 +531,168 @@
         </div>
     </section>
 
+    <!-- Featured Inventory Preview -->
+    <section class="featured-cars">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Arrivals</h2>
+                <p>Hand-picked vehicles ready for immediate export.</p>
+            </div>
+            
+            <div class="car-grid">
+                <!-- Car 1 -->
+                <div class="car-card">
+                    <div class="status-badge status-ready">Ready to Ship</div>
+                    <div class="grade-badge">Grade 4.5</div>
+                    <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=2069&auto=format&fit=crop" alt="Toyota Vitz Safety Ed." class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Toyota Vitz Safety Ed.</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2019</span>
+                            <span><i class="fa-solid fa-road"></i> 42k km</span>
+                            <span><i class="fa-solid fa-gas-pump"></i> 1.0L</span>
+                        </div>
+                        <span class="car-price">LKR 7,800,000</span>
+                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(1)">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Car 2 -->
+                <div class="car-card">
+                    <div class="status-badge status-transit">In Transit</div>
+                    <div class="grade-badge">Grade 5.0</div>
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Honda Civic Turbo RS" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Honda Civic Turbo RS</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2021</span>
+                            <span><i class="fa-solid fa-road"></i> 12k km</span>
+                            <span><i class="fa-solid fa-bolt"></i> Auto</span>
+                        </div>
+                        <span class="car-price" style="color:#333">Call for Price</span>
+                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(2)">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Car 3 -->
+                <div class="car-card">
+                    <div class="status-badge status-arrived">Arrived in SL</div>
+                    <div class="grade-badge">Grade 3.5</div>
+                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=2574&auto=format&fit=crop" alt="Nissan X-Trail Hybrid" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">Nissan X-Trail Hybrid</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> 2016</span>
+                            <span><i class="fa-solid fa-road"></i> 85k km</span>
+                            <span><i class="fa-solid fa-leaf"></i> Hybrid</span>
+                        </div>
+                        <span class="car-price">LKR 8,900,000</span>
+                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(3)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Export Journey</h2>
+                <p>From auction house to your driveway in 4 simple steps.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h4>1. Select Car</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Browse our stock or request a specific auction search.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-file-contract"></i></div>
+                    <h4>2. Inspection</h4>
+                    <p style="font-size: 0.95rem; color: #666;">We verify condition, translate sheets, and share videos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                    <h4>3. Payment</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Secure deposit and LC/TT documentation processing.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon-box"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <h4>4. Delivery</h4>
+                    <p style="font-size: 0.95rem; color: #666;">Fast shipping to Hambantota or Colombo port.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Car Detail Modal (Home) -->
+    <div id="featuredModal" class="home-modal-overlay">
+        <div class="home-modal-content">
+            <div class="home-modal-close" onclick="closeFeaturedModal()">&times;</div>
+            <div class="home-modal-image">
+                <img id="homeModalImage" src="" alt="Car Detail">
+            </div>
+            <div class="home-modal-details">
+                <h3 class="home-modal-title" id="homeModalTitle">Car Title</h3>
+                <div class="home-modal-price-row">
+                    <span class="home-modal-price" id="homeModalPrice">LKR 0</span>
+                    <span id="homeModalStatus" class="home-modal-status-pill home-modal-status-ready">Ready to Ship</span>
+                </div>
+                <div class="home-modal-specs">
+                    <div class="home-modal-spec-item"><strong>Year</strong><span id="homeModalYear">2019</span></div>
+                    <div class="home-modal-spec-item"><strong>Mileage</strong><span id="homeModalMileage">42k km</span></div>
+                    <div class="home-modal-spec-item"><strong>Engine</strong><span id="homeModalEngine">1.0L</span></div>
+                    <div class="home-modal-spec-item"><strong>Fuel</strong><span id="homeModalFuel">Petrol</span></div>
+                </div>
+                <div class="home-modal-actions">
+                    <a href="cars.html" class="btn btn-primary home-modal-browse-btn">Browse Full Inventory</a>
+                    <a href="https://wa.me/94714878393?text=Hi%20Vinvel,%20I%20saw%20your%20featured%20cars%20and%20would%20like%20to%20know%20more." target="_blank" class="btn btn-outline home-modal-browse-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BROKER PROGRAM SECTION -->
+    <section class="broker-section" id="broker">
+        <div class="broker-bg"></div>
+        <div class="container broker-content">
+            <div class="broker-text">
+                <h2>Partner with Vinvel</h2>
+                <p>Are you a vehicle broker? Join our network and get exclusive access to auction data, wholesale pricing, and priority shipping.</p>
+                <ul class="broker-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Competitive Commission Rates</li>
+                    <li><i class="fa-solid fa-circle-check"></i> White-label Auction Sheets</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dedicated Account Manager</li>
+                </ul>
+            </div>
+            <div class="broker-form">
+                <h3>Register as Broker</h3>
+                <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you on WhatsApp shortly.');">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" placeholder="+94 77..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Region / City</label>
+                        <input type="text" placeholder="e.g. Kurunegala" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -654,7 +719,7 @@
                     <h3>Support</h3>
                     <ul>
                         <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
-                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="https://wa.me/94714878393"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
                         <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
                         <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
                     </ul>
@@ -683,7 +748,7 @@
     </footer>
 
     <!-- Sticky WhatsApp Button -->
-    <a href="https://wa.me/94776226655?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/94714878393?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -702,6 +767,83 @@
                 });
             });
         }
+
+        // Featured cars data for home modal
+        const featuredCars = [
+            {
+                id: 1,
+                title: 'Toyota Vitz Safety Ed.',
+                year: 2019,
+                mileage: '42,000 km',
+                engine: '1.0L',
+                fuel: 'Petrol',
+                status: 'Ready to Ship',
+                price: 7800000,
+                hidePrice: false,
+                image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=2069&auto=format&fit=crop'
+            },
+            {
+                id: 2,
+                title: 'Honda Civic Turbo RS',
+                year: 2021,
+                mileage: '12,000 km',
+                engine: '1.5L Turbo',
+                fuel: 'Petrol',
+                status: 'In Transit',
+                price: 0,
+                hidePrice: true,
+                image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop'
+            },
+            {
+                id: 3,
+                title: 'Nissan X-Trail Hybrid',
+                year: 2016,
+                mileage: '85,000 km',
+                engine: '2.0L Hybrid',
+                fuel: 'Hybrid',
+                status: 'Arrived in SL',
+                price: 8900000,
+                hidePrice: false,
+                image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=2574&auto=format&fit=crop'
+            }
+        ];
+
+        function openFeaturedModal(id) {
+            const car = featuredCars.find(c => c.id === id);
+            if (!car) return;
+            const overlay = document.getElementById('featuredModal');
+            document.getElementById('homeModalTitle').innerText = car.title;
+            document.getElementById('homeModalImage').src = car.image;
+            document.getElementById('homeModalImage').alt = car.title;
+            document.getElementById('homeModalPrice').innerText = car.hidePrice ? 'Call for Price' : `LKR ${car.price.toLocaleString()}`;
+
+            const statusLabel = car.status || 'Ready to Ship';
+            let statusClass = 'home-modal-status-ready';
+            if (statusLabel === 'In Transit') statusClass = 'home-modal-status-transit';
+            if (statusLabel === 'Arrived in SL') statusClass = 'home-modal-status-arrived';
+            const statusEl = document.getElementById('homeModalStatus');
+            statusEl.textContent = statusLabel;
+            statusEl.className = `home-modal-status-pill ${statusClass}`;
+
+            document.getElementById('homeModalYear').innerText = car.year;
+            document.getElementById('homeModalMileage').innerText = car.mileage;
+            document.getElementById('homeModalEngine').innerText = car.engine;
+            document.getElementById('homeModalFuel').innerText = car.fuel;
+
+            if (overlay) overlay.style.display = 'flex';
+        }
+
+        function closeFeaturedModal() {
+            const overlay = document.getElementById('featuredModal');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        window.addEventListener('click', (e) => {
+            const overlay = document.getElementById('featuredModal');
+            if (e.target === overlay) {
+                closeFeaturedModal();
+            }
+        });
 
         // Testimonials carousel
         const testiTrack = document.getElementById('testiTrack');

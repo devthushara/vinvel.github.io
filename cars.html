@@ -28,12 +28,12 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
         /* HEADER */
-        header { background: white; padding: 15px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        header { background: rgba(255,255,255,0.97); padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .logo { font-family: 'Jost', sans-serif; font-size: 1.5rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         /* LAYOUT GRID */
-        .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 40px 0; flex: 1; align-items: start; }
+        .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 30px 0 40px; flex: 1; align-items: start; }
         
         /* SIDEBAR FILTERS */
         .sidebar { background: white; padding: 25px; border-radius: var(--radius-md); box-shadow: var(--card-shadow); position: sticky; top: 90px; }
@@ -58,7 +58,7 @@
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 1rem; }
 
         /* CAR GRID SYSTEM */
-        .grid-container { display: grid; gap: 25px; transition: 0.3s; }
+        .grid-container { display: grid; gap: 25px; transition: 0.3s; align-items: stretch; }
         .cols-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
         .cols-5 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 
@@ -112,8 +112,8 @@
         .btn-whatsapp:hover { background: #1ebc57; }
 
         /* MODAL STYLES */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { background: white; width: 100%; max-width: 1000px; max-height: 90vh; border-radius: 20px; overflow: hidden; display: flex; position: relative; animation: slideUp 0.3s ease; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 14px; backdrop-filter: blur(5px); }
+        .modal-content { background: white; width: 100%; max-width: 1000px; max-height: 92vh; border-radius: 20px; overflow: hidden; display: flex; position: relative; animation: slideUp 0.3s ease; }
         .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #333; cursor: pointer; z-index: 10; background: rgba(255,255,255,0.8); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .modal-close:hover { background: #ff4d4d; color: white; }
         .modal-gallery { flex: 1.5; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -121,21 +121,47 @@
         .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
         .carousel-btn:hover { background: rgba(255,255,255,0.4); }
         .prev-btn { left: 0; } .next-btn { right: 0; }
-        .modal-details { flex: 1; padding: 30px; overflow-y: auto; background: white; }
-        .modal-title { font-size: 2rem; margin-bottom: 5px; }
-        .modal-price { font-size: 1.8rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; margin-bottom: 20px; display: block; }
+        .modal-details { flex: 1; padding: 26px 24px 28px; overflow-y: auto; background: white; }
+        .modal-title { font-size: 1.8rem; margin-bottom: 6px; }
+        .modal-price { font-size: 1.6rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; margin-bottom: 18px; display: block; }
         .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .spec-item { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
         .spec-item strong { display: block; color: #888; font-size: 0.75rem; margin-bottom: 3px; }
 
-        /* FOOTER */
-        footer { background: #0a0a0a; color: #aaa; padding: 60px 0 20px; margin-top: auto; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 50px; }
-        .footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.3rem; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a:hover { color: #00CCFF; text-decoration: none; }
-        .footer-logo-text { font-family: 'Jost'; font-size: 2.5rem; color: white; font-weight: 700; display: block; margin-bottom: 15px; letter-spacing: -1px; }
-        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.9rem; margin-top: 20px; }
+        /* FOOTER (SHARED WITH index.html) */
+        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
+        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+        .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
+        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
+        .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+        .footer-meta i { font-size: 0.9rem; color: #7c8cff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; }
+        .footer-links a::before { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: linear-gradient(90deg, #6600FF, #00CCFF); transition: width 0.25s ease; }
+        .footer-links a:hover { color: #ffffff; transform: translateX(2px); }
+        .footer-links a:hover::before { width: 100%; }
+        .footer-links i { width: 16px; text-align: center; color: #7c8cff; }
+        .footer-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #9aa2c0; margin-bottom: 6px; }
+        .footer-pill i { color: #7c8cff; font-size: 0.8rem; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #8d93aa; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: 16px; flex-wrap: wrap; }
+        .footer-bottom a { color: #a4aac4; }
+        .footer-bottom a:hover { color: #ffffff; }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            footer { padding: 40px 0 24px; }
+            .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+            .footer-logo-text { font-size: 1.9rem; }
+            .footer-bottom { flex-direction: column-reverse; align-items: flex-start; }
+        }
 
         /* MOBILE RESPONSIVE */
         .mobile-filter-toggle { display: none; width: 100%; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 8px; font-weight: 600; margin-bottom: 20px; text-align: center; cursor: pointer; }
@@ -143,15 +169,41 @@
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 900px) {
-            .inventory-wrapper { display: block; }
-            .sidebar { display: none; margin-bottom: 20px; }
+            .inventory-wrapper { display: block; padding-top: 20px; }
+            .sidebar { display: none; margin-bottom: 20px; position: static; top: auto; box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
             .sidebar.active { display: block; }
             .mobile-filter-toggle { display: block; }
             .view-toggles { display: none; } 
             .grid-container { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)) !important; }
-            .modal-content { flex-direction: column; height: 100%; border-radius: 0; }
-            .modal-gallery { height: 40vh; flex: none; }
-            .modal-details { flex: 1; }
+            .list-controls { align-items: flex-start; gap: 12px; }
+            .list-controls h2 { width: 100%; font-size: 1.25rem; }
+            .modal-content { flex-direction: column; height: auto; max-height: 100vh; border-radius: 18px; }
+            .modal-gallery { height: 38vh; flex: none; }
+            .modal-details { flex: 1; padding: 20px 18px 22px; }
+            .modal-title { font-size: 1.4rem; }
+            .modal-price { font-size: 1.3rem; }
+            .spec-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+
+        @media (max-width: 600px) {
+            header { padding: 10px 0; }
+            .nav-inner { gap: 8px; }
+            .logo { font-size: 1.4rem; }
+            .inventory-wrapper { padding: 20px 0 30px; }
+            .sidebar { padding: 18px 16px; }
+            .filter-group { margin-bottom: 14px; }
+            .filter-group label { font-size: 0.85rem; }
+            .filter-group select, .filter-group input { padding: 8px 9px; font-size: 0.85rem; }
+            .filter-btn { padding: 10px; }
+            .grid-container { gap: 18px; }
+            .car-card { border-radius: 14px; }
+            .card-body { padding: 12px 12px 14px; }
+            .card-title { font-size: 0.98rem; }
+            .card-meta { font-size: 0.7rem; }
+            .price-tag { font-size: 1.05rem; }
+            .card-actions { grid-template-columns: 1fr; }
+            .btn-view, .btn-whatsapp { font-size: 0.8rem; padding: 7px; }
+            .modal-overlay { padding: 10px; }
         }
     </style>
 </head>
@@ -275,34 +327,51 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <span class="footer-logo-text">vinvel</span>
-                    <p style="margin-bottom: 15px;">A Beginning, A Victory.</p>
-                    <p>Vinvel Motor Trading (Pvt) Ltd.<br>
-                    459/D/S/3, Lake Road,<br>
-                    Akuregoda, Battaramulla,<br>
-                    Sri Lanka</p>
+                    <div class="footer-pill"><i class="fa-solid fa-shield-halved"></i>Direct from Japan</div>
+                    <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
+                    <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
+                    <div class="footer-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
+                        <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
+                    </div>
                 </div>
                 <div class="footer-col footer-links">
-                    <h3>Explore</h3>
+                    <h3>Company</h3>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="cars.html">Available Inventory</a></li>
+                        <li><a href="cars.html">Inventory</a></li>
                         <li><a href="#process">How it Works</a></li>
                         <li><a href="#broker">Broker Program</a></li>
                     </ul>
                 </div>
                 <div class="footer-col footer-links">
-                    <h3>Connect</h3>
+                    <h3>Support</h3>
                     <ul>
-                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> +94 77 622 66 55</a></li>
-                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> vinvelmotortrading@gmail.com</a></li>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
+                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
+                        <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Social</h3>
+                    <ul>
                         <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                         <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2025 Vinvel (Pvt) Ltd. All rights reserved. | <a href="#">Privacy Policy</a>
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2025 Vinvel Motor Trading (Pvt) Ltd. All rights reserved.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Auction Calendar</a>
+                    <a href="#">Broker Onboarding</a>
+                    <a href="#">Legal &amp; Compliance</a>
+                </div>
             </div>
         </div>
     </footer>

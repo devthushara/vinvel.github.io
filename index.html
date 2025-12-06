@@ -66,14 +66,14 @@
         }
         .btn-white-outline:hover { background: white; color: var(--text-dark); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section-title { text-align: center; margin-bottom: 3rem; }
         .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
         .section-title p { color: var(--text-grey); font-size: 1.1rem; }
 
         /* --- HEADER --- */
-        header { padding: 15px 0; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
+        header { padding: 12px 0; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
+        nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .logo { font-family: 'Jost', sans-serif; font-size: 1.8rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { font-weight: 500; color: var(--text-dark); position: relative; }
@@ -84,7 +84,7 @@
 
         /* --- HERO --- */
         .hero {
-            height: 90vh;
+            min-height: 90vh;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2070&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
@@ -95,13 +95,13 @@
             text-align: center;
             padding-top: 60px;
         }
-        .hero-content { max-width: 800px; }
-        .hero-content h1 { color: white; font-size: 3.8rem; margin-bottom: 1.5rem; line-height: 1.1; font-weight: 700; }
-        .hero-content p { font-size: 1.25rem; margin-bottom: 2.5rem; opacity: 0.9; font-weight: 300; }
-        .hero-btns { display: flex; gap: 15px; justify-content: center; }
+        .hero-content { max-width: 800px; padding: 0 10px; }
+        .hero-content h1 { color: white; font-size: clamp(2.4rem, 6vw, 3.8rem); margin-bottom: 1.4rem; line-height: 1.1; font-weight: 700; }
+        .hero-content p { font-size: clamp(1.02rem, 3.4vw, 1.25rem); margin-bottom: 2.2rem; opacity: 0.9; font-weight: 300; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
         /* --- FEATURES --- */
-        .features { padding: 100px 0; background: white; }
+        .features { padding: 80px 0; background: white; }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .feature-card { padding: 40px 30px; border-radius: var(--radius-lg); text-align: left; background: var(--bg-light); transition: 0.3s; border: 1px solid transparent; }
         .feature-card:hover { transform: translateY(-5px); border-color: #00CCFF; box-shadow: var(--card-shadow); }
@@ -130,7 +130,7 @@
         .step-icon-box { width: 80px; height: 80px; background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #6600FF; position: relative; z-index: 2; }
         
         /* --- BROKER SECTION --- */
-        .broker-section { padding: 100px 0; background: var(--secondary-dark); color: white; position: relative; overflow: hidden; }
+        .broker-section { padding: 80px 0; background: var(--secondary-dark); color: white; position: relative; overflow: hidden; }
         .broker-bg { position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2073&auto=format&fit=crop') no-repeat center center/cover; opacity: 0.2; }
         .broker-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
         .broker-text h2 { color: white; font-size: 3rem; margin-bottom: 20px; }
@@ -146,24 +146,81 @@
         .form-group input:focus { border-color: #6600FF; }
 
         /* --- TESTIMONIALS --- */
-        .testimonials { padding: 100px 0; }
-        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .testi-card { background: #fff; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--card-shadow); border: 1px solid #f0f0f0; }
-        .testi-quote { font-size: 1.1rem; font-style: italic; color: #555; margin-bottom: 20px; }
-        .testi-author { display: flex; align-items: center; gap: 15px; }
+        .testimonials { padding: 100px 0; background: #f7f8fb; }
+        .testi-carousel { position: relative; max-width: 900px; margin: 0 auto; }
+        .testi-track { position: relative; overflow: hidden; min-height: 220px; }
+        .testi-card { 
+            position: absolute; 
+            inset: 0; 
+            background: #fff; 
+            padding: 40px 34px; 
+            border-radius: var(--radius-lg); 
+            box-shadow: var(--card-shadow); 
+            border: 1px solid #f0f0f0; 
+            opacity: 0; 
+            transform: translateX(24px); 
+            transition: opacity 0.45s ease, transform 0.45s ease; 
+        }
+        .testi-card.active { opacity: 1; transform: translateX(0); position: relative; }
+        .testi-quote { font-size: 1.05rem; font-style: italic; color: #4a4a4a; margin-bottom: 18px; }
+        .testi-stars { color: #FFC107; margin-bottom: 14px; font-size: 1rem; }
+        .testi-footer-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; flex-wrap: wrap; }
+        .testi-author { display: flex; align-items: center; gap: 12px; }
         .author-img { width: 50px; height: 50px; border-radius: 50%; background: #ccc; object-fit: cover; }
         .author-info h4 { font-size: 1rem; margin-bottom: 2px; }
         .author-info span { font-size: 0.85rem; color: #888; }
+        .testi-proof-link { font-size: 0.82rem; color: #4267B2; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
+        .testi-proof-link i { font-size: 1rem; }
+        .testi-proof-link span { border-bottom: 1px dashed rgba(66,103,178,0.55); }
+        .testi-proof-link:hover span { border-bottom-style: solid; }
+        .testi-nav { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .testi-dots { display: flex; gap: 8px; }
+        .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: #d0d0dd; border: none; padding: 0; cursor: pointer; transition: 0.25s; }
+        .testi-dot.active { background: #6600FF; transform: scale(1.2); box-shadow: 0 0 0 4px rgba(102,0,255,0.16); }
+        .testi-arrow-btn { border: none; background: white; border-radius: 999px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.08); font-size: 0.85rem; color: #333; }
+        .testi-arrow-btn i { color: #6600FF; }
+        .testi-arrow-btn:disabled { opacity: 0.4; cursor: default; box-shadow: none; }
+        @media (max-width: 768px) {
+            .testimonials { padding: 70px 0; }
+            .testi-card { padding: 28px 22px; }
+            .testi-footer-row { flex-direction: row; align-items: center; }
+            .testi-proof-link span { display: none; }
+        }
 
-        /* --- FOOTER --- */
-        footer { background: #0a0a0a; color: #aaa; padding: 70px 0 30px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 50px; }
-        .footer-col h3 { color: white; margin-bottom: 25px; font-size: 1.3rem; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { transition: 0.3s; }
-        .footer-links a:hover { color: #00CCFF; padding-left: 5px; }
-        .footer-logo-text { font-family: 'Jost'; font-size: 2.5rem; color: white; font-weight: 700; display: block; margin-bottom: 15px; letter-spacing: -1px; }
-        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.9rem; margin-top: 20px; }
+        /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
+        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
+        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+        .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
+        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
+        .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+        .footer-meta i { font-size: 0.9rem; color: #7c8cff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; }
+        .footer-links a::before { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: linear-gradient(90deg, #6600FF, #00CCFF); transition: width 0.25s ease; }
+        .footer-links a:hover { color: #ffffff; transform: translateX(2px); }
+        .footer-links a:hover::before { width: 100%; }
+        .footer-links i { width: 16px; text-align: center; color: #7c8cff; }
+        .footer-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #9aa2c0; margin-bottom: 6px; }
+        .footer-pill i { color: #7c8cff; font-size: 0.8rem; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #8d93aa; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: 16px; flex-wrap: wrap; }
+        .footer-bottom a { color: #a4aac4; }
+        .footer-bottom a:hover { color: #ffffff; }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            footer { padding: 40px 0 24px; }
+            .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+            .footer-logo-text { font-size: 1.9rem; }
+            .footer-bottom { flex-direction: column-reverse; align-items: flex-start; }
+        }
 
         /* --- STICKY WHATSAPP --- */
         .sticky-whatsapp {
@@ -187,17 +244,40 @@
 
         /* --- RESPONSIVE --- */
         @media (max-width: 968px) {
-            .hero-content h1 { font-size: 3rem; }
-            .broker-content { grid-template-columns: 1fr; }
-            .broker-bg { width: 100%; height: 300px; bottom: 0; top: auto; opacity: 0.1; }
+            .hero { padding-top: 80px; padding-bottom: 60px; }
+            .broker-content { grid-template-columns: 1fr; gap: 40px; }
+            .broker-bg { width: 100%; height: 260px; bottom: 0; top: auto; opacity: 0.12; }
+            .broker-form { padding: 24px; }
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; } 
+            header { padding: 10px 0; }
+            nav { gap: 8px; }
+            .nav-links { 
+                display: none; 
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                left: 20px;
+                background: white;
+                border-radius: 12px;
+                padding: 16px 18px;
+                box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+                flex-direction: column;
+                gap: 12px;
+                z-index: 200;
+            }
+            .nav-links.show { display: flex; }
+            .nav-links a { padding: 6px 0; }
             .mobile-menu-btn { display: block; }
-            .hero-content h1 { font-size: 2.5rem; }
-            .hero-btns { flex-direction: column; }
+            .hero { padding-top: 90px; padding-bottom: 70px; }
+            .hero-content { padding: 0; }
+            .hero-btns { flex-direction: column; align-items: stretch; }
             .section-title h2 { font-size: 2rem; }
+            .section-title { margin-bottom: 2.4rem; }
+            .testi-card { padding: 28px 22px; }
+            .footer-grid { gap: 24px; }
+            .sticky-whatsapp { bottom: 20px; right: 20px; width: 54px; height: 54px; font-size: 28px; }
         }
     </style>
 </head>
@@ -208,14 +288,14 @@
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">vinvel</a>
-                <ul class="nav-links">
+                <ul class="nav-links" id="primaryNav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="cars.html">Inventory</a></li>
                     <li><a href="#process">Process</a></li>
                     <li><a href="#testimonials">Reviews</a></li>
                     <li><a href="#broker" class="btn btn-primary" style="padding: 10px 25px;">Partner Login</a></li>
                 </ul>
-                <div class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+                <div class="mobile-menu-btn" id="navToggle"><i class="fa-solid fa-bars"></i></div>
             </nav>
         </div>
     </header>
@@ -394,37 +474,130 @@
         <div class="container">
             <div class="section-title">
                 <h2>Client Stories</h2>
+                <p>Real feedback from Sri Lankan buyers and brokers partnering with Vinvel.</p>
             </div>
-            <div class="testi-grid">
-                <div class="testi-card">
-                    <p class="testi-quote">"Vinvel made the import process so easy. The car was exactly as described in the auction sheet. Highly recommended!"</p>
-                    <div class="testi-author">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-img">
-                        <div class="author-info">
-                            <h4>Nimal Perera</h4>
-                            <span>Colombo, Sri Lanka</span>
+            <div class="testi-carousel">
+                <div class="testi-track" id="testiTrack">
+                    <article class="testi-card active">
+                        <div class="testi-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
                         </div>
-                    </div>
+                        <p class="testi-quote">"Vinvel made the import process so easy. The car was exactly as described in the auction sheet, down to every scratch. I felt updated at every step."</p>
+                        <div class="testi-footer-row">
+                            <div class="testi-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-img">
+                                <div class="author-info">
+                                    <h4>Nimal Perera</h4>
+                                    <span>Retail Buyer • Colombo</span>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="testi-proof-link">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span>See this delivery on Facebook</span>
+                            </a>
+                        </div>
+                    </article>
+                    <article class="testi-card">
+                        <div class="testi-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testi-quote">"Transparency is key in this business and Gayan and his team delivered 100%. Grade sheets, videos and landed cost were all crystal clear."</p>
+                        <div class="testi-footer-row">
+                            <div class="testi-author">
+                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="author-img">
+                                <div class="author-info">
+                                    <h4>Suresh Kumar</h4>
+                                    <span>Dealer • Kandy</span>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="testi-proof-link">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span>See this delivery on Facebook</span>
+                            </a>
+                        </div>
+                    </article>
+                    <article class="testi-card">
+                        <div class="testi-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testi-quote">"Great service for brokers. I've imported 5 cars through Vinvel this year and every shipment has arrived on schedule with clean documentation."</p>
+                        <div class="testi-footer-row">
+                            <div class="testi-author">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="author-img">
+                                <div class="author-info">
+                                    <h4>Kasun Jayawardena</h4>
+                                    <span>Broker • Galle</span>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="testi-proof-link">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span>See this delivery on Facebook</span>
+                            </a>
+                        </div>
+                    </article>
+                    <article class="testi-card">
+                        <div class="testi-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testi-quote">"The WhatsApp support was next-level. I could review auction options in real time, place bids quickly and lock in units my clients loved."</p>
+                        <div class="testi-footer-row">
+                            <div class="testi-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="author-img">
+                                <div class="author-info">
+                                    <h4>Dinusha Fernando</h4>
+                                    <span>Independent Broker • Negombo</span>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="testi-proof-link">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span>See this delivery on Facebook</span>
+                            </a>
+                        </div>
+                    </article>
+                    <article class="testi-card">
+                        <div class="testi-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testi-quote">"For our showroom we needed consistent supply of Grade 4+ cars. Vinvel's sourcing from major auctions has kept our stock fresh and high quality."</p>
+                        <div class="testi-footer-row">
+                            <div class="testi-author">
+                                <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="User" class="author-img">
+                                <div class="author-info">
+                                    <h4>Malith Ranasinghe</h4>
+                                    <span>Showroom Owner • Kurunegala</span>
+                                </div>
+                            </div>
+                            <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="testi-proof-link">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span>See this delivery on Facebook</span>
+                            </a>
+                        </div>
+                    </article>
                 </div>
-                <div class="testi-card">
-                    <p class="testi-quote">"Transparency is key in this business, and Gayan and his team delivered 100%. The video walkaround gave me confidence."</p>
-                    <div class="testi-author">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="author-img">
-                        <div class="author-info">
-                            <h4>Suresh Kumar</h4>
-                            <span>Kandy, Sri Lanka</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testi-card">
-                    <p class="testi-quote">"Great service for brokers. I've imported 5 cars through Vinvel this year and the logistics are always on point."</p>
-                    <div class="testi-author">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="author-img">
-                        <div class="author-info">
-                            <h4>Kasun Jayawardena</h4>
-                            <span>Galle, Sri Lanka</span>
-                        </div>
-                    </div>
+                <div class="testi-nav">
+                    <button class="testi-arrow-btn" id="testiPrev"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                    <div class="testi-dots" id="testiDots"></div>
+                    <button class="testi-arrow-btn" id="testiNext">Next<i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -435,42 +608,170 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <span class="footer-logo-text">vinvel</span>
-                    <p style="margin-bottom: 15px;">A Beginning, A Victory.</p>
-                    <p>Vinvel Motor Trading (Pvt) Ltd.<br>
-                    459/D/S/3, Lake Road,<br>
-                    Akuregoda, Battaramulla,<br>
-                    Sri Lanka</p>
+                    <div class="footer-pill"><i class="fa-solid fa-shield-halved"></i>Direct from Japan</div>
+                    <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
+                    <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
+                    <div class="footer-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
+                        <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
+                    </div>
                 </div>
                 <div class="footer-col footer-links">
-                    <h3>Explore</h3>
+                    <h3>Company</h3>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="cars.html">Available Inventory</a></li>
+                        <li><a href="cars.html">Inventory</a></li>
                         <li><a href="#process">How it Works</a></li>
                         <li><a href="#broker">Broker Program</a></li>
                     </ul>
                 </div>
                 <div class="footer-col footer-links">
-                    <h3>Connect</h3>
+                    <h3>Support</h3>
                     <ul>
-                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> +94 77 622 66 55</a></li>
-                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> vinvelmotortrading@gmail.com</a></li>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
+                        <li><a href="https://wa.me/94776226655"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
+                        <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Social</h3>
+                    <ul>
                         <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                         <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2025 Vinvel (Pvt) Ltd. All rights reserved. | <a href="#">Privacy Policy</a>
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2025 Vinvel Motor Trading (Pvt) Ltd. All rights reserved.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Auction Calendar</a>
+                    <a href="#">Broker Onboarding</a>
+                    <a href="#">Legal &amp; Compliance</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Sticky WhatsApp Button -->
-    <a href="https://wa.me/94776226655?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp">
+    <a href="https://wa.me/94776226655?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const primaryNav = document.getElementById('primaryNav');
+
+        if (navToggle && primaryNav) {
+            navToggle.addEventListener('click', () => {
+                primaryNav.classList.toggle('show');
+            });
+
+            primaryNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    primaryNav.classList.remove('show');
+                });
+            });
+        }
+
+        // Testimonials carousel
+        const testiTrack = document.getElementById('testiTrack');
+        const testiCards = testiTrack ? Array.from(testiTrack.querySelectorAll('.testi-card')) : [];
+        const prevBtn = document.getElementById('testiPrev');
+        const nextBtn = document.getElementById('testiNext');
+        const dotsContainer = document.getElementById('testiDots');
+        let testiIndex = 0;
+        let testiTimer;
+
+        function updateTestimonials(index) {
+            if (!testiCards.length) return;
+            testiCards.forEach((card, i) => {
+                card.classList.toggle('active', i === index);
+            });
+            const dots = dotsContainer.querySelectorAll('.testi-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            // arrows always enabled for continuous carousel
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+
+        if (testiCards.length && dotsContainer && prevBtn && nextBtn) {
+            testiCards.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'testi-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+                dot.addEventListener('click', () => {
+                    testiIndex = i;
+                    updateTestimonials(testiIndex);
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            prevBtn.addEventListener('click', () => {
+                testiIndex = (testiIndex - 1 + testiCards.length) % testiCards.length;
+                updateTestimonials(testiIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                testiIndex = (testiIndex + 1) % testiCards.length;
+                updateTestimonials(testiIndex);
+            });
+            
+            function startAutoRotate() {
+                // only auto-rotate on desktop widths
+                if (window.innerWidth < 992) return;
+                clearInterval(testiTimer);
+                testiTimer = setInterval(() => {
+                    if (!document.body.contains(testiTrack)) {
+                        clearInterval(testiTimer);
+                        return;
+                    }
+                    testiIndex = (testiIndex + 1) % testiCards.length;
+                    updateTestimonials(testiIndex);
+                }, 7000);
+            }
+
+            function stopAutoRotate() {
+                clearInterval(testiTimer);
+            }
+
+            // start on load for desktop
+            startAutoRotate();
+
+            // restart on resize crossing desktop breakpoint
+            window.addEventListener('resize', () => {
+                stopAutoRotate();
+                startAutoRotate();
+            });
+
+            // pause when hovering the card area on desktop
+            testiTrack.addEventListener('mouseenter', () => {
+                if (window.innerWidth >= 992) stopAutoRotate();
+            });
+            testiTrack.addEventListener('mouseleave', () => {
+                if (window.innerWidth >= 992) startAutoRotate();
+            });
+
+            // move to clicked slide also restarts timing
+            dotsContainer.addEventListener('click', () => {
+                stopAutoRotate();
+                startAutoRotate();
+            });
+            prevBtn.addEventListener('click', () => {
+                stopAutoRotate();
+                startAutoRotate();
+            });
+            nextBtn.addEventListener('click', () => {
+                stopAutoRotate();
+                startAutoRotate();
+            });
+        }
+    </script>
 </body>
 </html>

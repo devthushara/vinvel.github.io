@@ -39,32 +39,34 @@
         .btn {
             display: inline-block;
             padding: 14px 32px;
-            border-radius: 50px;
+            border-radius: 999px;
+            font-family: 'Jost', sans-serif;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
             text-align: center;
             border: none;
-            transition: 0.3s;
+            letter-spacing: 0.02em;
+            transition: 0.25s ease;
         }
         .btn-primary {
             background: var(--primary-gradient);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 0, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(102, 0, 255, 0.35);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 0, 255, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(102, 0, 255, 0.5); }
         .btn-outline {
             background: transparent;
-            border: 2px solid #6600FF;
+            border: 1px solid rgba(102, 0, 255, 0.7);
             color: #6600FF;
         }
-        .btn-outline:hover { background: #6600FF; color: white; }
+        .btn-outline:hover { background: var(--primary-gradient); color: white; box-shadow: 0 6px 18px rgba(102,0,255,0.35); }
         .btn-white-outline {
             background: transparent;
-            border: 2px solid white;
+            border: 1px solid rgba(255,255,255,0.9);
             color: white;
         }
-        .btn-white-outline:hover { background: white; color: var(--text-dark); }
+        .btn-white-outline:hover { background: white; color: var(--text-dark); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section-title { text-align: center; margin-bottom: 3rem; }
@@ -95,9 +97,17 @@
             text-align: center;
             padding-top: 60px;
         }
-        .hero-content { max-width: 800px; padding: 0 10px; }
-        .hero-content h1 { color: white; font-size: clamp(2.4rem, 6vw, 3.8rem); margin-bottom: 1.4rem; line-height: 1.1; font-weight: 700; }
-        .hero-content p { font-size: clamp(1.02rem, 3.4vw, 1.25rem); margin-bottom: 2.2rem; opacity: 0.9; font-weight: 300; }
+        .hero-content { max-width: 900px; padding: 0 10px; }
+        .hero-eyebrow { font-size: 0.9rem; letter-spacing: 0.18em; text-transform: uppercase; color: #b5c5ff; margin-bottom: 0.8rem; font-weight: 500; }
+        .hero-content h1 { color: white; font-size: clamp(2.6rem, 6.4vw, 4rem); margin-bottom: 1.1rem; line-height: 1.08; font-weight: 700; }
+        .hero-subtitle { font-size: clamp(1.02rem, 3.4vw, 1.25rem); margin-bottom: 1.8rem; opacity: 0.94; font-weight: 300; }
+        .hero-trust-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-bottom: 2.2rem; font-size: 0.92rem; color: #e0e6ff; }
+        .hero-trust-metric { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.15); }
+        .hero-trust-metric strong { font-family: 'Jost', sans-serif; font-size: 0.95rem; }
+        .hero-proof-link { display: inline-flex; align-items: center; gap: 8px; color: #dfe6ff; text-decoration: none; font-size: 0.9rem; }
+        .hero-proof-link i { color: #4267B2; background: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .hero-proof-link span { border-bottom: 1px dashed rgba(223,230,255,0.6); }
+        .hero-proof-link:hover span { border-bottom-style: solid; }
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
         /* --- FEATURES --- */
@@ -303,11 +313,26 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
+            <div class="hero-eyebrow">Since 2010 • Trusted by Sri Lankan buyers & brokers</div>
             <h1>Victory Starts With<br>The Keys.</h1>
-            <p>Your trusted partner for high-grade Japanese vehicle imports.<br>Access over 50,000+ vehicles daily from USS, TAA, and ARAI auctions.</p>
+            <p class="hero-subtitle">Your trusted route into high-grade Japanese vehicles from USS, TAA and ARAI auctions — with every delivery documented publicly.</p>
+            <div class="hero-trust-row">
+                <div class="hero-trust-metric">
+                    <strong>500+</strong>
+                    <span>units sourced for local market</span>
+                </div>
+                <div class="hero-trust-metric">
+                    <strong>14+ years</strong>
+                    <span>operating with repeat buyers</span>
+                </div>
+                <a href="https://www.facebook.com/your-page-or-post" target="_blank" rel="noopener" class="hero-proof-link">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span>See real handovers on Facebook</span>
+                </a>
+            </div>
             <div class="hero-btns">
-                <a href="cars.html" class="btn btn-primary">Browse Inventory</a>
-                <a href="#broker" class="btn btn-white-outline">Become a Broker</a>
+                <a href="cars.html" class="btn btn-primary">Browse Live Inventory</a>
+                <a href="#broker" class="btn btn-white-outline">Join as a Broker</a>
             </div>
         </div>
     </section>

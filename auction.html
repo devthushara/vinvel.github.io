@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Inventory | Vinvel</title>
+    <title>Auction Picks | Vinvel</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
@@ -12,23 +12,27 @@
     <style>
         /* --- CORE STYLES --- */
         :root {
-            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
-            --text-dark: #1A1A1A;
-            --text-grey: #666666;
-            --bg-light: #F8F9FA;
-            --white: #FFFFFF;
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+            --text-dark: #e5e7eb;
+            --text-grey: #9ca3af;
+            --bg-light: #020617;
+            --surface-elevated: #020617;
+            --surface-card: #020617;
+            --surface-soft: #020617;
+            --white: #020617;
+            --card-shadow: 0 18px 40px rgba(15,23,42,0.85);
             --radius-md: 12px;
             --radius-lg: 16px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-grey); display: flex; flex-direction: column; min-height: 100vh; }
+        body { background: radial-gradient(circle at top left, #020617 0, #020617 45%, #020617 100%); color: var(--text-grey); display: flex; flex-direction: column; min-height: 100vh; }
         a { text-decoration: none; color: inherit; }
         h1, h2, h3, h4 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%); }
+        .page-shell { background: radial-gradient(circle at top left, #020617 0, #020617 40%, #020617 100%); }
 
         /* HEADER */
-        header { background: rgba(255,255,255,0.97); padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        header { background: rgba(2,6,23,0.96); padding: 12px 0; border-bottom: 1px solid rgba(148,163,184,0.28); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(14px); }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .logo { font-family: 'Jost', sans-serif; font-size: 1.5rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
@@ -36,14 +40,15 @@
         .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 30px 0 40px; flex: 1; align-items: start; }
         
         /* SIDEBAR FILTERS */
-        .sidebar { background: white; padding: 25px; border-radius: var(--radius-md); box-shadow: var(--card-shadow); position: sticky; top: 90px; }
+        .sidebar { background: radial-gradient(circle at top left, #020617 0, #020617 55%, #020617 100%); padding: 25px; border-radius: var(--radius-md); box-shadow: var(--card-shadow); position: sticky; top: 90px; border:1px solid rgba(148,163,184,0.55); }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .filter-group { margin-bottom: 20px; }
-        .filter-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dark); }
-        .filter-group select, .filter-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; outline: none; }
-        .filter-btn { width: 100%; background: var(--primary-gradient); color: white; padding: 12px; border: none; border-radius: 999px; cursor: pointer; margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; transition: 0.25s ease; box-shadow: 0 4px 12px rgba(102,0,255,0.35); }
-        .filter-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(102,0,255,0.5); }
-        .reset-btn { width: 100%; background: transparent; color: #666; padding: 8px; border: none; cursor: pointer; margin-top: 5px; font-size: 0.85rem; text-decoration: underline; }
+        .filter-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; color: #e5e7eb; }
+        .filter-group select, .filter-group input { width: 100%; padding: 10px; border: 1px solid rgba(55,65,81,0.8); border-radius: 8px; font-size: 0.9rem; outline: none; background:#020617; color:#e5e7eb; }
+        .filter-group select:focus, .filter-group input:focus { border-color:#6366f1; box-shadow:0 0 0 1px rgba(129,140,248,0.7); }
+        .filter-btn { width: 100%; background: var(--primary-gradient); color: white; padding: 12px; border: none; border-radius: 999px; cursor: pointer; margin-top: 10px; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; transition: 0.25s ease; box-shadow: 0 4px 14px rgba(76,81,191,0.7); }
+        .filter-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(76,81,191,0.95); }
+        .reset-btn { width: 100%; background: transparent; color: #9ca3af; padding: 8px; border: none; cursor: pointer; margin-top: 5px; font-size: 0.85rem; text-decoration: underline; }
 
         /* MAIN LIST AREA & VIEW CONTROLS */
         .car-list { min-width: 0; }
@@ -54,17 +59,18 @@
         .view-btn.active { background: #6600FF; color: white; border-color: #6600FF; }
 
         /* PAGINATION */
-        .pagination-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 16px; flex-wrap: wrap; font-size: 0.9rem; color: #555; }
+        .pagination-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 16px; flex-wrap: wrap; font-size: 0.9rem; color: #9ca3af; }
         .page-controls { display: flex; gap: 8px; align-items: center; }
-        .page-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 0.85rem; min-width: 34px; text-align: center; transition: 0.2s; }
-        .page-btn:hover { background: #f3f3ff; border-color: #6600FF; }
-        .page-btn.active { background: #6600FF; color: #fff; border-color: #6600FF; }
-        .page-btn[disabled] { opacity: 0.4; cursor: default; background: #f5f5f5; }
-        .page-size-select { padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; font-size: 0.85rem; }
+        .page-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(55,65,81,0.9); background: #020617; cursor: pointer; font-size: 0.85rem; min-width: 34px; text-align: center; transition: 0.2s; color:#e5e7eb; }
+        .page-btn:hover { background: #111827; border-color: #6366f1; }
+        .page-btn.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+        .page-btn[disabled] { opacity: 0.4; cursor: default; background: #020617; }
+        .page-size-select { padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(55,65,81,0.9); font-size: 0.85rem; background:#020617; color:#e5e7eb; }
         
         .search-bar-top { width: 100%; position: relative; max-width: 400px; }
-        .search-bar-top input { width: 100%; padding: 10px 10px 10px 40px; border-radius: 50px; border: 1px solid #ddd; font-size: 0.95rem; outline: none; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 1rem; }
+        .search-bar-top input { width: 100%; padding: 10px 10px 10px 40px; border-radius: 50px; border: 1px solid rgba(55,65,81,0.9); font-size: 0.95rem; outline: none; background:#020617; color:#e5e7eb; }
+        .search-bar-top input::placeholder { color:#6b7280; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 1rem; }
 
         /* CAR GRID SYSTEM */
         .grid-container { display: grid; gap: 25px; transition: 0.3s; align-items: stretch; }
@@ -74,7 +80,7 @@
 
         /* CAR CARD - UNIFORM TILE STYLES */
         .car-card { 
-            background: white; 
+            background: radial-gradient(circle at top left, #020617 0, #020617 50%, #020617 100%); 
             border-radius: var(--radius-lg); 
             overflow: hidden; 
             box-shadow: var(--card-shadow); 
@@ -92,7 +98,7 @@
             position: relative; 
             width: 100%; 
             aspect-ratio: 16/10; /* Fixed Aspect Ratio */
-            background: #f0f0f0; 
+            background: radial-gradient(circle at top left, #020617 0, #020617 55%, #020617 100%); 
             overflow: hidden;
         }
         .car-img-wrapper img { 
@@ -109,21 +115,65 @@
         .badge-status.ready { background: linear-gradient(135deg, #16a34a, #22c55e); }
         .badge-status.transit { background: linear-gradient(135deg, #eab308, #f97316); }
         .badge-status.arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); }
+        .badge-status.auction { background: linear-gradient(135deg, #7c3aed, #06b6d4); }
+        .badge-auction-date { position:absolute; top:10px; left:10px; padding:3px 10px; border-radius:999px; font-size:0.72rem; font-weight:600; color:#e5e7eb; z-index:2; letter-spacing:0.04em; text-transform:uppercase; box-shadow:0 4px 10px rgba(0,0,0,0.18); background:rgba(15,23,42,0.9); backdrop-filter:blur(6px); display:flex; align-items:center; gap:6px; cursor:help; }
+        .badge-auction-date i { font-size:0.8rem; color:#38bdf8; }
+        .badge-auction-date-tooltip { position:absolute; left:0; top:120%; background:#0b1020; color:#e5ecff; padding:8px 10px; border-radius:8px; font-size:0.7rem; width:230px; box-shadow:0 10px 25px rgba(15,23,42,0.65); opacity:0; transform:translateY(4px); pointer-events:none; transition:opacity 0.18s ease, transform 0.18s ease; z-index:10; border:1px solid rgba(148,163,184,0.5); }
+        .badge-auction-date:hover .badge-auction-date-tooltip { opacity:1; transform:translateY(0); }
+        @media (max-width: 900px) {
+            .badge-auction-date-tooltip { left:auto; right:0; width:260px; }
+        }
         
         .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-meta { display: flex; gap: 8px; font-size: 0.75rem; color: #888; margin-bottom: 12px; flex-wrap: wrap; }
-        .card-meta span { display: flex; align-items: center; gap: 4px; background: #f9f9f9; padding: 3px 6px; border-radius: 4px; }
+        .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; color: #e5e7eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { display: flex; gap: 8px; font-size: 0.75rem; color: #9ca3af; margin-bottom: 6px; flex-wrap: wrap; }
+        .card-meta span { display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.85); padding: 3px 6px; border-radius: 4px; border:1px solid rgba(31,41,55,0.9); }
+        .card-submeta { display:flex; justify-content: space-between; align-items:center; font-size:0.74rem; color:#9ca3af; margin-bottom:8px; }
+        .card-submeta span { display:flex; align-items:center; gap:4px; }
+        .auction-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 8px; border-radius:999px; background:rgba(15,23,42,0.9); color:#e5e7eb; font-weight:600; font-size:0.7rem; cursor:default; position:relative; border:1px solid rgba(148,163,184,0.7); }
+        .auction-pill i { font-size:0.75rem; }
         
-        .price-tag { font-family: 'Jost', sans-serif; font-size: 1.2rem; font-weight: 700; color: #6600FF; display: block; margin-bottom: 12px; }
-        .price-hidden { color: #333; font-size: 1rem; }
+        .price-tag { font-family: 'Jost', sans-serif; font-size: 1.2rem; font-weight: 700; color: #a855f7; display: block; margin-bottom: 12px; }
+        .price-hidden { color: #e5e7eb; font-size: 1rem; }
         
         .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
         .btn-view, .btn-whatsapp { padding: 9px 10px; border-radius: 999px; font-size: 0.82rem; font-family: 'Jost', sans-serif; font-weight: 600; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; letter-spacing: 0.02em; transition: 0.25s ease; }
-        .btn-view { background: #f3f3ff; color: #3b3b5a; border: 1px solid rgba(102,0,255,0.18); }
-        .btn-view:hover { background: #6600FF; color: #fff; box-shadow: 0 6px 16px rgba(102,0,255,0.4); }
+        .btn-view { background: rgba(15,23,42,0.85); color: #e5e7eb; border: 1px solid rgba(148,163,184,0.7); }
+        .btn-view:hover { background: #111827; color: #fff; box-shadow: 0 6px 16px rgba(15,23,42,0.9); }
         .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.4); }
         .btn-whatsapp:hover { background: #1ebc57; box-shadow: 0 6px 18px rgba(37,211,102,0.5); transform: translateY(-1px); }
+        .btn-bid { 
+            background: radial-gradient(circle at top left, #0b1020 0, #020617 55%, #020617 100%);
+            color:#e5e7eb; 
+            border:1px solid rgba(148,163,184,0.8); 
+            box-shadow:0 6px 18px rgba(15,23,42,0.85);
+            font-size:0.84rem;
+        }
+        .btn-bid i { color:#38bdf8; }
+        .btn-bid:hover { 
+            background: radial-gradient(circle at top left, #020617 0, #020617 40%, #111827 100%);
+            color:#f9fafb; 
+            box-shadow:0 10px 26px rgba(15,23,42,0.95); 
+            transform:translateY(-1px);
+        }
+
+        /* Bid modal */
+        .bid-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,0.85); z-index:1200; justify-content:center; align-items:center; padding:16px; }
+        .bid-modal { background:#f9fafb; border-radius:18px; max-width:440px; width:100%; padding:20px 20px 18px; box-shadow:0 20px 45px rgba(15,23,42,0.55); position:relative; }
+        .bid-close { position:absolute; top:10px; right:12px; width:30px; height:30px; border-radius:999px; border:none; background:#e5e7eb; color:#111827; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .bid-close:hover { background:#f97373; color:#fff; }
+        .bid-title { font-family:'Jost',sans-serif; font-size:1.1rem; margin-bottom:6px; color:#111827; }
+        .bid-subtitle { font-size:0.85rem; color:#4b5563; margin-bottom:12px; }
+        .bid-row { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; font-size:0.85rem; }
+        .bid-row label { font-weight:600; color:#111827; font-size:0.8rem; }
+        .bid-row input, .bid-row select, .bid-row textarea { padding:9px 10px; border-radius:9px; border:1px solid #d1d5db; font-size:0.85rem; outline:none; }
+        .bid-row input:focus, .bid-row select:focus, .bid-row textarea:focus { border-color:#6366f1; box-shadow:0 0 0 1px rgba(129,140,248,0.6); }
+        .bid-hint { font-size:0.75rem; color:#6b7280; }
+        .bid-footer { display:flex; flex-direction:column; gap:8px; margin-top:6px; font-size:0.75rem; color:#6b7280; }
+        .bid-actions { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+        .btn-bid-confirm { background:#16a34a; color:#ecfdf5; border:none; padding:10px 14px; border-radius:999px; font-family:'Jost',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+        .btn-bid-confirm:hover { background:#15803d; }
+        .btn-bid-secondary { background:transparent; border:none; color:#4b5563; font-size:0.8rem; text-decoration:underline; cursor:pointer; align-self:center; }
 
         /* MODAL STYLES */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 14px; backdrop-filter: blur(5px); }
@@ -221,7 +271,7 @@
             .card-meta { font-size: 0.7rem; }
             .price-tag { font-size: 1.05rem; }
             .card-actions { grid-template-columns: 1fr; }
-            .btn-view, .btn-whatsapp { font-size: 0.8rem; padding: 7px 9px; }
+            .btn-view, .btn-whatsapp, .btn-bid { font-size: 0.82rem; padding: 9px 10px; }
             .modal-overlay { padding: 10px; }
         }
     </style>
@@ -232,19 +282,36 @@
     <header>
         <div class="container nav-inner">
             <a href="index.html" class="logo">vinvel</a>
-            <div style="display:flex; align-items:center; gap:14px;">
-                <a href="auction.html" style="font-size:0.88rem; font-weight:500; color:#111827; display:inline-flex; align-items:center; gap:6px; padding:7px 12px; border-radius:999px; border:1px solid rgba(148,163,184,0.55); background:rgba(15,23,42,0.02);">
-                    <i class="fa-solid fa-gavel" style="color:#4f46e5;"></i>
-                    <span>Auction Picks</span>
-                </a>
-                <a href="index.html" style="font-weight: 500; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-arrow-left"></i> <span style="font-size: 0.9rem;">Back to Home</span>
-                </a>
-            </div>
+            <a href="index.html" style="font-weight: 500; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-arrow-left"></i> <span style="font-size: 0.9rem;">Back to Home</span>
+            </a>
         </div>
     </header>
 
     <!-- Main Content -->
+    <div class="container" style="padding: 24px 20px 8px; max-width: 1300px;">
+        <div style="background: #0f172a; color: #e5ecff; border-radius: 18px; padding: 22px 22px 20px; display:flex; flex-wrap:wrap; align-items:flex-start; gap:16px; margin-bottom:22px; box-shadow:0 20px 45px rgba(15,23,42,0.85); border:1px solid rgba(148,163,184,0.75);">
+            <div style="flex:1 1 260px;">
+                <div style="font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; opacity:0.7; margin-bottom:6px;">Vinvel Auction Picks</div>
+                <h1 style="font-family:'Jost',sans-serif; font-size:1.6rem; margin-bottom:6px; color:#fff;">Hand-picked units not yet purchased</h1>
+                <p style="font-size:0.9rem; opacity:0.9;">
+                    These vehicles are shortlisted by the Vinvel team and still available at Japanese auctions. You can place a bid and our team will verify it, submit at auction, and then update the live highest bid on this page.
+                </p>
+            </div>
+            <div style="flex:0 0 260px; font-size:0.85rem; background:rgba(15,23,42,0.9); border-radius:12px; padding:10px 12px; border:1px solid rgba(148,163,184,0.5); position:relative;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                    <i class="fa-solid fa-circle-info" style="color:#38bdf8;"></i>
+                    <strong>How auction bids work</strong>
+                </div>
+                <ul style="padding-left:18px; margin:0; display:flex; flex-direction:column; gap:2px;">
+                    <li>Place your maximum bid in LKR or JPY.</li>
+                    <li>Bid is sent to Vinvel via WhatsApp for verification.</li>
+                    <li>After confirmation, we submit it at auction on your behalf.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="container inventory-wrapper">
         
         <button class="mobile-filter-toggle" onclick="toggleSidebar()">
@@ -254,7 +321,7 @@
         <!-- Sidebar Filters -->
         <aside class="sidebar" id="filterSidebar">
             <div class="sidebar-header">
-                <h3>Filter Cars</h3>
+                <h3>Auction Filters</h3>
                 <i class="fa-solid fa-xmark" style="cursor: pointer; display: none;" onclick="toggleSidebar()" id="closeFilters"></i>
             </div>
             
@@ -294,7 +361,7 @@
         <main class="car-list">
             
             <div class="list-controls">
-                <h2 id="resultCount" style="font-size: 1.4rem;">Loading...</h2>
+                <h2 id="resultCount" style="font-size: 1.4rem;">Loading auction picks...</h2>
                 
                 <div style="display: flex; gap: 20px; align-items: center;">
                     <div class="search-bar-top">
@@ -341,12 +408,12 @@
             <div class="modal-details">
                 <h2 class="modal-title" id="modalTitle">Car Title</h2>
                 <div class="modal-price-row">
-                    <span class="modal-price" id="modalPrice">LKR 0</span>
-                    <span id="modalStatus" class="modal-status-pill modal-status-ready">Ready to Ship</span>
+                    <span class="modal-price" id="modalPrice">Est. LKR 0</span>
+                    <span id="modalStatus" class="modal-status-pill modal-status-ready">Auction Pick</span>
                 </div>
                 <p style="margin-bottom: 20px; color: #666; font-size: 0.95rem;">
                     Verified Auction Grade <span id="modalGrade" style="font-weight: 700; color: #333;">4.5</span>. 
-                    This vehicle includes a full translation sheet and mechanical warranty.
+                    This unit is <strong>not yet purchased</strong>. Vinvel submits your bid at the Japanese auction and coordinates shipping only if the car is won.
                 </p>
                 <div class="spec-grid">
                     <div class="spec-item"><strong>Year</strong> <span id="modalYear">2019</span></div>
@@ -356,9 +423,54 @@
                     <div class="spec-item"><strong>Transmission</strong> <span id="modalTrans">Auto</span></div>
                     <div class="spec-item"><strong>Ref ID</strong> <span id="modalRef">001</span></div>
                 </div>
-                <a href="#" id="modalWhatsapp" class="btn-whatsapp" style="width: 100%; padding: 15px; font-size: 1rem;">
-                    <i class="fa-brands fa-whatsapp"></i> Enquire Now on WhatsApp
+                <a href="#" id="modalWhatsapp" class="btn-whatsapp" style="width: 100%; padding: 15px; font-size: 1rem; margin-bottom:8px;">
+                    <i class="fa-brands fa-whatsapp"></i> Chat with Vinvel
                 </a>
+                <button type="button" class="btn-bid" style="width:100%; padding:12px 14px; font-size:0.95rem;" onclick="openBidModal()">
+                    <i class="fa-solid fa-gavel"></i> Place Auction Bid
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BID MODAL -->
+    <div id="bidOverlay" class="bid-overlay">
+        <div class="bid-modal">
+            <button class="bid-close" onclick="closeBidModal()">&times;</button>
+            <h3 class="bid-title" id="bidCarTitle">Place a bid</h3>
+            <p class="bid-subtitle">These cars are not purchased yet. Your bid will be sent to Vinvel on WhatsApp for review and then submitted at auction.</p>
+            <div class="bid-row">
+                <label for="bidAmount">Your maximum bid</label>
+                <div style="display:flex; gap:8px;">
+                    <select id="bidCurrency" style="max-width:90px;">
+                        <option value="LKR">LKR</option>
+                        <option value="JPY">JPY</option>
+                    </select>
+                    <input type="number" id="bidAmount" placeholder="e.g. 8,500,000" min="0">
+                </div>
+                <div class="bid-hint">We recommend entering the <strong>maximum</strong> you are comfortable paying landed in Sri Lanka.</div>
+            </div>
+            <div class="bid-row">
+                <label for="bidName">Your name</label>
+                <input type="text" id="bidName" placeholder="Full name">
+            </div>
+            <div class="bid-row">
+                <label for="bidWhatsapp">WhatsApp number</label>
+                <input type="tel" id="bidWhatsapp" placeholder="e.g. +94 71 487 8393">
+            </div>
+            <div class="bid-row">
+                <label for="bidNotes">Notes (optional)</label>
+                <textarea id="bidNotes" rows="2" placeholder="Any special requests, budget notes or timing?" style="resize:vertical;"></textarea>
+            </div>
+            <div class="bid-actions">
+                <button class="btn-bid-confirm" onclick="submitBidViaWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Send bid via WhatsApp
+                </button>
+                <button class="btn-bid-secondary" type="button" onclick="closeBidModal()">Cancel and go back</button>
+            </div>
+            <div class="bid-footer">
+                <div><strong>Important:</strong> Your bid is <em>not</em> a final purchase. Vinvel will confirm availability, taxes and shipping before you commit.</div>
             </div>
         </div>
     </div>
@@ -432,6 +544,7 @@
                 trans: "Auto",
                 grade: "4.5",
                 status: "Ready to Ship",
+                auctionDate: "2025-01-12",
                 price: 7800000,
                 hidePrice: false,
                 images: [
@@ -451,6 +564,7 @@
                 trans: "Auto",
                 grade: "5.0",
                 status: "In Transit",
+                auctionDate: "2025-01-15",
                 price: 0,
                 hidePrice: true, 
                 images: [
@@ -470,6 +584,7 @@
                 trans: "Auto",
                 grade: "3.5",
                 status: "Arrived in SL",
+                auctionDate: "2025-01-18",
                 price: 8900000,
                 hidePrice: false,
                 images: [
@@ -489,6 +604,7 @@
                 trans: "Auto",
                 grade: "4.5",
                 status: "Ready to Ship",
+                auctionDate: "2025-01-20",
                 price: 9500000,
                 hidePrice: false,
                 images: [
@@ -508,6 +624,7 @@
                 trans: "Auto",
                 grade: "4.0",
                 status: "Arrived in SL",
+                auctionDate: "2025-01-22",
                 price: 5200000,
                 hidePrice: false,
                 images: [
@@ -557,23 +674,20 @@
             countLabel.innerText = `Showing ${cars.length} of ${totalCount} Results`;
 
             cars.forEach(car => {
-                let priceDisplay = `LKR ${car.price.toLocaleString()}`;
+                let priceDisplay = car.price > 0 ? `Est. LKR ${car.price.toLocaleString()}` : "Estimate on Request";
                 let priceClass = "price-tag";
                 if (car.hidePrice) {
-                    priceDisplay = "Call for Price";
+                    priceDisplay = "Estimate on Request";
                     priceClass = "price-tag price-hidden";
                 }
                 const mainImage = car.images && car.images.length > 0 ? car.images[0] : "https://via.placeholder.com/800x600?text=No+Image";
 
-                let statusLabel = car.status || "Ready to Ship";
-                let statusClass = "ready";
-                if (statusLabel === "In Transit") statusClass = "transit";
-                if (statusLabel === "Arrived in SL") statusClass = "arrived";
+                const auctionDateLabel = car.auctionDate ? new Date(car.auctionDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : null;
 
                 const cardHTML = `
                     <div class="car-card">
                         <div class="car-img-wrapper">
-                            <span class="badge-status ${statusClass}">${statusLabel}</span>
+                            ${auctionDateLabel ? `<span class="badge-auction-date"><i class="fa-solid fa-calendar-day"></i>${auctionDateLabel}<span class="badge-auction-date-tooltip">This is the scheduled Japanese auction date for this unit. Vinvel submits your approved bid to this auction; the car is only purchased if your bid wins.</span></span>` : ''}
                             <span class="badge-grade">Grade ${car.grade}</span>
                             <img src="${mainImage}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/800x600?text=No+Image'">
                         </div>
@@ -585,13 +699,19 @@
                                     <span>${car.mileage}</span>
                                     <span>${car.engine}</span>
                                 </div>
+                                <div class="card-submeta">
+                                    <span><i class="fa-solid fa-gavel"></i> Auction shortlisted</span>
+                                    <span class="auction-pill" title="Vinvel-picked car that has not been purchased yet.">
+                                        <i class="fa-solid fa-circle-question"></i> How this works
+                                    </span>
+                                </div>
                             </div>
                             <div>
                                 <span class="${priceClass}">${priceDisplay}</span>
                                 <div class="card-actions">
                                     <button class="btn-view" onclick="openModal('${car.id}')">View Details</button>
-                                    <button class="btn-whatsapp" onclick="openWhatsApp(event, '${car.title}', '${car.id}')">
-                                        <i class="fa-brands fa-whatsapp"></i> Chat
+                                    <button class="btn-bid" onclick="openBidModalFromCard('${car.id}')">
+                                        <i class="fa-solid fa-gavel"></i> Place Bid
                                     </button>
                                 </div>
                             </div>
@@ -621,15 +741,18 @@
         let currentCarImages = [];
         let currentSlideIndex = 0;
 
+        let currentCar = null;
+
         function openModal(carId) {
             const car = carData.find(c => c.id === carId);
             if (!car) return;
+            currentCar = car;
             document.getElementById('modalTitle').innerText = car.title;
-            document.getElementById('modalPrice').innerText = car.hidePrice ? "Call for Price" : `LKR ${car.price.toLocaleString()}`;
-            const statusLabel = car.status || "Ready to Ship";
+            document.getElementById('modalPrice').innerText = car.hidePrice ? "Estimate on Request" : `Est. LKR ${car.price.toLocaleString()}`;
+            const statusLabel = car.auctionDate ? `Auction: ${new Date(car.auctionDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}` : (car.status || "Auction Pick");
             let statusClass = "modal-status-ready";
-            if (statusLabel === "In Transit") statusClass = "modal-status-transit";
-            if (statusLabel === "Arrived in SL") statusClass = "modal-status-arrived";
+            if (statusLabel.includes("Transit")) statusClass = "modal-status-transit";
+            if (statusLabel.includes("Arrived")) statusClass = "modal-status-arrived";
             const statusEl = document.getElementById('modalStatus');
             statusEl.textContent = statusLabel;
             statusEl.className = `modal-status-pill ${statusClass}`;
@@ -646,7 +769,7 @@
             updateSlide();
 
             const phone = "94714878393";
-            const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${car.id}). Is it still available?`;
+            const text = `Hi Vinvel, I'm interested in bidding on the auction pick ${car.title} (Ref: ${car.id}). Can you share the latest auction sheet and expected landed cost?`;
             document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             document.getElementById('carModal').style.display = 'flex';
         }
@@ -777,11 +900,42 @@
             }
         }
 
-        function openWhatsApp(e, title, ref) {
-            e.preventDefault();
+        function openBidModalFromCard(carId) {
+            const car = carData.find(c => c.id === carId);
+            if (!car) return;
+            currentCar = car;
+            document.getElementById('bidCarTitle').innerText = `Bid for ${car.title} (Ref: ${car.id})`;
+            document.getElementById('bidOverlay').style.display = 'flex';
+        }
+
+        function openBidModal() {
+            if (!currentCar) return;
+            document.getElementById('bidCarTitle').innerText = `Bid for ${currentCar.title} (Ref: ${currentCar.id})`;
+            document.getElementById('bidOverlay').style.display = 'flex';
+        }
+
+        function closeBidModal() {
+            document.getElementById('bidOverlay').style.display = 'none';
+        }
+
+        function submitBidViaWhatsApp() {
+            if (!currentCar) return;
+            const amount = document.getElementById('bidAmount').value.trim();
+            const currency = document.getElementById('bidCurrency').value;
+            const name = document.getElementById('bidName').value.trim();
+            const whatsapp = document.getElementById('bidWhatsapp').value.trim();
+            const notes = document.getElementById('bidNotes').value.trim();
+
             const phone = "94714878393";
-            const text = `Hi Vinvel, I am interested in the ${title} (Ref: ${ref}). Is it still available?`;
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            let message = `Auction bid from vinvel.lk\n\n`;
+            message += `Car: ${currentCar.title} (Ref: ${currentCar.id})\n`;
+            if (amount) message += `Bid: ${amount} ${currency}\n`;
+            if (name) message += `Name: ${name}\n`;
+            if (whatsapp) message += `Buyer WhatsApp: ${whatsapp}\n`;
+            if (notes) message += `Notes: ${notes}\n`;
+            message += `\nPlease verify this bid, confirm fees/taxes, and submit at auction if acceptable.`;
+
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         }
     </script>

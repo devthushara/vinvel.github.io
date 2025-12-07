@@ -76,7 +76,8 @@
         /* --- HEADER --- */
         header { padding: 12px 0; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
         nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-        .logo { font-family: 'Jost', sans-serif; font-size: 1.8rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { display:flex; align-items:center; gap:12px; }
+        .logo img { height:52px; width:auto; display:block; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { font-weight: 500; color: var(--text-dark); position: relative; }
         .nav-links a:hover { color: #6600FF; }
@@ -235,7 +236,7 @@
         .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
         .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
         .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
-        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.4rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
         .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
         .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
         .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
@@ -313,9 +314,19 @@
             .nav-links.show { display: flex; }
             .nav-links a { padding: 6px 0; }
             .mobile-menu-btn { display: block; }
-            .hero { padding-top: 90px; padding-bottom: 70px; }
-            .hero-content { padding: 0; }
-            .hero-btns { flex-direction: column; align-items: stretch; }
+            .hero { padding-top: 80px; padding-bottom: 60px; }
+            .hero-content { padding: 0 6px; }
+            .hero-btns { 
+                flex-direction: column; 
+                align-items: center; 
+                gap: 10px;
+            }
+            .hero-btns .btn {
+                width: auto;
+                min-width: 210px;
+                max-width: 260px;
+                padding-inline: 18px;
+            }
             .section-title h2 { font-size: 2rem; }
             .section-title { margin-bottom: 2.4rem; }
             .testi-card { padding: 28px 22px; }
@@ -330,7 +341,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">vinvel</a>
+                <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Motor Trading logo"></a>
                 <ul class="nav-links" id="primaryNav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="cars.html">Inventory</a></li>

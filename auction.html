@@ -34,7 +34,8 @@
         /* HEADER */
         header { background: rgba(2,6,23,0.96); padding: 12px 0; border-bottom: 1px solid rgba(148,163,184,0.28); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(14px); }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-        .logo { font-family: 'Jost', sans-serif; font-size: 1.5rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { display:flex; align-items:center; gap:10px; }
+        .logo img { height:34px; width:auto; display:block; }
         
         /* LAYOUT GRID */
         .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 30px 0 40px; flex: 1; align-items: start; }
@@ -202,7 +203,7 @@
         .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
         .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
         .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
-        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.2rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
         .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
         .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
         .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
@@ -281,7 +282,7 @@
     <!-- Sticky Header -->
     <header>
         <div class="container nav-inner">
-            <a href="index.html" class="logo">vinvel</a>
+            <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Motor Trading logo"></a>
             <div style="display:flex; align-items:center; gap:12px;">
                 <a href="cars.html" style="font-size:0.86rem; font-weight:500; color:#e5e7eb; display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px; border:1px solid rgba(148,163,184,0.65); background:rgba(15,23,42,0.85);">
                     <i class="fa-solid fa-car" style="color:#a5b4fc;"></i>

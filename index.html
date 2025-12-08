@@ -111,13 +111,47 @@
         .hero-proof-link:hover span { border-bottom-style: solid; }
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
-        /* --- FEATURES --- */
-        .features { padding: 80px 0; background: white; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .feature-card { padding: 40px 30px; border-radius: var(--radius-lg); text-align: left; background: var(--bg-light); transition: 0.3s; border: 1px solid transparent; }
+        /* --- FEATURES + PROCESS (INTEGRATED) --- */
+        .features { padding: 90px 0 80px; background: white; }
+        .features-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr); gap: 48px; align-items: flex-start; }
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+        .feature-card { padding: 28px 24px; border-radius: var(--radius-lg); text-align: left; background: var(--bg-light); transition: 0.3s; border: 1px solid transparent; }
         .feature-card:hover { transform: translateY(-5px); border-color: #00CCFF; box-shadow: var(--card-shadow); }
-        .feature-icon { font-size: 2.5rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; display: inline-block; }
-        .feature-card h3 { margin-bottom: 15px; font-size: 1.5rem; }
+        .feature-icon { font-size: 2.2rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 14px; display: inline-block; }
+        .feature-card h3 { margin-bottom: 10px; font-size: 1.35rem; }
+        .feature-card p { font-size: 0.96rem; color: #555; }
+
+        .process-side { background: #050816; border-radius: 20px; padding: 26px 22px 24px; color: #e5e7eb; box-shadow: 0 18px 45px rgba(15,23,42,0.35); border: 1px solid rgba(148,163,184,0.25); }
+        .process-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.35); font-size: 0.78rem; color: #9ca3af; margin-bottom: 10px; }
+        .process-chip i { font-size: 0.8rem; color: #60a5fa; }
+        .process-title { font-family: 'Jost', sans-serif; font-size: 1.5rem; margin-bottom: 6px; color: #f9fafb; }
+        .process-subtitle { font-size: 0.92rem; color: #9ca3af; margin-bottom: 18px; }
+        .process-steps { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+        .step { text-align: left; padding: 10px 0; position: relative; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: flex-start; }
+        .step-icon-box { width: 40px; height: 40px; background: radial-gradient(circle at 30% 0, #4f46e5 0, #0f172a 58%, #020617 100%); box-shadow: 0 0 0 1px rgba(148,163,184,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0; font-size: 1.1rem; color: #e5e7eb; position: relative; z-index: 2; }
+        .step h4 { font-size: 0.98rem; margin-bottom: 4px; color: #e5e7eb; }
+        .step p { font-size: 0.86rem; color: #9ca3af; margin: 0; }
+        .step:not(:last-child)::after { content: ""; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: linear-gradient(to bottom, rgba(148,163,184,0.7), rgba(15,23,42,0)); opacity: 0.7; }
+
+        @media (max-width: 992px) {
+            .features-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+            .process-side { max-width: 640px; margin: 0 auto; }
+        }
+
+        @media (max-width: 640px) {
+            .features { padding: 70px 0 50px; }
+            .features-layout { gap: 26px; }
+            .feature-card { padding: 20px 16px; }
+            .feature-card h3 { font-size: 1.18rem; }
+            .process-side { padding: 18px 14px 18px; border-radius: 16px; }
+            .process-subtitle { font-size: 0.9rem; }
+            .process-steps { gap: 6px; }
+            .step { grid-template-columns: auto 1fr; gap: 10px; padding: 8px 0; }
+            .step-icon-box { width: 34px; height: 34px; font-size: 1rem; }
+            .step h4 { font-size: 0.94rem; }
+            .step p { font-size: 0.82rem; }
+            .step:not(:last-child)::after { left: 17px; top: 38px; }
+        }
 
         /* --- FEATURED CARS --- */
         .featured-cars { padding: 80px 0; background: #fff; }
@@ -167,12 +201,6 @@
             .home-modal-specs { grid-template-columns: 1fr 1fr; gap: 8px; }
         }
 
-        /* --- PROCESS --- */
-        .process { padding: 100px 0; background: var(--bg-light); }
-        .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
-        .step { text-align: center; padding: 20px; position: relative; }
-        .step-icon-box { width: 80px; height: 80px; background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #6600FF; position: relative; z-index: 2; }
-        
         /* --- DEALER SECTION (formerly Broker) --- */
         .broker-section { padding: 80px 0; background: var(--secondary-dark); color: white; position: relative; overflow: hidden; }
         .broker-bg { position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2073&auto=format&fit=crop') no-repeat center center/cover; opacity: 0.2; }
@@ -229,6 +257,94 @@
             .testi-card { padding: 28px 22px; }
             .testi-footer-row { flex-direction: row; align-items: center; }
             .testi-proof-link span { display: none; }
+        }
+
+        /* --- PARTNER LOGOS STRIP --- */
+        .partners {
+            padding: 52px 0 60px;
+            background: #f4f5f9;
+            border-top: 1px solid #e0e3ee;
+            border-bottom: 1px solid #e0e3ee;
+        }
+        .partners-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .partners-eyebrow {
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #9ca3af;
+        }
+        .partners-heading {
+            font-family: 'Jost', sans-serif;
+            font-size: 1.2rem;
+            color: #4b5563;
+            text-align: center;
+        }
+        .partners-strip {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .partner-logo-item {
+            height: 64px;
+            border-radius: 14px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: 12px;
+            filter: grayscale(1) contrast(0.9);
+            opacity: 0.8;
+            transition: filter 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+        .partner-logo-item img {
+            max-width: 100%;
+            max-height: 40px;
+            object-fit: contain;
+            display: block;
+        }
+        .partner-logo-item:hover {
+            filter: none;
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102,0,255,0.18);
+            border-color: rgba(102,0,255,0.45);
+        }
+        .partner-logo-item:hover img {
+            filter: none;
+        }
+        @media (max-width: 900px) {
+            .partners-strip {
+                max-width: 100%;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                row-gap: 14px;
+            }
+            .partner-logo-item {
+                height: 60px;
+                border-radius: 12px;
+            }
+        }
+        @media (max-width: 640px) {
+            .partners {
+                padding: 40px 0 46px;
+            }
+            .partners-strip {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+            .partner-logo-item {
+                height: 56px;
+            }
+            .partner-logo-item img {
+                max-height: 34px;
+            }
         }
 
         /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
@@ -382,29 +498,82 @@
         </div>
     </section>
 
-    <!-- Why Choose Vinvel -->
-    <section class="features">
+    <!-- Why Choose Vinvel + Export Journey (Integrated Section) -->
+    <section class="features" id="process">
         <div class="container">
             <div class="section-title">
-                <h2>Why Choose Vinvel?</h2>
-                <p>We simplify the import process from Tokyo to Colombo.</p>
+                <h2>Why Dealers Choose Vinvel</h2>
+                <p>From first WhatsApp message to handover, we keep the journey simple and transparent.</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fa-solid fa-gavel feature-icon"></i>
-                    <h3>Direct Auction Access</h3>
-                    <p>No middlemen. We bid directly on your behalf at major Japanese auction houses ensuring transparent pricing.</p>
+            <div class="features-layout">
+                <div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fa-solid fa-gavel feature-icon"></i>
+                            <h3>Direct Auction Access</h3>
+                            <p>No middlemen. We bid directly on your behalf at major Japanese auction houses ensuring transparent pricing.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fa-solid fa-shield-heart feature-icon"></i>
+                            <h3>Vinvel Warranty™ &amp; Certified™</h3>
+                            <p>Hand-picked, low-risk units backed by Vinvel Warranty™ and our Vinvel Certified™ checklist — from auction sheet to engine bay. If we can't stand behind the condition, we don't ship it.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fa-solid fa-ship feature-icon"></i>
+                            <h3>Fast Logistics</h3>
+                            <p>We handle all documentation, deregistration, and shipping logistics to ensure timely arrival.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-shield-heart feature-icon"></i>
-                    <h3>Vinvel Warranty™ &amp; Certified™</h3>
-                    <p>Hand-picked, low-risk units backed by Vinvel Warranty™ and our Vinvel Certified™ checklist — from auction sheet to engine bay. If we can't stand behind the condition, we don't ship it.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-ship feature-icon"></i>
-                    <h3>Fast Logistics</h3>
-                    <p>We handle all documentation, deregistration, and shipping logistics to ensure timely arrival.</p>
-                </div>
+                <aside class="process-side" aria-label="Export journey steps">
+                    <div class="process-chip"><i class="fa-solid fa-route"></i> The Vinvel Journey</div>
+                    <h3 class="process-title">From shortlisting to long-term care</h3>
+                    <p class="process-subtitle">Hands-on support from choosing the right unit to servicing it with trusted partners.</p>
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-magnifying-glass"></i></div>
+                            <div>
+                                <h4>1. We shortlist the right car</h4>
+                                <p>Together we analyse your requirement, market prices and risk, then propose the best auction units or in-stock cars.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-car-side"></i></div>
+                            <div>
+                                <h4>2. Inspect in Japan or in Sri Lanka</h4>
+                                <p>For auction cars we study sheets, photos and videos; for cars already in Sri Lanka we give you quality time with the car to inspect it properly.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                            <div>
+                                <h4>3. Finance, leasing and speed drafts</h4>
+                                <p>We connect you with our trusted banking and leasing partners for LC, TT, leasing or speed drafts that match your deal.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-key"></i></div>
+                            <div>
+                                <h4>4. Bid, ship or hand over keys</h4>
+                                <p>Once LC/TT or full payment is confirmed we place the bid and ship the car, or if it is already in Sri Lanka we transfer the keys and documentation.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-shield-heart"></i></div>
+                            <div>
+                                <h4>5. Insurance and protection</h4>
+                                <p>We introduce you to insurance partners who understand Japanese imports and can issue cover quickly and correctly.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon-box"><i class="fa-solid fa-wrench"></i></div>
+                            <div>
+                                <h4>6. Long-term service and support</h4>
+                                <p>We stay in touch and connect you with reputable service stations, repairers and parts suppliers across Sri Lanka for long-term maintenance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     </section>
@@ -543,6 +712,28 @@
         </div>
     </section>
 
+    <!-- Partners / Trusted Networks -->
+    <section class="partners" aria-label="Partner brands and dealer logos">
+        <div class="container">
+            <div class="partners-inner">
+                <div class="partners-eyebrow">Trusted Ecosystem</div>
+                <div class="partners-heading">Working with banks, Japanese dealers, insurers and service networks</div>
+                <div class="partners-strip">
+                    <div class="partner-logo-item"><img src="img/partners/hnb-logo-new.png" alt="HNB Bank"></div>
+                    <div class="partner-logo-item"><img src="img/partners/cdb-logo.png" alt="CDB Finance"></div>
+                    <div class="partner-logo-item"><img src="img/partners/kobe-new-logo.png" alt="Kobe Motors Japan"></div>
+                    <div class="partner-logo-item"><img src="img/partners/carp.png" alt="Carp Japan"></div>
+                    <div class="partner-logo-item"><img src="img/partners/autoparts.png" alt="Auto Parts Partner"></div>
+                    <div class="partner-logo-item"><img src="img/partners/idj8JWh5iI_1765102898084.png" alt="Service / Insurance Partner"></div>
+                    <div class="partner-logo-item"><img src="img/partners/hnb-logo-new.png" alt="HNB Bank"></div>
+                    <div class="partner-logo-item"><img src="img/partners/cdb-logo.png" alt="CDB Finance"></div>
+                    <div class="partner-logo-item"><img src="img/partners/kobe-new-logo.png" alt="Kobe Motors Japan"></div>
+                    <div class="partner-logo-item"><img src="img/partners/carp.png" alt="Carp Japan"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Featured Inventory Preview -->
     <section class="featured-cars">
         <div class="container">
@@ -606,38 +797,6 @@
 
             <div style="text-align: center;">
                 <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="process" id="process">
-        <div class="container">
-            <div class="section-title">
-                <h2>The Export Journey</h2>
-                <p>From auction house to your driveway in 4 simple steps.</p>
-            </div>
-            <div class="process-steps">
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-magnifying-glass"></i></div>
-                    <h4>1. Select Car</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Browse our stock or request a specific auction search.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-file-contract"></i></div>
-                    <h4>2. Inspection</h4>
-                    <p style="font-size: 0.95rem; color: #666;">We verify condition, translate sheets, and share videos.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                    <h4>3. Payment</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Secure deposit and LC/TT documentation processing.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon-box"><i class="fa-solid fa-truck-ramp-box"></i></div>
-                    <h4>4. Delivery</h4>
-                    <p style="font-size: 0.95rem; color: #666;">Fast shipping to Hambantota or Colombo port.</p>
-                </div>
             </div>
         </div>
     </section>

@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@sanity/client'
-import imageUrlBuilder from 'https://esm.sh/@sanity/image-url'
+import { createImageUrlBuilder } from 'https://esm.sh/@sanity/image-url'
 
 // --- CONFIGURATION ---
 // 1. Log into https://sanity.io/manage
@@ -12,30 +12,27 @@ export const client = createClient({
   apiVersion: '2023-12-16',
 })
 
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 
 export function urlFor(source) {
-  if (!source) return 'https://via.placeholder.com/800x600?text=No+Image';
+  if (!source) return 'https://placehold.co/800x600?text=No+Image';
   return builder.image(source)
 }
 
 // --- DATA FETCHING ---
 
-// Fetch Top 3 Featured Cars (Ready to Ship)
 export async function getFeaturedCars() {
-  // Query: Type is car, Stock Type is Inventory, Status is 'Ready', Limit 3
-  const query = `*[_type == "car" && stockType == "inventory" && status == "Ready to Ship"][0...3]{
-    _id, title, year, mileage, engine, fuel, status, price, hidePrice, images
+  // CHANGED: Sort by priority (descending), then by date. 
+  // We fetch 3 items.
+  const query = `*[_type == "car" && stockType == "inventory" && status != "Sold"] | order(priority desc, _createdAt desc)[0...3]{
+    _id, title, year, mileage, engine, price, hidePrice, status, images
   }`
   return await client.fetch(query)
 }
 
-// Fetch Full Inventory (All Live Cars)
 export async function getInventory() {
-  const query = `*[_type == "car" && stockType == "inventory"] | order(_createdAt desc) {
-    _id, title, make, model, year, mileage, engine, fuel, transmission, 
-    grade, status, price, hidePrice, images
-  }`
+  // CHANGED: Fetch ALL inventory items sorted by newest first
+  const query = `*[_type == "car" && stockType == "inventory"] | order(_createdAt desc)`
   return await client.fetch(query)
 }
 

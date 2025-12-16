@@ -742,58 +742,7 @@
                 <p>Vinvel Certified™ vehicles ready for sale.</p>
             </div>
             
-            <div class="car-grid">
-                <!-- Car 1 -->
-                <div class="car-card">
-                    <div class="status-badge status-ready">Ready to Ship</div>
-                    <div class="grade-badge">Grade 4.5</div>
-                    <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=2069&auto=format&fit=crop" alt="Toyota Vitz Safety Ed." class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Toyota Vitz Safety Ed.</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2019</span>
-                            <span><i class="fa-solid fa-road"></i> 42k km</span>
-                            <span><i class="fa-solid fa-gas-pump"></i> 1.0L</span>
-                        </div>
-                        <span class="car-price">LKR 7,800,000</span>
-                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(1)">View Details</button>
-                    </div>
-                </div>
-
-                <!-- Car 2 -->
-                <div class="car-card">
-                    <div class="status-badge status-transit">In Transit</div>
-                    <div class="grade-badge">Grade 5.0</div>
-                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Honda Civic Turbo RS" class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Honda Civic Turbo RS</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2021</span>
-                            <span><i class="fa-solid fa-road"></i> 12k km</span>
-                            <span><i class="fa-solid fa-bolt"></i> Auto</span>
-                        </div>
-                        <span class="car-price" style="color:#333">Call for Price</span>
-                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(2)">View Details</button>
-                    </div>
-                </div>
-
-                <!-- Car 3 -->
-                <div class="car-card">
-                    <div class="status-badge status-arrived">Arrived in SL</div>
-                    <div class="grade-badge">Grade 3.5</div>
-                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=2574&auto=format&fit=crop" alt="Nissan X-Trail Hybrid" class="car-image">
-                    <div class="car-details">
-                        <h3 class="car-title">Nissan X-Trail Hybrid</h3>
-                        <div class="car-specs">
-                            <span><i class="fa-solid fa-calendar"></i> 2016</span>
-                            <span><i class="fa-solid fa-road"></i> 85k km</span>
-                            <span><i class="fa-solid fa-leaf"></i> Hybrid</span>
-                        </div>
-                        <span class="car-price">LKR 8,900,000</span>
-                        <button class="btn btn-outline" style="width: 100%; display:block; padding: 10px;" onclick="openFeaturedModal(3)">View Details</button>
-                    </div>
-                </div>
-            </div>
+            <div class="car-grid" id="featuredGrid"></div>
 
             <div style="text-align: center;">
                 <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
@@ -1111,5 +1060,60 @@
             });
         }
     </script>
+
+    <script type="module">
+    import { getFeaturedCars, urlFor } from './js/sanity-client.js';
+
+    async function loadFeatured() {
+        const grid = document.getElementById('featuredGrid');
+        
+        try {
+            const cars = await getFeaturedCars();
+            
+            if (cars.length === 0) {
+                grid.innerHTML = '<p>No featured cars available right now.</p>';
+                return;
+            }
+
+            grid.innerHTML = cars.map(car => {
+                // Image handling with fallback
+                const imageUrl = car.images && car.images.length > 0 
+                    ? urlFor(car.images[0]).width(600).url() 
+                    : 'https://via.placeholder.com/600x400?text=No+Image';
+
+                // Price logic
+                const priceDisplay = car.hidePrice 
+                    ? "Call for Price" 
+                    : `LKR ${car.price.toLocaleString()}`;
+
+                // Status Logic (matching your CSS classes)
+                let statusClass = 'status-ready';
+                if (car.status === 'In Transit') statusClass = 'status-transit';
+                if (car.status === 'Arrived in SL') statusClass = 'status-arrived';
+
+                return `
+                <div class="car-card">
+                    <div class="status-badge ${statusClass}">${car.status}</div>
+                    <img src="${imageUrl}" alt="${car.title}" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">${car.title}</h3>
+                        <div class="car-specs">
+                            <span><i class="fa-solid fa-calendar"></i> ${car.year}</span>
+                            <span><i class="fa-solid fa-road"></i> ${car.mileage}</span>
+                            <span><i class="fa-solid fa-gas-pump"></i> ${car.engine}</span>
+                        </div>
+                        <span class="car-price">${priceDisplay}</span>
+                        <a href="cars.html" class="btn btn-outline" style="width: 100%; display:block; padding: 10px; text-align:center;">View Details</a>
+                    </div>
+                </div>`;
+            }).join('');
+            
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    loadFeatured();
+</script>
 </body>
 </html>

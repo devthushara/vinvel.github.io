@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Vinvel Motor Trading</title>
+    
+    <!-- Fonts & Icons (Matches Main Site) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- INHERITED STYLES FROM INDEX.HTML --- */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            --secondary-dark: #0a0a0a;
+            --text-dark: #1A1A1A;
+            --text-grey: #444444;
+            --bg-light: #F8F9FA;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
+        body { background-color: var(--white); color: var(--text-grey); line-height: 1.7; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- HEADER & FOOTER (Keep Consistent) --- */
+        header { padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 100; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo img { height: 48px; }
+        
+        /* --- LEGAL CONTENT STYLES --- */
+        .legal-header {
+            background: var(--bg-light);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .legal-header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        .legal-header p { color: #666; font-size: 1.1rem; }
+        
+        .legal-content { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+        .legal-section { margin-bottom: 40px; }
+        .legal-section h2 { font-size: 1.5rem; margin-bottom: 15px; color: #6600FF; }
+        .legal-section h3 { font-size: 1.1rem; margin-bottom: 10px; font-weight: 600; margin-top: 20px; }
+        .legal-section p { margin-bottom: 15px; text-align: justify; }
+        .legal-section ul { list-style: disc; padding-left: 20px; margin-bottom: 20px; }
+        .legal-section li { margin-bottom: 8px; }
+
+        .last-updated { 
+            font-size: 0.9rem; 
+            color: #888; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 20px; 
+            margin-bottom: 40px; 
+        }
+
+        /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
+        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
+        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+        .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.4rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
+        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
+        .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+        .footer-meta i { font-size: 0.9rem; color: #7c8cff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; }
+        .footer-links a::before { content: none; }
+        .footer-links a:hover { color: #ffffff; transform: translateX(2px); }
+        .footer-links i { width: 16px; text-align: center; color: #7c8cff; }
+        .footer-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #9aa2c0; margin-bottom: 6px; }
+        .footer-pill i { color: #7c8cff; font-size: 0.8rem; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #8d93aa; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: 16px; flex-wrap: wrap; }
+        .footer-bottom a { color: #a4aac4; }
+        .footer-bottom a:hover { color: #ffffff; }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            footer { padding: 40px 0 24px; }
+            .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+            .footer-logo-text { font-size: 1.9rem; }
+            .footer-bottom { flex-direction: column-reverse; align-items: flex-start; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Logo" style="height:50px;"></a>
+            <a href="index.html" style="font-weight:600; color:#333;">&larr; Back to Home</a>
+        </div>
+    </header>
+
+    <section class="legal-header">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Transparency on how we handle your data in accordance with Sri Lankan Law.</p>
+        </div>
+    </section>
+
+    <div class="legal-content">
+        <div class="last-updated">Last Updated: November 2025</div>
+
+        <div class="legal-section">
+            <h2>1. Introduction</h2>
+            <p>Vinvel Motor Trading (Pvt) Ltd ("Vinvel", "we", "us") respects your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and safeguard your information when you visit our website or use our vehicle importation services.</p>
+            <p>This policy is drafted in compliance with the <strong>Personal Data Protection Act, No. 9 of 2022 (Sri Lanka)</strong> and relevant international standards regarding data privacy.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>2. Data We Collect</h2>
+            <p>We collect specific information required to facilitate vehicle importation, broker registration, and customer inquiries:</p>
+            <ul>
+                <li><strong>Identity Data:</strong> Name, NIC number, or Passport number (required for Customs clearance).</li>
+                <li><strong>Contact Data:</strong> WhatsApp number, email address, and physical address.</li>
+                <li><strong>Transaction Data:</strong> Details of payments made for vehicle deposits, LC (Letter of Credit) documentation, and bank transfer references.</li>
+                <li><strong>Technical Data:</strong> IP address, browser type, and device information when you access our website.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2>3. How We Use Your Data</h2>
+            <p>Your data is strictly used for legitimate business purposes:</p>
+            <ul>
+                <li><strong>Import Processing:</strong> Submitting your details to Sri Lanka Customs, Department of Motor Traffic (RMV), and shipping lines to clear your vehicle.</li>
+                <li><strong>Communication:</strong> Sending auction sheets, vehicle videos, and shipping updates via WhatsApp or Email.</li>
+                <li><strong>Broker Verification:</strong> Validating dealer identities for our wholesale partner program.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2>4. Data Sharing & Third Parties</h2>
+            <p>We do not sell your data to marketing agencies. However, we must share specific data with the following authorities to complete your vehicle import:</p>
+            <ul>
+                <li>Sri Lanka Customs & Port Authority.</li>
+                <li>Department of Motor Traffic (RMV) for registration.</li>
+                <li>Banking partners (HNB, CDB, etc.) for Letter of Credit (LC) facilitation.</li>
+                <li>Japanese auction houses (USS, TAA, ARAI) for bidder verification.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2>5. Data Retention & Security</h2>
+            <p>We retain transaction records for a period of 6 years as required by the <strong>Inland Revenue Act</strong> of Sri Lanka for tax auditing purposes. Electronic data is stored on secure, encrypted servers (Sanity CMS / Google Cloud) with restricted access.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>6. Your Rights</h2>
+            <p>Under the Sri Lankan Data Protection Act, you have the right to:</p>
+            <ul>
+                <li>Request access to the personal data we hold about you.</li>
+                <li>Request correction of inaccurate data.</li>
+                <li>Request erasure of data (subject to legal tax/customs retention requirements).</li>
+            </ul>
+            <p>To exercise these rights, please contact our Data Protection Officer at <strong>vinvelmotortrading@gmail.com</strong>.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>7. Contact Us</h2>
+            <p>For any privacy-related inquiries:</p>
+            <p><strong>Vinvel Motor Trading (Pvt) Ltd</strong><br>
+            459/D/S/3, Lake Road, Akuregoda,<br>
+            Battaramulla, Sri Lanka.<br>
+            Hotline: +94 77 622 66 55</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-pill"><i class="fa-solid fa-shield-halved"></i>Direct from Japan</div>
+                    <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
+                    <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
+                    <div class="footer-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
+                        <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
+                    </div>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cars.html">Inventory</a></li>
+                        <li><a href="#process">How it Works</a></li>
+                        <li><a href="#broker">Dealer Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
+                        <li><a href="https://wa.me/94714878393"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="tnc.html"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
+                        <li><a href="privacy.html"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                        <li><a href="auction_disclaimer.html"><i class="fa-solid fa-user-shield"></i> Auction Grade Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Social</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/vinvelsl"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2025 Vinvel Motor Trading (Pvt) Ltd. All rights reserved.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Auction Calendar</a>
+                    <a href="#">Dealer Onboarding</a>
+                    <a href="#">Legal &amp; Compliance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

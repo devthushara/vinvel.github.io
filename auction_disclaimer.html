@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Disclaimer | Vinvel Motor Trading</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CONSISTENT STYLING */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            --text-dark: #1A1A1A;
+            --text-grey: #444444;
+            --bg-light: #F8F9FA;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
+        body { color: var(--text-grey); line-height: 1.7; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header { padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); }
+        .legal-header { background: var(--bg-light); padding: 80px 0; text-align: center; }
+        .legal-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        
+        .legal-content { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
+        .grade-box { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+        .grade-item { flex: 1; min-width: 250px; background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .grade-badge { background: #6600FF; color: white; padding: 5px 10px; border-radius: 4px; font-weight: 700; font-size: 0.9rem; }
+        
+        .disclaimer-text { border-left: 4px solid #6600FF; padding-left: 20px; margin: 30px 0; font-style: italic; background: #f9f9ff; padding: 20px; border-radius: 0 8px 8px 0; }
+
+        /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
+        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
+        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+        .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
+        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.4rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
+        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
+        .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+        .footer-meta i { font-size: 0.9rem; color: #7c8cff; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; }
+        .footer-links a::before { content: none; }
+        .footer-links a:hover { color: #ffffff; transform: translateX(2px); }
+        .footer-links i { width: 16px; text-align: center; color: #7c8cff; }
+        .footer-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #9aa2c0; margin-bottom: 6px; }
+        .footer-pill i { color: #7c8cff; font-size: 0.8rem; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #8d93aa; flex-wrap: wrap; }
+        .footer-bottom-links { display: flex; gap: 16px; flex-wrap: wrap; }
+        .footer-bottom a { color: #a4aac4; }
+        .footer-bottom a:hover { color: #ffffff; }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            footer { padding: 40px 0 24px; }
+            .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+            .footer-logo-text { font-size: 1.9rem; }
+            .footer-bottom { flex-direction: column-reverse; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Logo" style="height:50px;"></a>
+            <a href="index.html" style="font-weight:600; color:#333;">&larr; Back to Home</a>
+        </div>
+    </header>
+
+    <section class="legal-header">
+        <div class="container">
+            <h1>Auction Grade Disclaimer</h1>
+            <p>Understanding the Japanese Auction Inspection System</p>
+        </div>
+    </section>
+
+    <div class="legal-content">
+        
+        <div class="disclaimer-text">
+            <strong>Legal Disclaimer:</strong> Vinvel Motor Trading acts as a bridge between the Japanese Auction Houses and the Sri Lankan buyer. We do not inspect the cars physically ourselves. All information provided is based on the inspection report (Auction Sheet) generated by the respective auction house (USS, TAA, ARAI, etc.).
+        </div>
+
+        <h2>1. Understanding Grades</h2>
+        <p>Japanese vehicles are graded based on exterior and interior condition. While highly reliable, these grades are subjective.</p>
+        
+        <div class="grade-box">
+            <div class="grade-item">
+                <span class="grade-badge">Grade S / 6 / 5</span>
+                <h3 style="margin-top:10px;">Brand New / Like New</h3>
+                <p style="font-size:0.9rem;">The vehicle is generally less than 12 months old with under 10,000km. Virtually no scratches or dents.</p>
+            </div>
+            <div class="grade-item">
+                <span class="grade-badge">Grade 4.5</span>
+                <h3 style="margin-top:10px;">Excellent Condition</h3>
+                <p style="font-size:0.9rem;">Very clean. May have tiny, barely visible scratches that do not require repair. The industry standard for high-quality used imports.</p>
+            </div>
+            <div class="grade-item">
+                <span class="grade-badge">Grade 4.0</span>
+                <h3 style="margin-top:10px;">Good Condition</h3>
+                <p style="font-size:0.9rem;">Solid condition but may have noticeable scratches, dimples, or interior wear consistent with age. Normal for cars 5+ years old.</p>
+            </div>
+            <div class="grade-item">
+                <span class="grade-badge">Grade R / RA</span>
+                <h3 style="margin-top:10px;">Repaired History</h3>
+                <p style="font-size:0.9rem;">The car has had an accident history that was repaired. Vinvel generally advises checking these carefully before bidding.</p>
+            </div>
+        </div>
+
+        <h2>2. Translation Accuracy</h2>
+        <p>We provide English translations of Japanese auction sheets. While we strive for 100% accuracy, we cannot be held liable for:</p>
+        <ul>
+            <li>Translation nuances where a Japanese inspector's specific comment (e.g., "noise from engine") is interpreted subjectively.</li>
+            <li>Defects not recorded on the sheet (e.g., electronic glitches in navigation systems).</li>
+        </ul>
+
+        <h2>3. Shipping & Logistics Damage</h2>
+        <p>The Auction Grade reflects the condition <strong>at the time of auction</strong>. Vinvel is not liable for:</p>
+        <ul>
+            <li>Minor scratches or scuffs that occur during transport (on the ship or at the Hambantota/Colombo port).</li>
+            <li>Battery depletion during long sea transit times.</li>
+            <li>Missing accessories (SD cards, floor mats) that may be removed at the port by third parties (though rare, this is a risk in international shipping).</li>
+        </ul>
+
+    </div>
+
+   <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-pill"><i class="fa-solid fa-shield-halved"></i>Direct from Japan</div>
+                    <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
+                    <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
+                    <div class="footer-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
+                        <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
+                    </div>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cars.html">Inventory</a></li>
+                        <li><a href="#process">How it Works</a></li>
+                        <li><a href="#broker">Dealer Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
+                        <li><a href="https://wa.me/94714878393"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="tnc.html"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
+                        <li><a href="privacy.html"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                        <li><a href="auction_disclaimer.html"><i class="fa-solid fa-user-shield"></i> Auction Grade Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-links">
+                    <h3>Social</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/vinvelsl"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2025 Vinvel Motor Trading (Pvt) Ltd. All rights reserved.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Auction Calendar</a>
+                    <a href="#">Dealer Onboarding</a>
+                    <a href="#">Legal &amp; Compliance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

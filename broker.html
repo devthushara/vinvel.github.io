@@ -2,39 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vehicle Inventory</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&family=Space+Mono:wght@400;700&family=Poppins:wght@400;600;700&family=Lora:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Space+Mono:wght@400;700&family=Poppins:wght@400;600;700&family=Lora:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* --- THEME ENGINE --- */
         :root {
+            /* Colors */
             --primary: #333333; 
-            --bg-color: #f8f9fa;
+            --body-bg: #f8f9fa;
+            --header-bg: #ffffff;
+            --footer-bg: #ffffff;
             --card-bg: #ffffff;
+            
+            /* Text Colors */
             --text-main: #1a1a1a;
             --text-sec: #666666;
+            --text-header: #1a1a1a; 
+            --text-footer: #1a1a1a;
+
             --border-color: rgba(0,0,0,0.08);
             --font-head: 'Inter', sans-serif;
             --font-body: 'Inter', sans-serif;
             --radius: 12px;
             --sidebar-width: 280px;
             --shadow-card: 0 4px 20px rgba(0,0,0,0.06);
+            
+            /* Dynamic Grid */
+            --grid-cols: 3; 
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-body); transition: 0.3s; min-height: 100vh; display: flex; flex-direction: column; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--body-bg); color: var(--text-main); font-family: var(--font-body); transition: 0.3s; min-height: 100vh; display: flex; flex-direction: column; }
         h1, h2, h3, h4, button, input, select { font-family: var(--font-head); }
         
         /* --- HEADER --- */
         header { 
-            background: var(--card-bg); 
-            padding: 16px 0; 
-            box-shadow: 0 4px 25px rgba(0,0,0,0.04); 
+            background: var(--header-bg); color: var(--text-header);
+            padding: 16px 0; box-shadow: 0 4px 25px rgba(0,0,0,0.04); 
             position: sticky; top: 0; z-index: 100;
             border-bottom: 3px solid var(--primary);
         }
@@ -52,7 +62,7 @@
         }
         .contact-btn:hover { filter: brightness(115%); transform: translateY(-2px); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero-section {
             background-size: cover; background-position: center;
             padding: 100px 20px; text-align: center; color: white;
@@ -63,32 +73,23 @@
         .hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0,0,0,0.5); line-height: 1.1; }
         .hero-desc { font-size: 1.2rem; opacity: 0.9; }
 
-        /* --- LAYOUT GRID --- */
-        .main-wrapper { 
-            display: grid; gap: 30px; 
-            padding: 30px 0 60px; 
-            align-items: start;
-        }
-        
-        /* Layout Modes */
+        /* --- LAYOUT --- */
+        .main-wrapper { display: grid; gap: 30px; padding: 30px 0 60px; align-items: start; }
         body.layout-sidebar .main-wrapper { grid-template-columns: var(--sidebar-width) 1fr; }
         body.layout-top .main-wrapper { grid-template-columns: 1fr; }
 
-        /* --- FILTER PANEL --- */
+        /* --- FILTERS --- */
         .filter-zone {
             background: var(--card-bg); padding: 20px; border-radius: var(--radius);
             border: 1px solid var(--border-color);
         }
-        /* Card Style Logic */
         body.style-shadow .filter-zone { box-shadow: var(--shadow-card); border: none; }
         body.style-flat .filter-zone { box-shadow: none; border: 1px solid var(--border-color); }
 
-        /* Sidebar Styling */
         body.layout-sidebar .filter-zone { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 20px; }
-        body.layout-sidebar .filter-row { flex-direction: column; width: 100%; align-items: stretch; display: flex; gap: 15px; }
+        body.layout-sidebar .filter-row { flex-direction: column; width: 100%; display: flex; gap: 15px; }
         body.layout-sidebar .filter-select, body.layout-sidebar .search-input { width: 100%; }
         
-        /* Topbar Styling */
         body.layout-top .filter-zone { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
         body.layout-top .filter-row { display: flex; gap: 10px; }
 
@@ -96,19 +97,23 @@
         .search-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-sec); opacity: 0.7; }
         .search-input {
             width: 100%; padding: 12px 12px 12px 40px; border-radius: var(--radius);
-            border: 1px solid var(--border-color); background: var(--bg-color);
+            border: 1px solid var(--border-color); background: var(--body-bg);
             color: var(--text-main); font-size: 0.95rem; outline: none;
         }
         .filter-select {
             padding: 12px 16px; border-radius: var(--radius); border: 1px solid var(--border-color);
-            background: var(--bg-color); color: var(--text-main); font-size: 0.9rem;
+            background: var(--body-bg); color: var(--text-main); font-size: 0.9rem;
             outline: none; cursor: pointer; min-width: 140px;
         }
         .filter-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sec); margin-bottom: 6px; display: block; letter-spacing: 0.05em; }
         body.layout-top .filter-label { display: none; } 
 
         /* --- CAR GRID --- */
-        .inventory-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); width: 100%; }
+        .inventory-grid { 
+            display: grid; gap: 24px; 
+            grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); 
+            width: 100%; 
+        }
         
         /* --- CARD --- */
         .card { 
@@ -119,25 +124,44 @@
         body.style-flat .card { box-shadow: none; border: 1px solid var(--border-color); }
 
         .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card-img-box { position: relative; overflow: hidden; aspect-ratio: 16/10; background: #eee; }
+        .card-img-box { position: relative; overflow: hidden; aspect-ratio: 16/10; background: #eee; cursor: pointer; }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .card:hover .card-img { transform: scale(1.05); }
+        
         .status-badge { 
             position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.85); color: white; 
-            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; backdrop-filter: blur(4px); text-transform: uppercase;
+            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; 
+            backdrop-filter: blur(4px); text-transform: uppercase;
+            z-index: 10; pointer-events: none;
         }
+        
         .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
         .card-title { font-size: 1.05rem; margin-bottom: 8px; font-weight: 700; line-height: 1.4; color: var(--text-main); height: 2.8em; overflow: hidden; }
         .specs-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; font-size: 0.8rem; color: var(--text-sec); }
-        .spec-item { background: var(--bg-color); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 5px; border: 1px solid var(--border-color); }
+        .spec-item { background: var(--body-bg); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 5px; border: 1px solid var(--border-color); }
+        
         .price-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .price { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+        .price-stack { display: flex; flex-direction: column; justify-content: center; }
+        .price { font-size: 1.25rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+        .price-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-sec); letter-spacing: 0.05em; margin-bottom: 2px; display: block; }
+        
         .btn-whatsapp-card {
-            background: #25D366; color: white; border: none; width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: 0.2s; text-decoration: none;
+            background: #25D366; color: white; border: none; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.2s; text-decoration: none;
         }
 
-        /* --- STICKY WHATSAPP --- */
+        /* --- PAGINATION --- */
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; grid-column: 1 / -1; }
+        .page-btn {
+            background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-weight: 600; font-size: 0.9rem;
+        }
+        .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn.disabled { opacity: 0.5; cursor: default; pointer-events: none; }
+
+        /* --- STICKY WA --- */
         .sticky-wa {
             position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
             background: #25D366; color: white; border-radius: 50%;
@@ -156,29 +180,119 @@
         .modal-gallery img { width: 100%; height: 100%; object-fit: contain; }
         .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; cursor: pointer; font-size: 1.2rem; }
         .prev-btn { left: 0; } .next-btn { right: 0; }
-        .modal-info { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
+        .modal-info { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; color: var(--text-main); }
         .modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-main); }
         .modal-price { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 10px 0 20px; display: block; }
         .modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
-        .modal-spec-item { background: var(--bg-color); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .modal-spec-item { background: var(--body-bg); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); }
         .spec-label { display: block; font-size: 0.75rem; color: var(--text-sec); text-transform: uppercase; }
         .spec-value { display: block; font-size: 1rem; color: var(--text-main); font-weight: 600; }
         .btn-modal-wa { background: #25D366; color: white; text-decoration: none; padding: 14px; border-radius: 999px; font-weight: 600; font-size: 1.1rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
 
-        /* --- FOOTER --- */
-        footer { background: var(--card-bg); padding: 60px 0 30px; border-top: 1px solid var(--border-color); margin-top: auto; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
-        .copyright { text-align: center; color: var(--text-sec); font-size: 0.85rem; padding-top: 20px; border-top: 1px solid var(--border-color); margin-top: 40px; }
-        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
-        .social-icons a { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
-        .social-icons a:hover { background: var(--primary); color: white; }
+        /* --- FOOTER (PROFESSIONAL) --- */
+        footer { 
+            background: var(--footer-bg); 
+            color: var(--text-footer); 
+            padding: 80px 0 30px; 
+            border-top: 1px solid var(--border-color); 
+            margin-top: auto; 
+            font-size: 0.9rem;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1.5fr; 
+            gap: 60px; 
+            margin-bottom: 60px; 
+        }
+        
+        .footer-brand-col h2 { font-size: 1.8rem; margin-bottom: 20px; letter-spacing: -0.02em; color: var(--text-footer); }
+        .footer-desc { opacity: 0.7; line-height: 1.6; max-width: 350px; margin-bottom: 25px; }
+        
+        .footer-col h3 { 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            font-weight: 700; 
+            opacity: 0.5; 
+            margin-bottom: 25px; 
+        }
 
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: inherit; opacity: 0.8; text-decoration: none; transition: 0.2s; }
+        .footer-links a:hover { opacity: 1; color: var(--primary); transform: translateX(5px); display:inline-block; }
+
+        .footer-contact { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+        .footer-contact li { display: flex; gap: 15px; align-items: flex-start; }
+        .footer-contact i { 
+            font-size: 1.1rem; 
+            color: var(--primary); 
+            background: rgba(128,128,128,0.1); 
+            width: 40px; height: 40px; 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .footer-contact .label { display: block; font-size: 0.75rem; opacity: 0.5; text-transform: uppercase; margin-bottom: 2px; }
+        .footer-contact .value { font-weight: 600; display: block; line-height: 1.3; }
+        .footer-contact a.value { text-decoration: none; color: inherit; transition:0.2s; }
+        .footer-contact a.value:hover { color: var(--primary); }
+
+        .footer-bottom { 
+            border-top: 1px solid rgba(128,128,128,0.1); 
+            padding-top: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            text-align: center; 
+        }
+        .disclaimer { font-size: 0.8rem; opacity: 0.6; max-width: 800px; margin: 0 auto; line-height: 1.5; }
+        .copyright { font-size: 0.85rem; opacity: 0.4; }
+
+        .social-icons { display: flex; gap: 12px; }
+        .social-icons a { 
+            width: 40px; height: 40px; 
+            border-radius: 50%; 
+            background: rgba(128,128,128,0.1); 
+            color: inherit; 
+            display: flex; align-items: center; justify-content: center; 
+            transition: 0.2s; 
+            text-decoration: none; 
+        }
+        .social-icons a:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 900px) {
             body.layout-sidebar .main-wrapper { grid-template-columns: 1fr; }
             body.layout-sidebar .filter-zone { position: static; }
             .modal-content { flex-direction: column; }
             .modal-gallery { height: 35vh; flex: none; }
-            .footer-grid { grid-template-columns: 1fr; }
+            
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-brand-col { text-align: center; display: flex; flex-direction: column; align-items: center; }
+            .footer-desc { text-align: center; }
+            .footer-col { text-align: center; }
+            .footer-contact li { flex-direction: column; align-items: center; text-align: center; }
+        }
+
+        /* --- STRICT MOBILE VIEW --- */
+        @media (max-width: 600px) {
+            /* Force 1 Column on Mobile regardless of config */
+            .inventory-grid { grid-template-columns: 1fr !important; }
+            
+            /* Stack Filters nicely */
+            body.layout-top .filter-zone { flex-direction: column; align-items: stretch; }
+            body.layout-top .filter-row { flex-direction: column; width: 100%; gap: 12px; }
+            
+            /* Typography Scale Down */
+            .hero-title { font-size: 2rem; }
+            .card-title { font-size: 1.1rem; }
+            
+            /* Larger Touch Targets */
+            .contact-btn, .filter-select, .search-input { min-height: 48px; }
+            
+            /* Adjust sticky button position */
+            .sticky-wa { bottom: 20px; right: 20px; width: 55px; height: 55px; }
         }
     </style>
 </head>
@@ -227,15 +341,17 @@
                     </select>
                 </div>
             </div>
-            
             <div style="font-size: 0.85rem; color: var(--text-sec); font-weight: 600;" id="resultCount">Loading...</div>
         </aside>
 
-        <main id="inventoryContainer" class="inventory-grid">
-            <div style="text-align: center; padding: 60px; grid-column: 1/-1;">
-                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-                <p style="margin-top:10px; color:var(--text-sec);">Loading Inventory...</p>
+        <main>
+            <div id="inventoryContainer" class="inventory-grid">
+                <div style="text-align: center; padding: 60px; grid-column: 1/-1;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                    <p style="margin-top:10px; color:var(--text-sec);">Loading Inventory...</p>
+                </div>
             </div>
+            <div id="pagination" class="pagination"></div>
         </main>
     </div>
 
@@ -273,31 +389,60 @@
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <div>
-                    <h2 id="footerName" style="color:var(--text-main); margin-bottom:15px;">Broker Name</h2>
-                    <p style="color:var(--text-sec); font-size:0.9rem;">We help you import high-quality vehicles directly from Japan with total transparency.</p>
+                <div class="footer-brand-col">
+                    <h2 id="footerName">Broker Name</h2>
+                    <p class="footer-desc">Your trusted partner for importing premium Japanese vehicles. We ensure quality, transparency, and seamless delivery to your doorstep.</p>
                     <div class="social-icons" id="socialBox">
                         <a href="#" id="fbLink" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="#" id="igLink" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                 </div>
-                <div>
-                    <h3 style="color:var(--text-main); margin-bottom:15px; font-size:0.9rem;">CONTACT</h3>
-                    <ul style="list-style:none; padding:0; color:var(--text-sec); font-size:0.9rem;">
-                        <li style="margin-bottom:10px;"><i class="fa-solid fa-phone"></i> <span id="footerPhone">...</span></li>
-                        <li style="margin-bottom:10px;"><i class="fa-solid fa-envelope"></i> <a href="#" id="footerEmailLink" style="color:inherit; text-decoration:none;"><span id="footerEmail">...</span></a></li>
-                        <li><i class="fa-solid fa-location-dot"></i> <span id="footerAddress">...</span></li>
+
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Inventory</a></li>
+                        <li><a href="#">Auction Sheet Guide</a></li>
+                        <li><a href="#">Import Process</a></li>
+                        <li><a href="#">Contact Support</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 style="color:var(--text-main); margin-bottom:15px; font-size:0.9rem;">ABOUT</h3>
-                    <p id="footerDisclaimer" style="color:var(--text-sec); font-size:0.85rem; line-height:1.6;">
-                        All vehicles are sourced from verified auctions. Prices subject to change based on exchange rates.
-                    </p>
+
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fa-solid fa-phone"></i> 
+                            <div>
+                                <span class="label">Call / WhatsApp</span>
+                                <span id="footerPhone" class="value">...</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i> 
+                            <div>
+                                <span class="label">Email</span>
+                                <a href="#" id="footerEmailLink" class="value"><span id="footerEmail">...</span></a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i> 
+                            <div>
+                                <span class="label">Office</span>
+                                <span id="footerAddress" class="value">...</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; <script>document.write(new Date().getFullYear())</script> <span id="copyrightName">Broker Name</span>
+
+            <div class="footer-bottom">
+                <div class="disclaimer">
+                    <p id="footerDisclaimer">All vehicles are sourced from verified auctions. Prices subject to change based on exchange rates.</p>
+                </div>
+                <div class="copyright">
+                    &copy; <script>document.write(new Date().getFullYear())</script> <span id="copyrightName">Broker Name</span>. All rights reserved.
+                </div>
             </div>
         </div>
     </footer>
@@ -306,26 +451,32 @@
         import { client, getInventory, getAuctionPicks, urlFor, getCarImages } from './js/sanity-client.js';
 
         let allCars = [], filteredCars = [], currentModalImages = [], currentModalIndex = 0;
+        let currentPage = 1;
         
-        // DEFAULTS
         const config = {
             name: "Premium Auto", phone: "", email: "info@broker.com", address: "Sri Lanka",
             primary: "#333333", bg: "#f8f9fa", font: "A", markup: 0, logo: "",
             layout: "top", filters: "top", hero: "", intro: "", sticky: false, hidePrice: false, cta: "View Details",
             corners: "round", dealer_id: "", cardStyle: "shadow",
-            fb: "", ig: "", disclaimer: ""
+            fb: "", ig: "", disclaimer: "",
+            headerBg: "#ffffff", footerBg: "#ffffff", cardBg: "#ffffff",
+            cols: 3, limit: 12
         };
 
         function initBrokerPage() {
             const params = new URLSearchParams(window.location.search);
             
-            // Map params
             if(params.has('name')) config.name = params.get('name');
             if(params.has('phone')) config.phone = params.get('phone');
             if(params.has('email')) config.email = params.get('email');
             if(params.has('address')) config.address = params.get('address');
+            
             if(params.has('primary')) config.primary = `#${params.get('primary').replace('#','')}`;
             if(params.has('bg')) config.bg = `#${params.get('bg').replace('#','')}`;
+            if(params.has('headerBg')) config.headerBg = `#${params.get('headerBg').replace('#','')}`;
+            if(params.has('footerBg')) config.footerBg = `#${params.get('footerBg').replace('#','')}`;
+            if(params.has('cardBg')) config.cardBg = `#${params.get('cardBg').replace('#','')}`;
+
             if(params.has('font')) config.font = params.get('font');
             if(params.has('markup')) config.markup = parseInt(params.get('markup')) || 0;
             if(params.has('logo')) config.logo = params.get('logo');
@@ -341,6 +492,9 @@
             if(params.has('fb')) config.fb = params.get('fb');
             if(params.has('ig')) config.ig = params.get('ig');
             if(params.has('disclaimer')) config.disclaimer = params.get('disclaimer');
+            
+            if(params.has('cols')) config.cols = parseInt(params.get('cols')) || 3;
+            if(params.has('limit')) config.limit = parseInt(params.get('limit')) || 12;
 
             applyLayout();
             fetchData();
@@ -349,47 +503,40 @@
         function applyLayout() {
             const root = document.documentElement;
             
-            // 1. Colors & Dark Mode Logic
             root.style.setProperty('--primary', config.primary);
-            root.style.setProperty('--bg-color', config.bg);
+            root.style.setProperty('--body-bg', config.bg);
+            root.style.setProperty('--header-bg', config.headerBg);
+            root.style.setProperty('--footer-bg', config.footerBg);
+            root.style.setProperty('--card-bg', config.cardBg);
+            root.style.setProperty('--grid-cols', config.cols);
             
             if(isColorDark(config.bg)) {
                 root.style.setProperty('--text-main', '#f0f0f0');
                 root.style.setProperty('--text-sec', '#aaaaaa');
-                root.style.setProperty('--card-bg', '#111827');
                 root.style.setProperty('--border-color', 'rgba(255,255,255,0.1)');
                 root.style.setProperty('--shadow-card', '0 4px 20px rgba(0,0,0,0.4)');
             } else {
                 root.style.setProperty('--text-main', '#1a1a1a');
                 root.style.setProperty('--text-sec', '#666666');
-                root.style.setProperty('--card-bg', '#ffffff');
                 root.style.setProperty('--border-color', 'rgba(0,0,0,0.08)');
                 root.style.setProperty('--shadow-card', '0 4px 20px rgba(0,0,0,0.06)');
             }
 
-            // 2. Styling (Fonts & Shapes)
-            const fontMap = {
-                'A': "'Inter', sans-serif",
-                'B': "'Playfair Display', serif",
-                'C': "'Space Mono', monospace",
-                'D': "'Poppins', sans-serif",
-                'E': "'Lora', serif",
-                'F': "'Oswald', sans-serif"
-            };
-            
-            // Set Body font (Default Inter unless override)
+            if(isColorDark(config.headerBg)) root.style.setProperty('--text-header', '#ffffff');
+            else root.style.setProperty('--text-header', '#1a1a1a');
+
+            if(isColorDark(config.footerBg)) root.style.setProperty('--text-footer', '#ffffff');
+            else root.style.setProperty('--text-footer', '#1a1a1a');
+
+            const fontMap = { 'A': "'Inter', sans-serif", 'B': "'Playfair Display', serif", 'C': "'Space Mono', monospace", 'D': "'Poppins', sans-serif", 'E': "'Lora', serif", 'F': "'Oswald', sans-serif" };
             root.style.setProperty('--font-body', "'Inter', sans-serif");
-            // Set Heading font
             root.style.setProperty('--font-head', fontMap[config.font] || fontMap['A']);
 
             if(config.corners === 'square') root.style.setProperty('--radius', '0px');
             else if(config.corners === 'pill') root.style.setProperty('--radius', '20px');
             else root.style.setProperty('--radius', '12px');
 
-            // 3. Class Toggles
             const bodyClasses = [];
-            
-            // Layout
             if(config.filters === 'sidebar') bodyClasses.push('layout-sidebar');
             else {
                 bodyClasses.push('layout-top');
@@ -398,22 +545,20 @@
                     if(fz) fz.style.display = 'none';
                 }
             }
-
-            // Card Style
             if(config.cardStyle === 'flat') bodyClasses.push('style-flat');
             else bodyClasses.push('style-shadow');
-
             document.body.className = bodyClasses.join(' ');
 
-            // 4. Content Visibility
-            safeSetDisplay('heroSection', config.hero ? 'block' : 'none');
+            const hero = document.getElementById('heroSection');
             if(config.hero) {
-                document.getElementById('heroSection').style.backgroundImage = `url('${config.hero}')`;
+                hero.style.display = 'block';
+                hero.style.backgroundImage = `url('${config.hero}')`;
                 safeSetText('heroTitle', config.intro || "Welcome");
                 safeSetText('heroDesc', config.name);
+            } else {
+                hero.style.display = 'none';
             }
 
-            // Sticky Button
             const sticky = document.getElementById('stickyWa');
             if(sticky) {
                 if(config.sticky && config.phone) {
@@ -424,7 +569,6 @@
                 }
             }
 
-            // Text Injections
             document.title = config.name;
             safeSetText('brokerName', config.name);
             safeSetText('footerName', config.name);
@@ -433,9 +577,9 @@
             safeSetText('footerAddress', config.address);
             safeSetText('footerPhone', config.phone || "Contact Us");
             
+            // Allow disclaimer to be overwritten or default
             if(config.disclaimer) safeSetText('footerDisclaimer', config.disclaimer);
 
-            // Links
             const headerBtn = document.getElementById('headerPhone');
             if(headerBtn) {
                 if(config.phone) {
@@ -449,13 +593,11 @@
             const emailLink = document.getElementById('footerEmailLink');
             if(emailLink) emailLink.href = `mailto:${config.email}`;
 
-            // Social
             const fbLink = document.getElementById('fbLink');
             const igLink = document.getElementById('igLink');
             if(config.fb) { fbLink.href = config.fb; fbLink.style.display = 'flex'; } else fbLink.style.display = 'none';
             if(config.ig) { igLink.href = config.ig; igLink.style.display = 'flex'; } else igLink.style.display = 'none';
 
-            // Logo
             if(config.logo) {
                 const logoImg = document.getElementById('brokerLogo');
                 const textLogo = document.getElementById('brokerName');
@@ -467,14 +609,7 @@
             }
         }
 
-        function safeSetText(id, text) {
-            const el = document.getElementById(id);
-            if(el) el.innerText = text;
-        }
-        function safeSetDisplay(id, val) {
-            const el = document.getElementById(id);
-            if(el) el.style.display = val;
-        }
+        function safeSetText(id, text) { const el = document.getElementById(id); if(el) el.innerText = text; }
 
         async function fetchData() {
             try {
@@ -494,7 +629,9 @@
         function renderInventory() {
             const container = document.getElementById('inventoryContainer');
             const countLabel = document.getElementById('resultCount');
+            const paginationEl = document.getElementById('pagination');
             if(container) container.innerHTML = '';
+            if(paginationEl) paginationEl.innerHTML = '';
 
             if (filteredCars.length === 0) {
                 if(container) container.innerHTML = `<div style="text-align:center; padding:40px; grid-column:1/-1;">No vehicles found.</div>`;
@@ -504,10 +641,18 @@
 
             if(countLabel) countLabel.innerText = `${filteredCars.length} Vehicles`;
 
-            filteredCars.forEach(car => {
+            const startIndex = (currentPage - 1) * config.limit;
+            const endIndex = startIndex + config.limit;
+            const pageData = filteredCars.slice(startIndex, endIndex);
+            const totalPages = Math.ceil(filteredCars.length / config.limit);
+
+            pageData.forEach(car => {
                 let priceDisplay = "Inquire for Price";
+                let showLabel = false; 
+                
                 if(!config.hidePrice && !car.hidePrice && car.price) {
                     priceDisplay = "LKR " + (car.price + config.markup).toLocaleString();
+                    showLabel = true;
                 }
 
                 const imageUrl = car.images && car.images.length > 0 
@@ -520,15 +665,15 @@
 
                 const html = `
                 <div class="card">
-                    <div class="card-img-box">
+                    <div class="card-img-box" onclick="window.openModal('${car._id}')">
                         <div class="${badgeClass}">${statusText}</div>
                         <img src="${imageUrl}" alt="${car.title}" class="card-img" loading="lazy">
                     </div>
                     <div class="card-body">
                         <div>
                             <div class="price-area" style="border:none; padding:0; margin:0 0 5px 0;">
-                                <div>
-                                    <span class="price-label">Price</span>
+                                <div class="price-stack">
+                                    ${showLabel ? `<span class="price-label">Price</span>` : ''}
                                     <span class="price" style="font-size:1.1rem">${priceDisplay}</span>
                                 </div>
                             </div>
@@ -547,6 +692,28 @@
                 </div>`;
                 container.innerHTML += html;
             });
+
+            if(totalPages > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = `page-btn ${currentPage === 1 ? 'disabled' : ''}`;
+                prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+                prevBtn.onclick = () => { if(currentPage > 1) { currentPage--; renderInventory(); window.scrollTo(0,0); }};
+                paginationEl.appendChild(prevBtn);
+
+                for(let i=1; i<=totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+                    btn.innerText = i;
+                    btn.onclick = () => { currentPage = i; renderInventory(); window.scrollTo(0,0); };
+                    paginationEl.appendChild(btn);
+                }
+
+                const nextBtn = document.createElement('button');
+                nextBtn.className = `page-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+                nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+                nextBtn.onclick = () => { if(currentPage < totalPages) { currentPage++; renderInventory(); window.scrollTo(0,0); }};
+                paginationEl.appendChild(nextBtn);
+            }
         }
 
         window.openModal = (id) => {
@@ -555,23 +722,17 @@
 
             safeSetText('modalTitle', car.title);
             safeSetText('modalRef', `REF: ${car._id.slice(-6).toUpperCase()}`);
-            
             let finalPrice = "Inquire for Price";
             if(!config.hidePrice && !car.hidePrice && car.price) {
                 finalPrice = "LKR " + (car.price + config.markup).toLocaleString();
             }
             safeSetText('modalPrice', finalPrice);
-
             ['Year','Mileage','Engine','Fuel','Trans','Grade'].forEach(f => {
                 safeSetText(`modal${f}`, car[f.toLowerCase()] || car[f] || '-');
             });
-
             safeSetText('modalCtaText', `Inquire about ${car.title}`);
             const btn = document.getElementById('modalWaBtn');
-            if(btn) btn.onclick = (e) => {
-                e.preventDefault();
-                window.openWa(car.title, car._id);
-            };
+            if(btn) btn.onclick = (e) => { e.preventDefault(); window.openWa(car.title, car._id); };
 
             currentModalImages = getCarImages(car.images);
             currentModalIndex = 0;
@@ -586,10 +747,7 @@
             window.open(url, '_blank');
         }
 
-        window.closeModal = () => {
-            const modal = document.getElementById('detailModal');
-            if(modal) modal.style.display = 'none';
-        }
+        window.closeModal = () => { document.getElementById('detailModal').style.display = 'none'; }
         
         window.changeSlide = (dir) => {
             currentModalIndex += dir;
@@ -620,6 +778,7 @@
                 const matchesStatus = status === 'All' || (car.sourceType === status);
                 return matchesSearch && matchesMake && matchesStatus;
             });
+            currentPage = 1;
             renderInventory();
         }
 

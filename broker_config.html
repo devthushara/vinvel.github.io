@@ -78,12 +78,14 @@
         input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(102, 0, 255, 0.1); }
         textarea { resize: vertical; min-height: 80px; }
 
-        .color-picker-row { display: flex; gap: 12px; align-items: center; }
-        input[type="color"] { width: 40px; height: 40px; border: none; background: none; cursor: pointer; padding: 0; }
+        .color-picker-row { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+        .color-label-small { font-size: 0.8rem; color: #666; width: 80px; }
+        input[type="color"] { width: 36px; height: 36px; border: none; background: none; cursor: pointer; padding: 0; }
         
         .toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .toggle-label { font-size: 0.9rem; font-weight: 500; }
         
+        /* Custom Checkbox Toggle */
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e5e7eb; transition: .4s; border-radius: 34px; }
@@ -204,9 +206,8 @@
             <div class="section">
                 <h3><i class="fa-solid fa-address-book"></i> Contact Info</h3>
                 <div class="input-group">
-                    <label>WhatsApp Number <i class="fa-solid fa-circle-info tooltip-icon" title="Required for the Floating WhatsApp Button."></i></label>
+                    <label>WhatsApp Number <i class="fa-solid fa-circle-info tooltip-icon" title="Required for the Floating WhatsApp Button. Numbers only."></i></label>
                     <input type="text" id="phone" placeholder="9477..." oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    <span class="help">Enter numbers only (e.g. 94771234567)</span>
                 </div>
                 <div class="input-group">
                     <label>Email Address</label>
@@ -228,19 +229,28 @@
 
             <div class="section">
                 <h3><i class="fa-solid fa-paintbrush"></i> Look & Feel</h3>
-                <div class="input-group color-picker-row">
-                    <div style="flex:1">
-                        <label>Accent Color</label>
-                        <input type="text" id="primaryText" value="#333333">
+                <div class="input-group">
+                    <label>Colors <i class="fa-solid fa-circle-info tooltip-icon" title="Set specific colors for different sections."></i></label>
+                    <div class="color-picker-row">
+                        <span class="color-label-small">Accent</span>
+                        <input type="color" id="primary" value="#333333">
                     </div>
-                    <input type="color" id="primary" value="#333333">
-                </div>
-                <div class="input-group color-picker-row">
-                    <div style="flex:1">
-                        <label>Background Color</label>
-                        <input type="text" id="bgText" value="#f8f9fa">
+                    <div class="color-picker-row">
+                        <span class="color-label-small">Body</span>
+                        <input type="color" id="bg" value="#f8f9fa">
                     </div>
-                    <input type="color" id="bg" value="#f8f9fa">
+                    <div class="color-picker-row">
+                        <span class="color-label-small">Header</span>
+                        <input type="color" id="headerBg" value="#ffffff">
+                    </div>
+                    <div class="color-picker-row">
+                        <span class="color-label-small">Footer</span>
+                        <input type="color" id="footerBg" value="#ffffff">
+                    </div>
+                    <div class="color-picker-row">
+                        <span class="color-label-small">Cards</span>
+                        <input type="color" id="cardBg" value="#ffffff">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Typography</label>
@@ -280,6 +290,20 @@
                         <option value="none">Hidden (Simple List)</option>
                     </select>
                 </div>
+                
+                <div class="input-group">
+                    <label>Grid Columns <i class="fa-solid fa-circle-info tooltip-icon" title="How many cars per row on desktop."></i></label>
+                    <select id="cols">
+                        <option value="2">2 Columns (Large Cards)</option>
+                        <option value="3" selected>3 Columns (Standard)</option>
+                        <option value="4">4 Columns (Compact)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Cars Per Page <i class="fa-solid fa-circle-info tooltip-icon" title="Items to show before pagination."></i></label>
+                    <input type="number" id="limit" value="12">
+                </div>
+
                 <div class="input-group">
                     <label>Hero Image <i class="fa-solid fa-circle-info tooltip-icon" title="Large banner image at top. Paste URL."></i></label>
                     <input type="text" id="hero" placeholder="https://...">
@@ -297,7 +321,7 @@
             <div class="section">
                 <h3><i class="fa-solid fa-coins"></i> Rules</h3>
                 <div class="input-group">
-                    <label>Price Markup (LKR)</label>
+                    <label>Price Markup (LKR) <i class="fa-solid fa-circle-info tooltip-icon" title="Automatically adds this amount to every car's displayed price."></i></label>
                     <input type="number" id="markup" value="0">
                 </div>
                 <div class="input-group">
@@ -313,7 +337,7 @@
                     </label>
                 </div>
                 <div class="toggle-row">
-                    <span class="toggle-label">Floating WhatsApp <i class="fa-solid fa-circle-info tooltip-icon" title="Requires a phone number above."></i></span>
+                    <span class="toggle-label">Floating WhatsApp <i class="fa-solid fa-circle-info tooltip-icon" title="Requires phone number."></i></span>
                     <label class="switch">
                         <input type="checkbox" id="sticky" checked>
                         <span class="slider"></span>
@@ -359,9 +383,9 @@
 
         // --- STATE ---
         const inputs = [
-            'name', 'phone', 'email', 'address', 'primary', 'bg', 'font', 'corners', 
-            'filters', 'hero', 'intro', 'markup', 'cta', 'logo', 'id', 'cardStyle',
-            'fb', 'ig', 'disclaimer'
+            'name', 'phone', 'email', 'address', 'primary', 'bg', 'headerBg', 'footerBg', 'cardBg',
+            'font', 'corners', 'filters', 'hero', 'intro', 'markup', 'cta', 'logo', 'id', 'cardStyle',
+            'fb', 'ig', 'disclaimer', 'cols', 'limit'
         ];
         const toggles = ['sticky', 'hidePrice'];
 
@@ -370,19 +394,9 @@
             const el = document.getElementById(id);
             if(el) {
                 el.addEventListener('input', updatePreview);
-                if(id === 'primary' || id === 'bg') {
-                    el.addEventListener('input', (e) => {
-                        document.getElementById(id + 'Text').value = e.target.value;
-                    });
-                }
+                // Also update on change for selects
+                el.addEventListener('change', updatePreview);
             }
-        });
-
-        ['primary', 'bg'].forEach(id => {
-            document.getElementById(id+'Text').addEventListener('change', (e) => {
-                document.getElementById(id).value = e.target.value;
-                updatePreview();
-            });
         });
 
         toggles.forEach(id => {
@@ -390,47 +404,46 @@
         });
 
         // --- PRESETS ---
-        // ADDED: Dummy Phone numbers to all presets so Sticky WhatsApp works instantly.
         const presets = {
             luxury: {
-                name: "Royal Imports", phone: "94777123456", primary: "#d4af37", bg: "#111827", font: "B", corners: "square",
+                name: "Royal Imports", phone: "94777123456", primary: "#d4af37", bg: "#111827", headerBg: "#0f111a", footerBg: "#0f111a", cardBg: "#1f2937", font: "B", corners: "square",
                 filters: "sidebar", markup: 500000, cta: "Reserve Now", hero: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600", intro: "Excellence in Motion", cardStyle: "flat",
-                fb: "https://facebook.com", ig: "https://instagram.com", disclaimer: "Premium sourcing only. All vehicles verified.", sticky: true, hidePrice: false
+                fb: "https://facebook.com", ig: "https://instagram.com", disclaimer: "Premium sourcing only. All vehicles verified.", sticky: true, hidePrice: false, cols: 3, limit: 9
             },
             sport: {
-                name: "Redline JDM", phone: "94711222333", primary: "#ef4444", bg: "#ffffff", font: "F", corners: "pill",
+                name: "Redline JDM", phone: "94711222333", primary: "#ef4444", bg: "#ffffff", headerBg: "#ffffff", footerBg: "#111111", cardBg: "#ffffff", font: "F", corners: "pill",
                 filters: "top", markup: 100000, cta: "Start Engine", hero: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600", intro: "Pure Performance", cardStyle: "shadow",
-                fb: "", ig: "", disclaimer: "", sticky: true, hidePrice: false
+                fb: "", ig: "", disclaimer: "", sticky: true, hidePrice: false, cols: 3, limit: 12
             },
             eco: {
-                name: "GreenDrive Solutions", phone: "94701234567", primary: "#10b981", bg: "#ecfdf5", font: "A", corners: "round",
+                name: "GreenDrive Solutions", phone: "94701234567", primary: "#10b981", bg: "#ecfdf5", headerBg: "#d1fae5", footerBg: "#047857", cardBg: "#ffffff", font: "A", corners: "round",
                 filters: "sidebar", markup: 50000, cta: "Go Electric", hero: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600", intro: "Sustainable Mobility", cardStyle: "flat",
-                fb: "", ig: "", disclaimer: "We plant a tree for every car sold.", sticky: true, hidePrice: false
+                fb: "", ig: "", disclaimer: "We plant a tree for every car sold.", sticky: true, hidePrice: false, cols: 2, limit: 8
             },
             night: {
-                name: "NightRider Auto", phone: "94760000000", primary: "#8b5cf6", bg: "#000000", font: "C", corners: "square",
+                name: "NightRider Auto", phone: "94760000000", primary: "#8b5cf6", bg: "#000000", headerBg: "#111111", footerBg: "#111111", cardBg: "#111111", font: "C", corners: "square",
                 filters: "none", markup: 200000, cta: "Acquire", hero: "", intro: "", cardStyle: "flat",
-                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: true
+                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: true, cols: 4, limit: 16
             },
             corporate: {
-                name: "Trust Capital Motors", phone: "94112345678", primary: "#1e40af", bg: "#f1f5f9", font: "A", corners: "square",
+                name: "Trust Capital Motors", phone: "94112345678", primary: "#1e40af", bg: "#f1f5f9", headerBg: "#ffffff", footerBg: "#1e3a8a", cardBg: "#ffffff", font: "A", corners: "square",
                 filters: "sidebar", markup: 75000, cta: "Inquire", hero: "", intro: "", cardStyle: "shadow",
-                fb: "https://fb.com", ig: "", disclaimer: "Serving corporate fleets since 2010.", sticky: true, hidePrice: false
+                fb: "https://fb.com", ig: "", disclaimer: "Serving corporate fleets since 2010.", sticky: true, hidePrice: false, cols: 3, limit: 12
             },
             retro: {
-                name: "Classic & Vintage", phone: "94722222222", primary: "#78350f", bg: "#fffbeb", font: "E", corners: "round",
+                name: "Classic & Vintage", phone: "94722222222", primary: "#78350f", bg: "#fffbeb", headerBg: "#fef3c7", footerBg: "#451a03", cardBg: "#ffffff", font: "E", corners: "round",
                 filters: "top", markup: 300000, cta: "Discover", hero: "", intro: "", cardStyle: "flat",
-                fb: "", ig: "", disclaimer: "Restored beauties from Japan.", sticky: true, hidePrice: false
+                fb: "", ig: "", disclaimer: "Restored beauties from Japan.", sticky: true, hidePrice: false, cols: 2, limit: 10
             },
             minimal: {
-                name: "AutoSource", phone: "94755555555", primary: "#333333", bg: "#ffffff", font: "D", corners: "square",
+                name: "AutoSource", phone: "94755555555", primary: "#333333", bg: "#ffffff", headerBg: "#ffffff", footerBg: "#f3f4f6", cardBg: "#ffffff", font: "D", corners: "square",
                 filters: "none", markup: 0, cta: "Details", hero: "", intro: "", cardStyle: "flat",
-                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: false
+                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: false, cols: 3, limit: 15
             },
             wholesale: {
-                name: "Mega Mart Wholesale", phone: "94788888888", primary: "#f59e0b", bg: "#ffffff", font: "D", corners: "round",
+                name: "Mega Mart Wholesale", phone: "94788888888", primary: "#f59e0b", bg: "#f8f9fa", headerBg: "#ffffff", footerBg: "#111827", cardBg: "#ffffff", font: "D", corners: "round",
                 filters: "sidebar", markup: 10000, cta: "Wholesale Price", hero: "", intro: "", cardStyle: "shadow",
-                fb: "", ig: "", disclaimer: "Prices exclude clearing taxes.", sticky: true, hidePrice: false
+                fb: "", ig: "", disclaimer: "Prices exclude clearing taxes.", sticky: true, hidePrice: false, cols: 4, limit: 20
             }
         };
 
@@ -440,10 +453,7 @@
             const setCheck = (id, val) => { const el = document.getElementById(id); if(el) el.checked = !!val; };
 
             Object.keys(p).forEach(k => {
-                if(k === 'primary' || k === 'bg') {
-                    setVal(k, p[k]);
-                    setVal(k+'Text', p[k]);
-                } else if (k === 'sticky' || k === 'hidePrice') {
+                if(k === 'sticky' || k === 'hidePrice') {
                     setCheck(k, p[k]);
                 } else {
                     setVal(k, p[k]);
@@ -460,7 +470,7 @@
                 const el = document.getElementById(id);
                 if(el && el.value) {
                     let val = el.value;
-                    if(id === 'primary' || id === 'bg') val = val.replace('#', '');
+                    if(['primary','bg','headerBg','footerBg','cardBg'].includes(id)) val = val.replace('#', '');
                     params.append(id, val);
                 }
             });
@@ -472,14 +482,12 @@
 
             const relativeUrl = `${TARGET_FILE}?${params.toString()}`;
             
-            // Build Absolute URL for Sharing
             const pathParts = window.location.pathname.split('/');
             pathParts.pop(); 
             const basePath = pathParts.join('/') + '/' + TARGET_FILE;
             const absoluteUrl = `${window.location.protocol}//${window.location.host}${basePath}?${params.toString()}`;
 
             const iframe = document.getElementById('previewFrame');
-            // Only update if URL actually changed to prevent flashing
             if(iframe.dataset.lastSrc !== relativeUrl) {
                 iframe.src = relativeUrl;
                 iframe.dataset.lastSrc = relativeUrl;
@@ -499,7 +507,7 @@
                 wrapper.className = 'iframe-wrapper mobile';
                 mBtn.classList.add('active');
                 dBtn.classList.remove('active');
-                updateZoom(document.getElementById('zoomSlider').value); // Re-apply zoom
+                updateZoom(document.getElementById('zoomSlider').value);
             } else {
                 wrapper.className = 'iframe-wrapper desktop';
                 dBtn.classList.add('active');
@@ -524,13 +532,13 @@
             setTimeout(() => btn.innerText = originalText, 2000);
         }
 
-        // Auto-scale zoom on load if screen is small
+        // Auto-scale on small screens
         if(window.innerHeight < 900) {
             document.getElementById('zoomSlider').value = 0.7;
             updateZoom(0.7);
         }
 
-        // Apply a default preset to start populated
+        // Apply default
         applyPreset('luxury');
     </script>
 </body>

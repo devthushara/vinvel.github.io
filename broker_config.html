@@ -59,7 +59,7 @@
         .preset-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .preset-icon { font-size: 1.1rem; }
 
-        .form-content { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 24px; }
+        .form-content { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 24px; padding-bottom: 100px; }
 
         .section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin-bottom: 12px; font-weight: 700; display:flex; align-items:center; gap:8px;}
         .section h3 i { color: var(--accent); }
@@ -98,8 +98,8 @@
         }
         
         .toolbar {
-            position: absolute; top: 20px; background: white; padding: 8px 12px;
-            border-radius: 12px; display: flex; gap: 12px; align-items: center;
+            position: absolute; top: 20px; background: white; padding: 8px 16px;
+            border-radius: 12px; display: flex; gap: 16px; align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 50;
         }
         
@@ -110,13 +110,14 @@
         }
         .device-btn.active { background: #f3f4f6; color: var(--accent); }
 
-        .zoom-control { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; }
-        .zoom-control input { width: 100px; cursor: pointer; }
+        .zoom-control { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #555; }
+        .zoom-control input { width: 120px; cursor: pointer; }
 
         .iframe-container {
             margin-top: 60px; /* Space for toolbar */
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.2s ease-out;
             transform-origin: top center;
+            padding-bottom: 100px;
         }
 
         .iframe-wrapper {
@@ -125,6 +126,7 @@
             border-radius: 4px; overflow: hidden;
         }
         
+        /* Device Sizes */
         .iframe-wrapper.desktop { width: 1280px; height: 800px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #ddd; }
         .iframe-wrapper.mobile { width: 375px; height: 812px; border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 12px #1a1a1a; }
         
@@ -134,7 +136,7 @@
         .bottom-bar {
             grid-column: 1 / -1; background: white; border-top: 1px solid var(--border);
             padding: 16px 30px; display: flex; justify-content: space-between; align-items: center;
-            z-index: 30;
+            z-index: 30; position: fixed; bottom: 0; left: 0; right: 0;
         }
         .url-box {
             flex: 1; margin-right: 20px; position: relative;
@@ -202,8 +204,9 @@
             <div class="section">
                 <h3><i class="fa-solid fa-address-book"></i> Contact Info</h3>
                 <div class="input-group">
-                    <label>WhatsApp Number <i class="fa-solid fa-circle-info tooltip-icon" title="Leads are sent here. Format: 9477..."></i></label>
-                    <input type="number" id="phone" placeholder="9477...">
+                    <label>WhatsApp Number <i class="fa-solid fa-circle-info tooltip-icon" title="Required for the Floating WhatsApp Button."></i></label>
+                    <input type="text" id="phone" placeholder="9477..." oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <span class="help">Enter numbers only (e.g. 94771234567)</span>
                 </div>
                 <div class="input-group">
                     <label>Email Address</label>
@@ -244,7 +247,7 @@
                     <select id="font">
                         <option value="A">Modern Sans (Inter)</option>
                         <option value="B">Classic Serif (Playfair)</option>
-                        <option value="C">Technical (Space Mono)</option>
+                        <option value="C">Technical (Mono)</option>
                         <option value="D">Geometric (Poppins)</option>
                         <option value="E">Editorial (Lora)</option>
                         <option value="F">Bold Headline (Oswald)</option>
@@ -310,7 +313,7 @@
                     </label>
                 </div>
                 <div class="toggle-row">
-                    <span class="toggle-label">Floating WhatsApp</span>
+                    <span class="toggle-label">Floating WhatsApp <i class="fa-solid fa-circle-info tooltip-icon" title="Requires a phone number above."></i></span>
                     <label class="switch">
                         <input type="checkbox" id="sticky" checked>
                         <span class="slider"></span>
@@ -329,7 +332,7 @@
             </div>
             <div class="zoom-control">
                 <i class="fa-solid fa-magnifying-glass-minus"></i>
-                <input type="range" id="zoomSlider" min="0.4" max="1.5" step="0.1" value="1" oninput="updateZoom(this.value)">
+                <input type="range" id="zoomSlider" min="0.4" max="1.5" step="0.1" value="0.7" oninput="updateZoom(this.value)">
                 <i class="fa-solid fa-magnifying-glass-plus"></i>
             </div>
         </div>
@@ -386,45 +389,46 @@
             document.getElementById(id).addEventListener('change', updatePreview);
         });
 
-        // --- EXTENDED PRESETS ---
+        // --- PRESETS ---
+        // ADDED: Dummy Phone numbers to all presets so Sticky WhatsApp works instantly.
         const presets = {
             luxury: {
-                name: "Royal Imports", primary: "#d4af37", bg: "#111827", font: "B", corners: "square",
+                name: "Royal Imports", phone: "94777123456", primary: "#d4af37", bg: "#111827", font: "B", corners: "square",
                 filters: "sidebar", markup: 500000, cta: "Reserve Now", hero: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600", intro: "Excellence in Motion", cardStyle: "flat",
                 fb: "https://facebook.com", ig: "https://instagram.com", disclaimer: "Premium sourcing only. All vehicles verified.", sticky: true, hidePrice: false
             },
             sport: {
-                name: "Redline JDM", primary: "#ef4444", bg: "#ffffff", font: "F", corners: "pill",
+                name: "Redline JDM", phone: "94711222333", primary: "#ef4444", bg: "#ffffff", font: "F", corners: "pill",
                 filters: "top", markup: 100000, cta: "Start Engine", hero: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600", intro: "Pure Performance", cardStyle: "shadow",
                 fb: "", ig: "", disclaimer: "", sticky: true, hidePrice: false
             },
             eco: {
-                name: "GreenDrive Solutions", primary: "#10b981", bg: "#ecfdf5", font: "A", corners: "round",
+                name: "GreenDrive Solutions", phone: "94701234567", primary: "#10b981", bg: "#ecfdf5", font: "A", corners: "round",
                 filters: "sidebar", markup: 50000, cta: "Go Electric", hero: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600", intro: "Sustainable Mobility", cardStyle: "flat",
                 fb: "", ig: "", disclaimer: "We plant a tree for every car sold.", sticky: true, hidePrice: false
             },
             night: {
-                name: "NightRider Auto", primary: "#8b5cf6", bg: "#000000", font: "C", corners: "square",
+                name: "NightRider Auto", phone: "94760000000", primary: "#8b5cf6", bg: "#000000", font: "C", corners: "square",
                 filters: "none", markup: 200000, cta: "Acquire", hero: "", intro: "", cardStyle: "flat",
                 fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: true
             },
             corporate: {
-                name: "Trust Capital Motors", primary: "#1e40af", bg: "#f1f5f9", font: "A", corners: "square",
+                name: "Trust Capital Motors", phone: "94112345678", primary: "#1e40af", bg: "#f1f5f9", font: "A", corners: "square",
                 filters: "sidebar", markup: 75000, cta: "Inquire", hero: "", intro: "", cardStyle: "shadow",
                 fb: "https://fb.com", ig: "", disclaimer: "Serving corporate fleets since 2010.", sticky: true, hidePrice: false
             },
             retro: {
-                name: "Classic & Vintage", primary: "#78350f", bg: "#fffbeb", font: "E", corners: "round",
+                name: "Classic & Vintage", phone: "94722222222", primary: "#78350f", bg: "#fffbeb", font: "E", corners: "round",
                 filters: "top", markup: 300000, cta: "Discover", hero: "", intro: "", cardStyle: "flat",
                 fb: "", ig: "", disclaimer: "Restored beauties from Japan.", sticky: true, hidePrice: false
             },
             minimal: {
-                name: "AutoSource", primary: "#333333", bg: "#ffffff", font: "D", corners: "square",
+                name: "AutoSource", phone: "94755555555", primary: "#333333", bg: "#ffffff", font: "D", corners: "square",
                 filters: "none", markup: 0, cta: "Details", hero: "", intro: "", cardStyle: "flat",
                 fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: false
             },
             wholesale: {
-                name: "Mega Mart Wholesale", primary: "#f59e0b", bg: "#ffffff", font: "D", corners: "round",
+                name: "Mega Mart Wholesale", phone: "94788888888", primary: "#f59e0b", bg: "#ffffff", font: "D", corners: "round",
                 filters: "sidebar", markup: 10000, cta: "Wholesale Price", hero: "", intro: "", cardStyle: "shadow",
                 fb: "", ig: "", disclaimer: "Prices exclude clearing taxes.", sticky: true, hidePrice: false
             }
@@ -468,6 +472,7 @@
 
             const relativeUrl = `${TARGET_FILE}?${params.toString()}`;
             
+            // Build Absolute URL for Sharing
             const pathParts = window.location.pathname.split('/');
             pathParts.pop(); 
             const basePath = pathParts.join('/') + '/' + TARGET_FILE;
@@ -494,12 +499,13 @@
                 wrapper.className = 'iframe-wrapper mobile';
                 mBtn.classList.add('active');
                 dBtn.classList.remove('active');
+                updateZoom(document.getElementById('zoomSlider').value); // Re-apply zoom
             } else {
                 wrapper.className = 'iframe-wrapper desktop';
                 dBtn.classList.add('active');
                 mBtn.classList.remove('active');
+                updateZoom(document.getElementById('zoomSlider').value);
             }
-            updateZoom(document.getElementById('zoomSlider').value);
         }
 
         function updateZoom(val) {
@@ -518,7 +524,7 @@
             setTimeout(() => btn.innerText = originalText, 2000);
         }
 
-        // Auto-scale on small screens
+        // Auto-scale zoom on load if screen is small
         if(window.innerHeight < 900) {
             document.getElementById('zoomSlider').value = 0.7;
             updateZoom(0.7);

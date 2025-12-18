@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinvel Dealer Site Builder</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --accent: #6600FF;
+            --accent-hover: #5500dd;
+            --bg: #f3f4f6;
+            --sidebar-bg: #ffffff;
+            --border: #e5e7eb;
+            --text: #1f2937;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background: var(--bg); color: var(--text); height: 100vh; 
+            display: grid; grid-template-columns: 420px 1fr; overflow: hidden;
+        }
+
+        /* --- SIDEBAR (CONTROLS) --- */
+        .controls {
+            background: var(--sidebar-bg); border-right: 1px solid var(--border);
+            overflow-y: auto; display: flex; flex-direction: column;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.02); z-index: 10;
+        }
+
+        .header {
+            padding: 20px 24px; border-bottom: 1px solid var(--border);
+            background: white; position: sticky; top: 0; z-index: 20;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; color: #111; }
+        .logo span { color: var(--accent); }
+
+        /* PRESETS GRID */
+        .presets-container {
+            padding: 16px 24px; border-bottom: 1px solid var(--border);
+            background: #fafafa;
+        }
+        .presets-label {
+            font-size: 0.75rem; text-transform: uppercase; color: #6b7280; 
+            font-weight: 700; margin-bottom: 10px; display: block; letter-spacing: 0.05em;
+        }
+        .presets-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+        }
+        .preset-btn {
+            padding: 10px; border: 1px solid var(--border); background: white;
+            border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+            transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 8px;
+        }
+        .preset-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .preset-icon { font-size: 1.1rem; }
+
+        .form-content { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+        .section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin-bottom: 12px; font-weight: 700; display:flex; align-items:center; gap:8px;}
+        .section h3 i { color: var(--accent); }
+
+        .input-group { margin-bottom: 16px; position: relative; }
+        .input-group label { display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: #374151; }
+        .input-group .help { font-size: 0.75rem; color: #9ca3af; margin-top: 4px; display: block; }
+        
+        .tooltip-icon { color: #9ca3af; cursor: help; font-size: 0.9rem; }
+        .tooltip-icon:hover { color: var(--accent); }
+        
+        input[type="text"], input[type="number"], input[type="email"], select, textarea {
+            width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+            border-radius: 6px; font-size: 0.9rem; transition: 0.2s; outline: none; background: #fff;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(102, 0, 255, 0.1); }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .color-picker-row { display: flex; gap: 12px; align-items: center; }
+        input[type="color"] { width: 40px; height: 40px; border: none; background: none; cursor: pointer; padding: 0; }
+        
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .toggle-label { font-size: 0.9rem; font-weight: 500; }
+        
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e5e7eb; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* --- PREVIEW AREA --- */
+        .preview-zone {
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            background: #e0e2e9; position: relative; padding: 40px; overflow: hidden;
+        }
+        
+        .toolbar {
+            position: absolute; top: 20px; background: white; padding: 8px 12px;
+            border-radius: 12px; display: flex; gap: 12px; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 50;
+        }
+        
+        .device-toggle { display: flex; gap: 4px; border-right: 1px solid #eee; padding-right: 12px; }
+        .device-btn {
+            padding: 8px 12px; border: none; background: transparent; cursor: pointer;
+            border-radius: 6px; color: #6b7280; transition: 0.2s;
+        }
+        .device-btn.active { background: #f3f4f6; color: var(--accent); }
+
+        .zoom-control { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; }
+        .zoom-control input { width: 100px; cursor: pointer; }
+
+        .iframe-container {
+            margin-top: 60px; /* Space for toolbar */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: top center;
+        }
+
+        .iframe-wrapper {
+            background: white; transition: all 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 12px #111;
+            border-radius: 4px; overflow: hidden;
+        }
+        
+        .iframe-wrapper.desktop { width: 1280px; height: 800px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #ddd; }
+        .iframe-wrapper.mobile { width: 375px; height: 812px; border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 12px #1a1a1a; }
+        
+        iframe { width: 100%; height: 100%; border: none; background: white; }
+
+        /* --- BOTTOM BAR --- */
+        .bottom-bar {
+            grid-column: 1 / -1; background: white; border-top: 1px solid var(--border);
+            padding: 16px 30px; display: flex; justify-content: space-between; align-items: center;
+            z-index: 30;
+        }
+        .url-box {
+            flex: 1; margin-right: 20px; position: relative;
+        }
+        .url-input {
+            width: 100%; background: #f9fafb; border: 1px solid var(--border);
+            padding: 12px 100px 12px 16px; border-radius: 8px; font-family: monospace; color: var(--accent);
+        }
+        .copy-btn {
+            position: absolute; right: 4px; top: 4px; bottom: 4px;
+            background: white; border: 1px solid var(--border); border-radius: 6px;
+            padding: 0 16px; cursor: pointer; font-weight: 600; font-size: 0.85rem; color: #374151;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { background: #f3f4f6; }
+        .open-btn {
+            background: var(--accent); color: white; text-decoration: none;
+            padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(102,0,255,0.3);
+            transition: 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+        .open-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,0,255,0.4); }
+
+        @media (max-width: 1000px) {
+            body { grid-template-columns: 350px 1fr; }
+            .presets-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="controls">
+        <div class="header">
+            <div class="logo"><i class="fa-solid fa-layer-group" style="color:var(--accent)"></i> Vinvel <span>Builder</span></div>
+        </div>
+
+        <div class="presets-container">
+            <span class="presets-label">1-Click Dealer Presets</span>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('luxury')"><span class="preset-icon">👑</span> Luxury Gold</button>
+                <button class="preset-btn" onclick="applyPreset('sport')"><span class="preset-icon">🏎️</span> Sport Red</button>
+                <button class="preset-btn" onclick="applyPreset('eco')"><span class="preset-icon">🌱</span> Eco Green</button>
+                <button class="preset-btn" onclick="applyPreset('night')"><span class="preset-icon">🌑</span> Midnight</button>
+                <button class="preset-btn" onclick="applyPreset('corporate')"><span class="preset-icon">🏢</span> Corporate</button>
+                <button class="preset-btn" onclick="applyPreset('minimal')"><span class="preset-icon">⚪</span> Minimal</button>
+                <button class="preset-btn" onclick="applyPreset('wholesale')"><span class="preset-icon">📦</span> Wholesale</button>
+                <button class="preset-btn" onclick="applyPreset('retro')"><span class="preset-icon">🎞️</span> Retro Classic</button>
+            </div>
+        </div>
+
+        <div class="form-content">
+            
+            <div class="section">
+                <h3><i class="fa-solid fa-id-card"></i> Brand Identity</h3>
+                <div class="input-group">
+                    <label>Dealer Name</label>
+                    <input type="text" id="name" placeholder="e.g. Prestige Auto">
+                </div>
+                <div class="input-group">
+                    <label>Logo URL <i class="fa-solid fa-circle-info tooltip-icon" title="Paste a direct image link (png/jpg). Leave empty to use text logo."></i></label>
+                    <input type="text" id="logo" placeholder="https://...">
+                </div>
+                <input type="hidden" id="id" value=""> 
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-address-book"></i> Contact Info</h3>
+                <div class="input-group">
+                    <label>WhatsApp Number <i class="fa-solid fa-circle-info tooltip-icon" title="Leads are sent here. Format: 9477..."></i></label>
+                    <input type="number" id="phone" placeholder="9477...">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="sales@dealer.com">
+                </div>
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="address" placeholder="Colombo, Sri Lanka">
+                </div>
+                <div class="input-group">
+                    <label>Facebook URL</label>
+                    <input type="text" id="fb" placeholder="https://facebook.com/...">
+                </div>
+                <div class="input-group">
+                    <label>Instagram URL</label>
+                    <input type="text" id="ig" placeholder="https://instagram.com/...">
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-paintbrush"></i> Look & Feel</h3>
+                <div class="input-group color-picker-row">
+                    <div style="flex:1">
+                        <label>Accent Color</label>
+                        <input type="text" id="primaryText" value="#333333">
+                    </div>
+                    <input type="color" id="primary" value="#333333">
+                </div>
+                <div class="input-group color-picker-row">
+                    <div style="flex:1">
+                        <label>Background Color</label>
+                        <input type="text" id="bgText" value="#f8f9fa">
+                    </div>
+                    <input type="color" id="bg" value="#f8f9fa">
+                </div>
+                <div class="input-group">
+                    <label>Typography</label>
+                    <select id="font">
+                        <option value="A">Modern Sans (Inter)</option>
+                        <option value="B">Classic Serif (Playfair)</option>
+                        <option value="C">Technical (Space Mono)</option>
+                        <option value="D">Geometric (Poppins)</option>
+                        <option value="E">Editorial (Lora)</option>
+                        <option value="F">Bold Headline (Oswald)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Corner Shape</label>
+                    <select id="corners">
+                        <option value="round">Rounded (Friendly)</option>
+                        <option value="square">Square (Sharp)</option>
+                        <option value="pill">Extra Rounded (Pill)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Card Style</label>
+                    <select id="cardStyle">
+                        <option value="shadow">Elevated (Shadow)</option>
+                        <option value="flat">Minimal (Border)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-table-columns"></i> Structure</h3>
+                <div class="input-group">
+                    <label>Filter Layout</label>
+                    <select id="filters">
+                        <option value="top">Top Bar (Compact)</option>
+                        <option value="sidebar">Sidebar (Desktop)</option>
+                        <option value="none">Hidden (Simple List)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Hero Image <i class="fa-solid fa-circle-info tooltip-icon" title="Large banner image at top. Paste URL."></i></label>
+                    <input type="text" id="hero" placeholder="https://...">
+                </div>
+                <div class="input-group">
+                    <label>Welcome Title</label>
+                    <textarea id="intro" placeholder="Welcome to..." style="height:60px"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Footer Disclaimer</label>
+                    <textarea id="disclaimer" placeholder="Additional text for footer..."></textarea>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fa-solid fa-coins"></i> Rules</h3>
+                <div class="input-group">
+                    <label>Price Markup (LKR)</label>
+                    <input type="number" id="markup" value="0">
+                </div>
+                <div class="input-group">
+                    <label>Button Label</label>
+                    <input type="text" id="cta" value="View Details">
+                </div>
+                
+                <div class="toggle-row">
+                    <span class="toggle-label">Hide Prices (Call Only)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="hidePrice">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Floating WhatsApp</span>
+                    <label class="switch">
+                        <input type="checkbox" id="sticky" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </aside>
+
+    <main class="preview-zone">
+        <div class="toolbar">
+            <div class="device-toggle">
+                <button class="device-btn" onclick="setDevice('desktop')" id="btnDesktop"><i class="fa-solid fa-desktop"></i></button>
+                <button class="device-btn active" onclick="setDevice('mobile')" id="btnMobile"><i class="fa-solid fa-mobile-screen"></i></button>
+            </div>
+            <div class="zoom-control">
+                <i class="fa-solid fa-magnifying-glass-minus"></i>
+                <input type="range" id="zoomSlider" min="0.4" max="1.5" step="0.1" value="1" oninput="updateZoom(this.value)">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </div>
+        </div>
+
+        <div class="iframe-container" id="iframeContainer">
+            <div class="iframe-wrapper mobile" id="iframeWrapper">
+                <iframe id="previewFrame" src="about:blank"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <div class="bottom-bar">
+        <div class="url-box">
+            <input type="text" class="url-input" id="generatedUrl" readonly>
+            <button class="copy-btn" onclick="copyUrl()">Copy Link</button>
+        </div>
+        <a href="#" target="_blank" id="openBtn" class="open-btn">
+            Open Live Site <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+    </div>
+
+    <script>
+        const TARGET_FILE = 'broker.html';
+
+        // --- STATE ---
+        const inputs = [
+            'name', 'phone', 'email', 'address', 'primary', 'bg', 'font', 'corners', 
+            'filters', 'hero', 'intro', 'markup', 'cta', 'logo', 'id', 'cardStyle',
+            'fb', 'ig', 'disclaimer'
+        ];
+        const toggles = ['sticky', 'hidePrice'];
+
+        // --- LISTENERS ---
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                el.addEventListener('input', updatePreview);
+                if(id === 'primary' || id === 'bg') {
+                    el.addEventListener('input', (e) => {
+                        document.getElementById(id + 'Text').value = e.target.value;
+                    });
+                }
+            }
+        });
+
+        ['primary', 'bg'].forEach(id => {
+            document.getElementById(id+'Text').addEventListener('change', (e) => {
+                document.getElementById(id).value = e.target.value;
+                updatePreview();
+            });
+        });
+
+        toggles.forEach(id => {
+            document.getElementById(id).addEventListener('change', updatePreview);
+        });
+
+        // --- EXTENDED PRESETS ---
+        const presets = {
+            luxury: {
+                name: "Royal Imports", primary: "#d4af37", bg: "#111827", font: "B", corners: "square",
+                filters: "sidebar", markup: 500000, cta: "Reserve Now", hero: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600", intro: "Excellence in Motion", cardStyle: "flat",
+                fb: "https://facebook.com", ig: "https://instagram.com", disclaimer: "Premium sourcing only. All vehicles verified.", sticky: true, hidePrice: false
+            },
+            sport: {
+                name: "Redline JDM", primary: "#ef4444", bg: "#ffffff", font: "F", corners: "pill",
+                filters: "top", markup: 100000, cta: "Start Engine", hero: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600", intro: "Pure Performance", cardStyle: "shadow",
+                fb: "", ig: "", disclaimer: "", sticky: true, hidePrice: false
+            },
+            eco: {
+                name: "GreenDrive Solutions", primary: "#10b981", bg: "#ecfdf5", font: "A", corners: "round",
+                filters: "sidebar", markup: 50000, cta: "Go Electric", hero: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600", intro: "Sustainable Mobility", cardStyle: "flat",
+                fb: "", ig: "", disclaimer: "We plant a tree for every car sold.", sticky: true, hidePrice: false
+            },
+            night: {
+                name: "NightRider Auto", primary: "#8b5cf6", bg: "#000000", font: "C", corners: "square",
+                filters: "none", markup: 200000, cta: "Acquire", hero: "", intro: "", cardStyle: "flat",
+                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: true
+            },
+            corporate: {
+                name: "Trust Capital Motors", primary: "#1e40af", bg: "#f1f5f9", font: "A", corners: "square",
+                filters: "sidebar", markup: 75000, cta: "Inquire", hero: "", intro: "", cardStyle: "shadow",
+                fb: "https://fb.com", ig: "", disclaimer: "Serving corporate fleets since 2010.", sticky: true, hidePrice: false
+            },
+            retro: {
+                name: "Classic & Vintage", primary: "#78350f", bg: "#fffbeb", font: "E", corners: "round",
+                filters: "top", markup: 300000, cta: "Discover", hero: "", intro: "", cardStyle: "flat",
+                fb: "", ig: "", disclaimer: "Restored beauties from Japan.", sticky: true, hidePrice: false
+            },
+            minimal: {
+                name: "AutoSource", primary: "#333333", bg: "#ffffff", font: "D", corners: "square",
+                filters: "none", markup: 0, cta: "Details", hero: "", intro: "", cardStyle: "flat",
+                fb: "", ig: "", disclaimer: "", sticky: false, hidePrice: false
+            },
+            wholesale: {
+                name: "Mega Mart Wholesale", primary: "#f59e0b", bg: "#ffffff", font: "D", corners: "round",
+                filters: "sidebar", markup: 10000, cta: "Wholesale Price", hero: "", intro: "", cardStyle: "shadow",
+                fb: "", ig: "", disclaimer: "Prices exclude clearing taxes.", sticky: true, hidePrice: false
+            }
+        };
+
+        function applyPreset(key) {
+            const p = presets[key];
+            const setVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+            const setCheck = (id, val) => { const el = document.getElementById(id); if(el) el.checked = !!val; };
+
+            Object.keys(p).forEach(k => {
+                if(k === 'primary' || k === 'bg') {
+                    setVal(k, p[k]);
+                    setVal(k+'Text', p[k]);
+                } else if (k === 'sticky' || k === 'hidePrice') {
+                    setCheck(k, p[k]);
+                } else {
+                    setVal(k, p[k]);
+                }
+            });
+            updatePreview();
+        }
+
+        // --- UPDATE LOGIC ---
+        function updatePreview() {
+            const params = new URLSearchParams();
+
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el && el.value) {
+                    let val = el.value;
+                    if(id === 'primary' || id === 'bg') val = val.replace('#', '');
+                    params.append(id, val);
+                }
+            });
+
+            toggles.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) params.append(id, el.checked);
+            });
+
+            const relativeUrl = `${TARGET_FILE}?${params.toString()}`;
+            
+            const pathParts = window.location.pathname.split('/');
+            pathParts.pop(); 
+            const basePath = pathParts.join('/') + '/' + TARGET_FILE;
+            const absoluteUrl = `${window.location.protocol}//${window.location.host}${basePath}?${params.toString()}`;
+
+            const iframe = document.getElementById('previewFrame');
+            // Only update if URL actually changed to prevent flashing
+            if(iframe.dataset.lastSrc !== relativeUrl) {
+                iframe.src = relativeUrl;
+                iframe.dataset.lastSrc = relativeUrl;
+            }
+
+            document.getElementById('generatedUrl').value = absoluteUrl;
+            document.getElementById('openBtn').href = absoluteUrl;
+        }
+
+        // --- UI UTILS ---
+        function setDevice(device) {
+            const wrapper = document.getElementById('iframeWrapper');
+            const dBtn = document.getElementById('btnDesktop');
+            const mBtn = document.getElementById('btnMobile');
+
+            if(device === 'mobile') {
+                wrapper.className = 'iframe-wrapper mobile';
+                mBtn.classList.add('active');
+                dBtn.classList.remove('active');
+            } else {
+                wrapper.className = 'iframe-wrapper desktop';
+                dBtn.classList.add('active');
+                mBtn.classList.remove('active');
+            }
+            updateZoom(document.getElementById('zoomSlider').value);
+        }
+
+        function updateZoom(val) {
+            const container = document.getElementById('iframeContainer');
+            container.style.transform = `scale(${val})`;
+        }
+
+        function copyUrl() {
+            const input = document.getElementById('generatedUrl');
+            input.select();
+            document.execCommand('copy');
+            
+            const btn = document.querySelector('.copy-btn');
+            const originalText = btn.innerText;
+            btn.innerText = 'Copied!';
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+
+        // Auto-scale on small screens
+        if(window.innerHeight < 900) {
+            document.getElementById('zoomSlider').value = 0.7;
+            updateZoom(0.7);
+        }
+
+        // Apply a default preset to start populated
+        applyPreset('luxury');
+    </script>
+</body>
+</html>

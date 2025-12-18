@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Inventory</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;700&family=Space+Mono:wght@400;700&family=Poppins:wght@400;600;700&family=Lora:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- THEME ENGINE --- */
+        :root {
+            --primary: #333333; 
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-sec: #666666;
+            --border-color: rgba(0,0,0,0.08);
+            --font-head: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --radius: 12px;
+            --sidebar-width: 280px;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-body); transition: 0.3s; min-height: 100vh; display: flex; flex-direction: column; }
+        h1, h2, h3, h4, button, input, select { font-family: var(--font-head); }
+        
+        /* --- HEADER --- */
+        header { 
+            background: var(--card-bg); 
+            padding: 16px 0; 
+            box-shadow: 0 4px 25px rgba(0,0,0,0.04); 
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 3px solid var(--primary);
+        }
+        .container { max-width: 1350px; margin: 0 auto; padding: 0 20px; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        
+        .brand-area { display: flex; align-items: center; gap: 12px; text-decoration:none; color:inherit; }
+        #brokerLogo { max-height: 45px; display: none; }
+        #brokerName { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+        
+        .contact-btn { 
+            background: var(--primary); color: #fff; padding: 10px 22px; 
+            border-radius: 99px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        .contact-btn:hover { filter: brightness(115%); transform: translateY(-2px); }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            background-size: cover; background-position: center;
+            padding: 100px 20px; text-align: center; color: white;
+            position: relative; display: none; margin-bottom: 30px;
+        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)); }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0,0,0,0.5); line-height: 1.1; }
+        .hero-desc { font-size: 1.2rem; opacity: 0.9; }
+
+        /* --- LAYOUT GRID --- */
+        .main-wrapper { 
+            display: grid; gap: 30px; 
+            padding: 30px 0 60px; 
+            align-items: start;
+        }
+        
+        /* Layout Modes */
+        body.layout-sidebar .main-wrapper { grid-template-columns: var(--sidebar-width) 1fr; }
+        body.layout-top .main-wrapper { grid-template-columns: 1fr; }
+
+        /* --- FILTER PANEL --- */
+        .filter-zone {
+            background: var(--card-bg); padding: 20px; border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+        /* Card Style Logic */
+        body.style-shadow .filter-zone { box-shadow: var(--shadow-card); border: none; }
+        body.style-flat .filter-zone { box-shadow: none; border: 1px solid var(--border-color); }
+
+        /* Sidebar Styling */
+        body.layout-sidebar .filter-zone { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 20px; }
+        body.layout-sidebar .filter-row { flex-direction: column; width: 100%; align-items: stretch; display: flex; gap: 15px; }
+        body.layout-sidebar .filter-select, body.layout-sidebar .search-input { width: 100%; }
+        
+        /* Topbar Styling */
+        body.layout-top .filter-zone { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; }
+        body.layout-top .filter-row { display: flex; gap: 10px; }
+
+        .search-group { flex: 1; position: relative; min-width: 250px; }
+        .search-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-sec); opacity: 0.7; }
+        .search-input {
+            width: 100%; padding: 12px 12px 12px 40px; border-radius: var(--radius);
+            border: 1px solid var(--border-color); background: var(--bg-color);
+            color: var(--text-main); font-size: 0.95rem; outline: none;
+        }
+        .filter-select {
+            padding: 12px 16px; border-radius: var(--radius); border: 1px solid var(--border-color);
+            background: var(--bg-color); color: var(--text-main); font-size: 0.9rem;
+            outline: none; cursor: pointer; min-width: 140px;
+        }
+        .filter-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sec); margin-bottom: 6px; display: block; letter-spacing: 0.05em; }
+        body.layout-top .filter-label { display: none; } 
+
+        /* --- CAR GRID --- */
+        .inventory-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); width: 100%; }
+        
+        /* --- CARD --- */
+        .card { 
+            background: var(--card-bg); border-radius: var(--radius); overflow: hidden; 
+            transition: all 0.3s ease; display: flex; flex-direction: column;
+        }
+        body.style-shadow .card { box-shadow: var(--shadow-card); border: none; }
+        body.style-flat .card { box-shadow: none; border: 1px solid var(--border-color); }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-img-box { position: relative; overflow: hidden; aspect-ratio: 16/10; background: #eee; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .card:hover .card-img { transform: scale(1.05); }
+        .status-badge { 
+            position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.85); color: white; 
+            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; backdrop-filter: blur(4px); text-transform: uppercase;
+        }
+        .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.05rem; margin-bottom: 8px; font-weight: 700; line-height: 1.4; color: var(--text-main); height: 2.8em; overflow: hidden; }
+        .specs-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; font-size: 0.8rem; color: var(--text-sec); }
+        .spec-item { background: var(--bg-color); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 5px; border: 1px solid var(--border-color); }
+        .price-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .price { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+        .btn-whatsapp-card {
+            background: #25D366; color: white; border: none; width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: 0.2s; text-decoration: none;
+        }
+
+        /* --- STICKY WHATSAPP --- */
+        .sticky-wa {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: #25D366; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 999; text-decoration: none; transition: 0.3s;
+            animation: bounceIn 1s; display: none;
+        }
+        .sticky-wa:hover { transform: scale(1.1); }
+
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 1100px; max-height: 90vh; border-radius: var(--radius); display: flex; overflow: hidden; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 20px; z-index: 10; width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; font-size: 1.2rem; display:flex; align-items:center; justify-content:center;}
+        .modal-gallery { flex: 1.5; background: #000; position: relative; display: flex; align-items: center; justify-content: center; min-height: 300px; }
+        .modal-gallery img { width: 100%; height: 100%; object-fit: contain; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; cursor: pointer; font-size: 1.2rem; }
+        .prev-btn { left: 0; } .next-btn { right: 0; }
+        .modal-info { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
+        .modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; color: var(--text-main); }
+        .modal-price { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 10px 0 20px; display: block; }
+        .modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .modal-spec-item { background: var(--bg-color); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .spec-label { display: block; font-size: 0.75rem; color: var(--text-sec); text-transform: uppercase; }
+        .spec-value { display: block; font-size: 1rem; color: var(--text-main); font-weight: 600; }
+        .btn-modal-wa { background: #25D366; color: white; text-decoration: none; padding: 14px; border-radius: 999px; font-weight: 600; font-size: 1.1rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--card-bg); padding: 60px 0 30px; border-top: 1px solid var(--border-color); margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+        .copyright { text-align: center; color: var(--text-sec); font-size: 0.85rem; padding-top: 20px; border-top: 1px solid var(--border-color); margin-top: 40px; }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: var(--primary); color: white; }
+
+        @media (max-width: 900px) {
+            body.layout-sidebar .main-wrapper { grid-template-columns: 1fr; }
+            body.layout-sidebar .filter-zone { position: static; }
+            .modal-content { flex-direction: column; }
+            .modal-gallery { height: 35vh; flex: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="layout-top style-shadow">
+
+    <header>
+        <div class="container nav-flex">
+            <a href="#" class="brand-area">
+                <img id="brokerLogo" src="" alt="Logo">
+                <span id="brokerName">Broker Name</span>
+            </a>
+            <a href="#" id="headerPhone" class="contact-btn">
+                <i class="fa-brands fa-whatsapp"></i> <span id="phoneText">Contact Us</span>
+            </a>
+        </div>
+    </header>
+
+    <div id="heroSection" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 id="heroTitle" class="hero-title">Welcome</h1>
+            <p id="heroDesc" class="hero-desc">Quality Vehicles</p>
+        </div>
+    </div>
+
+    <div class="container main-wrapper">
+        <aside class="filter-zone" id="filterZone">
+            <div class="search-group">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search inventory...">
+            </div>
+            
+            <div class="filter-row">
+                <div style="flex: 1;">
+                    <label class="filter-label">Make</label>
+                    <select id="makeSelect" class="filter-select">
+                        <option value="All">All Makes</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label class="filter-label">Category</label>
+                    <select id="statusSelect" class="filter-select">
+                        <option value="All">All Stock</option>
+                        <option value="Inventory">Live Inventory</option>
+                        <option value="Auction">Auction Picks</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="font-size: 0.85rem; color: var(--text-sec); font-weight: 600;" id="resultCount">Loading...</div>
+        </aside>
+
+        <main id="inventoryContainer" class="inventory-grid">
+            <div style="text-align: center; padding: 60px; grid-column: 1/-1;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                <p style="margin-top:10px; color:var(--text-sec);">Loading Inventory...</p>
+            </div>
+        </main>
+    </div>
+
+    <a href="#" id="stickyWa" class="sticky-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="window.closeModal()">&times;</button>
+            <div class="modal-gallery">
+                <button class="carousel-btn prev-btn" onclick="window.changeSlide(-1)">&#10094;</button>
+                <img id="modalImg" src="" alt="Vehicle">
+                <button class="carousel-btn next-btn" onclick="window.changeSlide(1)">&#10095;</button>
+            </div>
+            <div class="modal-info">
+                <span id="modalRef" style="font-family:monospace; color:var(--text-sec);">REF: ---</span>
+                <h2 id="modalTitle" class="modal-title">Vehicle Title</h2>
+                <span id="modalPrice" class="modal-price">LKR ---</span>
+                <div class="modal-specs">
+                    <div class="modal-spec-item"><span class="spec-label">Year</span><span id="modalYear" class="spec-value">-</span></div>
+                    <div class="modal-spec-item"><span class="spec-label">Mileage</span><span id="modalMileage" class="spec-value">-</span></div>
+                    <div class="modal-spec-item"><span class="spec-label">Engine</span><span id="modalEngine" class="spec-value">-</span></div>
+                    <div class="modal-spec-item"><span class="spec-label">Fuel</span><span id="modalFuel" class="spec-value">-</span></div>
+                    <div class="modal-spec-item"><span class="spec-label">Trans</span><span id="modalTrans" class="spec-value">-</span></div>
+                    <div class="modal-spec-item"><span class="spec-label">Grade</span><span id="modalGrade" class="spec-value">-</span></div>
+                </div>
+                <a href="#" id="modalWaBtn" target="_blank" class="btn-modal-wa">
+                    <i class="fa-brands fa-whatsapp"></i> <span id="modalCtaText">Chat on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h2 id="footerName" style="color:var(--text-main); margin-bottom:15px;">Broker Name</h2>
+                    <p style="color:var(--text-sec); font-size:0.9rem;">We help you import high-quality vehicles directly from Japan with total transparency.</p>
+                    <div class="social-icons" id="socialBox">
+                        <a href="#" id="fbLink" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="igLink" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color:var(--text-main); margin-bottom:15px; font-size:0.9rem;">CONTACT</h3>
+                    <ul style="list-style:none; padding:0; color:var(--text-sec); font-size:0.9rem;">
+                        <li style="margin-bottom:10px;"><i class="fa-solid fa-phone"></i> <span id="footerPhone">...</span></li>
+                        <li style="margin-bottom:10px;"><i class="fa-solid fa-envelope"></i> <a href="#" id="footerEmailLink" style="color:inherit; text-decoration:none;"><span id="footerEmail">...</span></a></li>
+                        <li><i class="fa-solid fa-location-dot"></i> <span id="footerAddress">...</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color:var(--text-main); margin-bottom:15px; font-size:0.9rem;">ABOUT</h3>
+                    <p id="footerDisclaimer" style="color:var(--text-sec); font-size:0.85rem; line-height:1.6;">
+                        All vehicles are sourced from verified auctions. Prices subject to change based on exchange rates.
+                    </p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; <script>document.write(new Date().getFullYear())</script> <span id="copyrightName">Broker Name</span>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { client, getInventory, getAuctionPicks, urlFor, getCarImages } from './js/sanity-client.js';
+
+        let allCars = [], filteredCars = [], currentModalImages = [], currentModalIndex = 0;
+        
+        // DEFAULTS
+        const config = {
+            name: "Premium Auto", phone: "", email: "info@broker.com", address: "Sri Lanka",
+            primary: "#333333", bg: "#f8f9fa", font: "A", markup: 0, logo: "",
+            layout: "top", filters: "top", hero: "", intro: "", sticky: false, hidePrice: false, cta: "View Details",
+            corners: "round", dealer_id: "", cardStyle: "shadow",
+            fb: "", ig: "", disclaimer: ""
+        };
+
+        function initBrokerPage() {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Map params
+            if(params.has('name')) config.name = params.get('name');
+            if(params.has('phone')) config.phone = params.get('phone');
+            if(params.has('email')) config.email = params.get('email');
+            if(params.has('address')) config.address = params.get('address');
+            if(params.has('primary')) config.primary = `#${params.get('primary').replace('#','')}`;
+            if(params.has('bg')) config.bg = `#${params.get('bg').replace('#','')}`;
+            if(params.has('font')) config.font = params.get('font');
+            if(params.has('markup')) config.markup = parseInt(params.get('markup')) || 0;
+            if(params.has('logo')) config.logo = params.get('logo');
+            if(params.has('filters')) config.filters = params.get('filters');
+            if(params.has('hero')) config.hero = params.get('hero');
+            if(params.has('intro')) config.intro = params.get('intro');
+            if(params.has('sticky')) config.sticky = params.get('sticky') === 'true';
+            if(params.has('hidePrice')) config.hidePrice = params.get('hidePrice') === 'true';
+            if(params.has('cta')) config.cta = params.get('cta');
+            if(params.has('corners')) config.corners = params.get('corners');
+            if(params.has('id')) config.dealer_id = params.get('id');
+            if(params.has('style')) config.cardStyle = params.get('style');
+            if(params.has('fb')) config.fb = params.get('fb');
+            if(params.has('ig')) config.ig = params.get('ig');
+            if(params.has('disclaimer')) config.disclaimer = params.get('disclaimer');
+
+            applyLayout();
+            fetchData();
+        }
+
+        function applyLayout() {
+            const root = document.documentElement;
+            
+            // 1. Colors & Dark Mode Logic
+            root.style.setProperty('--primary', config.primary);
+            root.style.setProperty('--bg-color', config.bg);
+            
+            if(isColorDark(config.bg)) {
+                root.style.setProperty('--text-main', '#f0f0f0');
+                root.style.setProperty('--text-sec', '#aaaaaa');
+                root.style.setProperty('--card-bg', '#111827');
+                root.style.setProperty('--border-color', 'rgba(255,255,255,0.1)');
+                root.style.setProperty('--shadow-card', '0 4px 20px rgba(0,0,0,0.4)');
+            } else {
+                root.style.setProperty('--text-main', '#1a1a1a');
+                root.style.setProperty('--text-sec', '#666666');
+                root.style.setProperty('--card-bg', '#ffffff');
+                root.style.setProperty('--border-color', 'rgba(0,0,0,0.08)');
+                root.style.setProperty('--shadow-card', '0 4px 20px rgba(0,0,0,0.06)');
+            }
+
+            // 2. Styling (Fonts & Shapes)
+            const fontMap = {
+                'A': "'Inter', sans-serif",
+                'B': "'Playfair Display', serif",
+                'C': "'Space Mono', monospace",
+                'D': "'Poppins', sans-serif",
+                'E': "'Lora', serif",
+                'F': "'Oswald', sans-serif"
+            };
+            
+            // Set Body font (Default Inter unless override)
+            root.style.setProperty('--font-body', "'Inter', sans-serif");
+            // Set Heading font
+            root.style.setProperty('--font-head', fontMap[config.font] || fontMap['A']);
+
+            if(config.corners === 'square') root.style.setProperty('--radius', '0px');
+            else if(config.corners === 'pill') root.style.setProperty('--radius', '20px');
+            else root.style.setProperty('--radius', '12px');
+
+            // 3. Class Toggles
+            const bodyClasses = [];
+            
+            // Layout
+            if(config.filters === 'sidebar') bodyClasses.push('layout-sidebar');
+            else {
+                bodyClasses.push('layout-top');
+                if(config.filters === 'none') {
+                    const fz = document.getElementById('filterZone');
+                    if(fz) fz.style.display = 'none';
+                }
+            }
+
+            // Card Style
+            if(config.cardStyle === 'flat') bodyClasses.push('style-flat');
+            else bodyClasses.push('style-shadow');
+
+            document.body.className = bodyClasses.join(' ');
+
+            // 4. Content Visibility
+            safeSetDisplay('heroSection', config.hero ? 'block' : 'none');
+            if(config.hero) {
+                document.getElementById('heroSection').style.backgroundImage = `url('${config.hero}')`;
+                safeSetText('heroTitle', config.intro || "Welcome");
+                safeSetText('heroDesc', config.name);
+            }
+
+            // Sticky Button
+            const sticky = document.getElementById('stickyWa');
+            if(sticky) {
+                if(config.sticky && config.phone) {
+                    sticky.style.display = 'flex';
+                    sticky.href = `https://wa.me/${config.phone}`;
+                } else {
+                    sticky.style.display = 'none';
+                }
+            }
+
+            // Text Injections
+            document.title = config.name;
+            safeSetText('brokerName', config.name);
+            safeSetText('footerName', config.name);
+            safeSetText('copyrightName', config.name);
+            safeSetText('footerEmail', config.email);
+            safeSetText('footerAddress', config.address);
+            safeSetText('footerPhone', config.phone || "Contact Us");
+            
+            if(config.disclaimer) safeSetText('footerDisclaimer', config.disclaimer);
+
+            // Links
+            const headerBtn = document.getElementById('headerPhone');
+            if(headerBtn) {
+                if(config.phone) {
+                    headerBtn.href = `https://wa.me/${config.phone}`;
+                    headerBtn.style.display = 'inline-flex';
+                } else {
+                    headerBtn.style.display = 'none';
+                }
+            }
+            
+            const emailLink = document.getElementById('footerEmailLink');
+            if(emailLink) emailLink.href = `mailto:${config.email}`;
+
+            // Social
+            const fbLink = document.getElementById('fbLink');
+            const igLink = document.getElementById('igLink');
+            if(config.fb) { fbLink.href = config.fb; fbLink.style.display = 'flex'; } else fbLink.style.display = 'none';
+            if(config.ig) { igLink.href = config.ig; igLink.style.display = 'flex'; } else igLink.style.display = 'none';
+
+            // Logo
+            if(config.logo) {
+                const logoImg = document.getElementById('brokerLogo');
+                const textLogo = document.getElementById('brokerName');
+                if(logoImg && textLogo) {
+                    logoImg.src = config.logo;
+                    logoImg.style.display = 'block';
+                    textLogo.style.display = 'none';
+                }
+            }
+        }
+
+        function safeSetText(id, text) {
+            const el = document.getElementById(id);
+            if(el) el.innerText = text;
+        }
+        function safeSetDisplay(id, val) {
+            const el = document.getElementById(id);
+            if(el) el.style.display = val;
+        }
+
+        async function fetchData() {
+            try {
+                const [inventoryData, auctionData] = await Promise.all([getInventory(), getAuctionPicks()]);
+                const inventoryList = inventoryData.map(c => ({ ...c, sourceType: 'Inventory' }));
+                const auctionList = auctionData.map(c => ({ ...c, sourceType: 'Auction' }));
+                allCars = [...inventoryList, ...auctionList];
+                filteredCars = allCars;
+                populateMakeDropdown(allCars);
+                renderInventory();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('inventoryContainer').innerHTML = `<div style="text-align:center; padding:40px;">Unable to load inventory.</div>`;
+            }
+        }
+
+        function renderInventory() {
+            const container = document.getElementById('inventoryContainer');
+            const countLabel = document.getElementById('resultCount');
+            if(container) container.innerHTML = '';
+
+            if (filteredCars.length === 0) {
+                if(container) container.innerHTML = `<div style="text-align:center; padding:40px; grid-column:1/-1;">No vehicles found.</div>`;
+                if(countLabel) countLabel.innerText = "0 Results";
+                return;
+            }
+
+            if(countLabel) countLabel.innerText = `${filteredCars.length} Vehicles`;
+
+            filteredCars.forEach(car => {
+                let priceDisplay = "Inquire for Price";
+                if(!config.hidePrice && !car.hidePrice && car.price) {
+                    priceDisplay = "LKR " + (car.price + config.markup).toLocaleString();
+                }
+
+                const imageUrl = car.images && car.images.length > 0 
+                    ? urlFor(car.images[0]).width(600).url() 
+                    : 'https://via.placeholder.com/600x400?text=No+Image';
+
+                let badgeClass = 'status-badge';
+                if(car.sourceType === 'Auction') badgeClass += ' auction';
+                const statusText = car.sourceType === 'Auction' ? 'Auction Pick' : (car.status || 'Stock');
+
+                const html = `
+                <div class="card">
+                    <div class="card-img-box">
+                        <div class="${badgeClass}">${statusText}</div>
+                        <img src="${imageUrl}" alt="${car.title}" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="price-area" style="border:none; padding:0; margin:0 0 5px 0;">
+                                <div>
+                                    <span class="price-label">Price</span>
+                                    <span class="price" style="font-size:1.1rem">${priceDisplay}</span>
+                                </div>
+                            </div>
+                            <h3 class="card-title">${car.title}</h3>
+                            <div class="specs-row">
+                                <div class="spec-item"><i class="fa-solid fa-calendar"></i> ${car.year || '-'}</div>
+                                <div class="spec-item"><i class="fa-solid fa-road"></i> ${car.mileage || '-'}</div>
+                                <div class="spec-item"><i class="fa-solid fa-gas-pump"></i> ${car.fuel || '-'}</div>
+                            </div>
+                        </div>
+                        <div class="price-area">
+                            <button style="background:transparent; border:1px solid var(--primary); color:var(--primary); padding:6px 14px; border-radius:99px; font-weight:600; font-size:0.85rem; cursor:pointer;" onclick="window.openModal('${car._id}')">${config.cta}</button>
+                            <a href="#" onclick="window.openWa('${car.title}', '${car._id}')" class="btn-whatsapp-card"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        window.openModal = (id) => {
+            const car = allCars.find(c => c._id === id);
+            if(!car) return;
+
+            safeSetText('modalTitle', car.title);
+            safeSetText('modalRef', `REF: ${car._id.slice(-6).toUpperCase()}`);
+            
+            let finalPrice = "Inquire for Price";
+            if(!config.hidePrice && !car.hidePrice && car.price) {
+                finalPrice = "LKR " + (car.price + config.markup).toLocaleString();
+            }
+            safeSetText('modalPrice', finalPrice);
+
+            ['Year','Mileage','Engine','Fuel','Trans','Grade'].forEach(f => {
+                safeSetText(`modal${f}`, car[f.toLowerCase()] || car[f] || '-');
+            });
+
+            safeSetText('modalCtaText', `Inquire about ${car.title}`);
+            const btn = document.getElementById('modalWaBtn');
+            if(btn) btn.onclick = (e) => {
+                e.preventDefault();
+                window.openWa(car.title, car._id);
+            };
+
+            currentModalImages = getCarImages(car.images);
+            currentModalIndex = 0;
+            updateModalImage();
+            const modal = document.getElementById('detailModal');
+            if(modal) modal.style.display = 'flex';
+        }
+
+        window.openWa = (title, id) => {
+            const text = `Hi ${config.name}, I am interested in the ${title} (Ref: ${id.slice(-6)}). Please provide details. (DealerID: ${config.dealer_id})`;
+            const url = `https://wa.me/${config.phone}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        window.closeModal = () => {
+            const modal = document.getElementById('detailModal');
+            if(modal) modal.style.display = 'none';
+        }
+        
+        window.changeSlide = (dir) => {
+            currentModalIndex += dir;
+            if(currentModalIndex >= currentModalImages.length) currentModalIndex = 0;
+            if(currentModalIndex < 0) currentModalIndex = currentModalImages.length - 1;
+            updateModalImage();
+        }
+
+        function updateModalImage() {
+            const img = document.getElementById('modalImg');
+            if(img) img.src = currentModalImages.length > 0 ? currentModalImages[currentModalIndex] : 'https://via.placeholder.com/800x600?text=No+Image';
+        }
+
+        const detailModal = document.getElementById('detailModal');
+        if(detailModal) {
+            detailModal.addEventListener('click', (e) => {
+                if(e.target.id === 'detailModal') window.closeModal();
+            });
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const make = document.getElementById('makeSelect').value;
+            const status = document.getElementById('statusSelect').value;
+            filteredCars = allCars.filter(car => {
+                const matchesSearch = (car.title || '').toLowerCase().includes(search) || (car._id || '').includes(search);
+                const matchesMake = make === 'All' || (car.make === make);
+                const matchesStatus = status === 'All' || (car.sourceType === status);
+                return matchesSearch && matchesMake && matchesStatus;
+            });
+            renderInventory();
+        }
+
+        function populateMakeDropdown(cars) {
+            const select = document.getElementById('makeSelect');
+            if(!select) return;
+            const makes = new Set(cars.map(c => c.make).filter(Boolean));
+            makes.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m; opt.innerText = m;
+                select.appendChild(opt);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', applyFilters);
+        document.getElementById('makeSelect').addEventListener('change', applyFilters);
+        document.getElementById('statusSelect').addEventListener('change', applyFilters);
+
+        function isColorDark(hex) {
+            const h = hex.replace('#', '');
+            const r = parseInt(h.substring(0,2), 16), g = parseInt(h.substring(2,4), 16), b = parseInt(h.substring(4,6), 16);
+            return ((r * 299) + (g * 587) + (b * 114)) / 1000 < 128;
+        }
+
+        initBrokerPage();
+    </script>
+</body>
+</html>

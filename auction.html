@@ -34,7 +34,11 @@
         header { background: rgba(2,6,23,0.96); padding: 12px 0; border-bottom: 1px solid rgba(148,163,184,0.28); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(14px); }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .logo { display:flex; align-items:center; gap:10px; }
-        .logo img { height:34px; width:auto; display:block; }
+        .logo img { height:64px; width:auto; display:block; }
+
+        @media (max-width: 640px) {
+            .logo img { height:56px; }
+        }
         
         /* LAYOUT GRID */
         .inventory-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 30px 0 40px; flex: 1; align-items: start; }

@@ -3,45 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinvel Motor Trading | Direct from Japan</title>
+    <title>Vinvel Motor Trading | A Beginning, A Victory</title>
     
-    <!-- Fonts: Jost (Headings) & Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
     <style>
-        /* --- BRAND VARIABLES --- */
+        /* --- BRAND VARIABLES [cite: 161, 163, 172] --- */
         :root {
-            --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            /* Official Colors from Brand Guide */
+            --brand-purple: #7C27F2;  /* RGB 124, 39, 242 */
+            --brand-blue: #4B75F3;    /* RGB 75, 117, 243 */
+            --brand-cyan: #22CCF3;    /* RGB 34, 204, 243 */
+            
+            /* Gradients & UI */
+            --primary-gradient: linear-gradient(135deg, var(--brand-purple) 0%, var(--brand-cyan) 100%);
             --secondary-dark: #0a0a0a;
             --text-dark: #1A1A1A;
-            --text-grey: #666666;
+            --text-grey: #4a4a4a; /* Slightly darker for readability with lighter font weight */
             --bg-light: #F8F9FA;
             --white: #FFFFFF;
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --card-shadow: 0 10px 30px rgba(124, 39, 242, 0.08); /* Purple tinted shadow */
             --radius-md: 12px;
             --radius-lg: 16px;
+
+            /* Header sizing (used to offset hero + anchor scroll) */
+            --site-header-height: 88px;
         }
 
-        /* --- RESET & TYPOGRAPHY --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
-        body { background-color: var(--white); color: var(--text-grey); line-height: 1.6; }
+        /* --- RESET & TYPOGRAPHY [cite: 178, 187] --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Jost', sans-serif; scroll-behavior: smooth; }
+
+        /* Ensure in-page anchors land below the fixed header */
+        #process,
+        #broker {
+            scroll-margin-top: calc(var(--site-header-height) + 18px);
+        }
+        
+        /* Headings = Medium/Bold */
+        h1, h2, h3, h4, h5, h6 { color: var(--text-dark); font-weight: 500; }
+        h1 { font-weight: 700; }
+        
+        /* Body = Light/Regular */
+        body { background-color: var(--white); color: var(--text-grey); line-height: 1.6; font-weight: 300; }
+        
+        strong, b { font-weight: 500; }
+        
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
-        input, select, textarea { font-family: 'Inter', sans-serif; }
+        input, select, textarea { font-family: 'Jost', sans-serif; font-weight: 400; }
 
         /* --- COMPONENTS --- */
         .btn {
             display: inline-block;
             padding: 14px 32px;
             border-radius: 999px;
-            font-family: 'Jost', sans-serif;
-            font-weight: 600;
+            font-weight: 500; /* Medium weight for buttons */
             font-size: 0.95rem;
             cursor: pointer;
             text-align: center;
@@ -52,85 +73,443 @@
         .btn-primary {
             background: var(--primary-gradient);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 0, 255, 0.35);
+            box-shadow: 0 4px 15px rgba(124, 39, 242, 0.35);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(102, 0, 255, 0.5); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124, 39, 242, 0.5); }
+        
         .btn-outline {
             background: transparent;
-            border: 1px solid rgba(102, 0, 255, 0.7);
-            color: #6600FF;
+            border: 1px solid var(--brand-purple);
+            color: var(--brand-purple);
         }
-        .btn-outline:hover { background: var(--primary-gradient); color: white; box-shadow: 0 6px 18px rgba(102,0,255,0.35); }
+        .btn-outline:hover { background: var(--primary-gradient); color: white; box-shadow: 0 6px 18px rgba(124, 39, 242, 0.35); border-color: transparent; }
+        
         .btn-white-outline {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.9);
             color: white;
         }
-        .btn-white-outline:hover { background: white; color: var(--text-dark); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+        .btn-white-outline:hover { background: white; color: var(--brand-purple); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         .section-title { text-align: center; margin-bottom: 3rem; }
-        .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
-        .section-title p { color: var(--text-grey); font-size: 1.1rem; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .section-title p { color: var(--text-grey); font-size: 1.1rem; font-weight: 300; }
 
         /* --- HEADER --- */
-        header { padding: 12px 0; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #eee; }
+        header {
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 2100;
+            border-bottom: 1px solid #eee;
+            background: rgba(255,255,255,0.97);
+            isolation: isolate;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: -1;
+        }
         nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
         .logo { display:flex; align-items:center; gap:12px; }
-        .logo img { height:52px; width:auto; display:block; }
+        .logo img { height:64px; width:auto; display:block; }
         .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a { font-weight: 500; color: var(--text-dark); position: relative; }
-        .nav-links a:hover { color: #6600FF; }
+        .nav-links a:hover { color: var(--brand-purple); }
         
         /* Mobile Menu */
         .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--text-dark); cursor: pointer; }
 
-        /* --- HERO --- */
+        /* --- LASSCO-STYLE HEADER (proper, responsive) --- */
+        header.header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2100;
+            padding: 12px 20px;
+            background: transparent;
+            border: 0;
+        }
+        header.header::before { display: none; }
+
+        header.header .nav-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: var(--site-header-height);
+            display: flex;
+            align-items: stretch;
+            overflow: visible;
+        }
+
+        header.header .nav-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(248, 249, 250, 0.92);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 18px;
+            z-index: 0;
+            transition: box-shadow 180ms ease, background 180ms ease;
+        }
+
+        header.header.is-scrolled .nav-container::before {
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+        }
+
+        header.header .logo-tab {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            padding: 0 60px 0 30px;
+            min-width: 220px;
+            height: 100%;
+            background: var(--primary-gradient);
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+            border-top-left-radius: 18px;
+            border-bottom-left-radius: 18px;
+        }
+
+        header.header .logo-tab .logo {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+        }
+        header.header .logo-tab .logo img {
+            height: 72px;
+            width: auto;
+            display: block;
+            filter: brightness(0) invert(1);
+        }
+
+        header.header .nav-right {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 14px;
+            padding-right: 26px;
+        }
+
+        header.header .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+        header.header .nav-links a {
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+        header.header .nav-links a.active {
+            border: 1px solid rgba(75, 117, 243, 0.80);
+            background: rgba(75, 117, 243, 0.06);
+        }
+
+        header.header .nav-links .btn {
+            padding: 10px 18px;
+            font-size: 0.92rem;
+        }
+
+        header.header .mobile-menu-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.10);
+            background: rgba(255,255,255,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Offset anchors for fixed header */
+        section { scroll-margin-top: calc(var(--site-header-height) + 24px); }
+
+        /* --- HERO [cite: 8, 115] --- */
         .hero {
             min-height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2070&auto=format&fit=crop'); 
+            /* Updated overlay to use Brand Purple tint */
+            background: linear-gradient(rgba(124, 39, 242, 0.75), rgba(34, 204, 243, 0.5)), url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2070&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             color: white;
             text-align: center;
-            padding-top: 60px;
+            padding-top: calc(var(--site-header-height) + 34px);
         }
-        .hero-content { max-width: 900px; padding: 0 10px; }
-        .hero-eyebrow { font-size: 0.9rem; letter-spacing: 0.18em; text-transform: uppercase; color: #b5c5ff; margin-bottom: 0.8rem; font-weight: 500; }
-        .hero-content h1 { color: white; font-size: clamp(2.6rem, 6.4vw, 4rem); margin-bottom: 1.1rem; line-height: 1.08; font-weight: 700; }
-        .hero-subtitle { font-size: clamp(1.02rem, 3.4vw, 1.25rem); margin-bottom: 1.8rem; opacity: 0.94; font-weight: 300; }
-        .hero-trust-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-bottom: 2.2rem; font-size: 0.92rem; color: #e0e6ff; }
-        .hero-trust-metric { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.15); }
-        .hero-trust-metric strong { font-family: 'Jost', sans-serif; font-size: 0.95rem; }
-        .hero-proof-link { display: inline-flex; align-items: center; gap: 8px; color: #dfe6ff; text-decoration: none; font-size: 0.9rem; }
-        .hero-proof-link i { color: #4267B2; background: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-        .hero-proof-link span { border-bottom: 1px dashed rgba(223,230,255,0.6); }
+        .hero-content {
+            max-width: 900px;
+            padding: 0 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-eyebrow { font-size: 0.95rem; letter-spacing: 0.18em; text-transform: uppercase; color: #E0E6FF; margin-bottom: 0.8rem; font-weight: 500; }
+        .hero-content h1 { color: white; font-size: clamp(2.6rem, 6.4vw, 4.5rem); margin-bottom: 1.1rem; line-height: 1.08; font-weight: 700; }
+        .hero-typed { display: inline; }
+        .typed-cursor {
+            display: inline-block;
+            width: 0.09em;
+            height: 0.95em;
+            margin-left: 0.08em;
+            background: currentColor;
+            vertical-align: -0.08em;
+            animation: typedBlink 1s steps(1, end) infinite;
+        }
+        @keyframes typedBlink { 50% { opacity: 0; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            .typed-cursor { animation: none; opacity: 0; }
+        }
+        .hero-subtitle { font-size: clamp(1.02rem, 3.4vw, 1.35rem); margin-bottom: 1.8rem; opacity: 0.95; font-weight: 300; }
+        .hero-trust-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-bottom: 2.2rem; font-size: 0.95rem; color: #fff; }
+        .hero-trust-metric { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); }
+        .hero-trust-metric strong { font-weight: 500; font-size: 1rem; }
+        .hero-proof-link { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 400; }
+        .hero-proof-link i { color: var(--brand-purple); background: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .hero-proof-link span { border-bottom: 1px dashed rgba(255,255,255,0.6); }
         .hero-proof-link:hover span { border-bottom-style: solid; }
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
+        /* --- HANDOVER STRIP --- */
+        .handover-strip {
+    padding: 12px 0 16px;
+    /* background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.08)); */
+    /* backdrop-filter: blur(10px); */
+    overflow: hidden;
+    /* border-top: 1px solid rgba(255, 255, 255, 0.18); */
+    position: relative;
+    width: 100%;
+    /* box-shadow: 0 -14px 30px rgba(0, 0, 0, 0.18); */
+}
+        .handover-strip-title {
+            text-align: center;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: rgba(255,255,255,0.92);
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+        .handover-track {
+            display: flex;
+            gap: 14px;
+            width: max-content;
+            animation: handoverScroll 50s linear infinite;
+            will-change: transform;
+        }
+        .handover-item {
+            width: 240px;
+            height: 150px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: #0b0b10;
+            cursor: zoom-in;
+        }
+        .handover-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.25s ease, filter 0.25s ease;
+            filter: grayscale(0.25);
+        }
+        .handover-item:hover img {
+            transform: scale(1.08);
+            filter: none;
+        }
+        .handover-strip::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(to right, rgba(124, 39, 242, 0.55), transparent);
+        }
+        .handover-strip::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 90px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(to left, rgba(34, 204, 243, 0.55), transparent);
+        }
+        @keyframes handoverScroll {
+            0% { transform: translate3d(0,0,0); }
+            100% { transform: translate3d(-50%,0,0); }
+        }
+
+        /* Handover modal */
+        .handover-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+            justify-content: center;
+            align-items: center;
+            padding: 14px;
+        }
+        .handover-modal-overlay.show { display: flex; }
+        .handover-modal-content {
+            width: 100%;
+            max-width: 860px;
+            max-height: 72vh;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.18);
+            position: relative;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.45);
+        }
+        .handover-modal-review {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            z-index: 2;
+            max-width: min(360px, calc(100% - 24px));
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.94);
+            font-size: 0.95rem;
+            line-height: 1.35;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.28);
+        }
+        .handover-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.28);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .handover-modal-close:hover { background: rgba(255,255,255,0.12); }
+        .handover-modal-content img {
+            width: 100%;
+            height: 100%;
+            max-height: 72vh;
+            object-fit: contain;
+            display: block;
+            background: rgba(0,0,0,0.3);
+        }
+        html.handover-modal-open,
+        body.handover-modal-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 640px) {
+            .logo img { height: 56px; }
+        }
+
         /* --- FEATURES + PROCESS (INTEGRATED) --- */
-        .features { padding: 90px 0 80px; background: white; }
+        .features {
+            padding: 90px 0 80px;
+            background: linear-gradient(180deg, #ffffff 0%, var(--bg-light) 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+        .features::before {
+            content: '';
+            position: absolute;
+            inset: -140px -160px auto -160px;
+            height: 340px;
+            background: var(--primary-gradient);
+            opacity: 0.10;
+            filter: blur(22px);
+            transform: rotate(-8deg);
+            pointer-events: none;
+        }
+        .features::after {
+            content: '';
+            position: absolute;
+            right: -180px;
+            bottom: -220px;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 30% 30%, rgba(34, 204, 243, 0.18), rgba(124, 39, 242, 0.0) 60%);
+            filter: blur(12px);
+            pointer-events: none;
+        }
         .features-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr); gap: 48px; align-items: flex-start; }
         .features-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
-        .feature-card { padding: 28px 24px; border-radius: var(--radius-lg); text-align: left; background: var(--bg-light); transition: 0.3s; border: 1px solid transparent; }
-        .feature-card:hover { transform: translateY(-5px); border-color: #00CCFF; box-shadow: var(--card-shadow); }
-        .feature-icon { font-size: 2.2rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 14px; display: inline-block; }
-        .feature-card h3 { margin-bottom: 10px; font-size: 1.35rem; }
-        .feature-card p { font-size: 0.96rem; color: #555; }
+        .features .section-title h2 {
+            display: inline-block;
+            position: relative;
+        }
+        .features .section-title h2::after {
+            content: '';
+            display: block;
+            width: 58px;
+            height: 4px;
+            border-radius: 999px;
+            margin: 14px auto 0;
+            background: var(--primary-gradient);
+            opacity: 0.9;
+        }
+        .feature-card {
+            padding: 28px 24px;
+            border-radius: var(--radius-lg);
+            text-align: left;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 12px 28px rgba(15,23,42,0.06);
+            backdrop-filter: blur(6px);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(34, 204, 243, 0.45);
+            touch-action: manipulation;
+            box-shadow: 0 18px 40px rgba(124, 39, 242, 0.10);
+        }
+        .feature-icon { font-size: 2.2rem; background: var(--primary-gradient); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 14px; display: inline-block; }
+        .feature-card h3 { margin-bottom: 10px; font-size: 1.35rem; font-weight: 500; }
+        .feature-card p { font-size: 1rem; color: var(--text-grey); font-weight: 300; }
 
         .process-side { background: #050816; border-radius: 20px; padding: 26px 22px 24px; color: #e5e7eb; box-shadow: 0 18px 45px rgba(15,23,42,0.35); border: 1px solid rgba(148,163,184,0.25); }
         .process-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.35); font-size: 0.78rem; color: #9ca3af; margin-bottom: 10px; }
-        .process-chip i { font-size: 0.8rem; color: #60a5fa; }
-        .process-title { font-family: 'Jost', sans-serif; font-size: 1.5rem; margin-bottom: 6px; color: #f9fafb; }
-        .process-subtitle { font-size: 0.92rem; color: #9ca3af; margin-bottom: 18px; }
+        .process-chip i { font-size: 0.8rem; color: var(--brand-cyan); }
+        .process-title { font-size: 1.5rem; margin-bottom: 6px; color: #f9fafb; font-weight: 500; }
+        .process-subtitle { font-size: 0.95rem; color: #9ca3af; margin-bottom: 18px; font-weight: 300; }
         .process-steps { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
         .step { text-align: left; padding: 10px 0; position: relative; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: flex-start; }
-        .step-icon-box { width: 40px; height: 40px; background: radial-gradient(circle at 30% 0, #4f46e5 0, #0f172a 58%, #020617 100%); box-shadow: 0 0 0 1px rgba(148,163,184,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0; font-size: 1.1rem; color: #e5e7eb; position: relative; z-index: 2; }
-        .step h4 { font-size: 0.98rem; margin-bottom: 4px; color: #e5e7eb; }
-        .step p { font-size: 0.86rem; color: #9ca3af; margin: 0; }
+        .step-icon-box { width: 40px; height: 40px; background: radial-gradient(circle at 30% 0, var(--brand-blue) 0, #0f172a 58%, #020617 100%); box-shadow: 0 0 0 1px rgba(148,163,184,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0; font-size: 1.1rem; color: #e5e7eb; position: relative; z-index: 2; }
+        .step h4 { font-size: 1rem; margin-bottom: 4px; color: #e5e7eb; font-weight: 500; }
+        .step p { font-size: 0.9rem; color: #9ca3af; margin: 0; font-weight: 300; }
         .step:not(:last-child)::after { content: ""; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: linear-gradient(to bottom, rgba(148,163,184,0.7), rgba(15,23,42,0)); opacity: 0.7; }
 
         @media (max-width: 992px) {
@@ -154,22 +533,55 @@
         }
 
         /* --- FEATURED CARS --- */
-        .featured-cars { padding: 80px 0; background: #fff; }
+        .featured-cars {
+            padding: 86px 0;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(124, 39, 242, 0.03) 60%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+        .featured-cars::before {
+            content: '';
+            position: absolute;
+            left: -220px;
+            top: -240px;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 30% 30%, rgba(124, 39, 242, 0.14), rgba(34, 204, 243, 0.0) 62%);
+            filter: blur(14px);
+            pointer-events: none;
+        }
+        .featured-cars .section-title h2 {
+            display: inline-block;
+            position: relative;
+        }
+        .featured-cars .section-title h2::after {
+            content: '';
+            display: block;
+            width: 58px;
+            height: 4px;
+            border-radius: 999px;
+            margin: 14px auto 0;
+            background: var(--primary-gradient);
+            opacity: 0.9;
+        }
         .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .car-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--card-shadow); transition: 0.3s; position: relative; border: 1px solid #eee; }
-        .car-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .car-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--card-shadow); transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; position: relative; border: 1px solid rgba(0,0,0,0.06); }
+        .car-card:hover { transform: translateY(-6px); box-shadow: 0 18px 42px rgba(124, 39, 242, 0.16); border-color: rgba(124, 39, 242, 0.22); }
         .car-image { height: 220px; width: 100%; object-fit: cover; background: #f0f0f0; }
-        .grade-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; backdrop-filter: blur(5px); }
+        .grade-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 500; backdrop-filter: blur(5px); }
         .status-badge { position: absolute; top: 15px; left: 15px; padding: 4px 12px; border-radius: 999px; font-size: 0.74rem; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
+        
+        /* Status Colors - Kept functional, but could align with brand palette if desired */
         .status-ready { background: linear-gradient(135deg, #16a34a, #22c55e); }
         .status-transit { background: linear-gradient(135deg, #eab308, #f97316); }
-        .status-arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); }
+        .status-arrived { background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple)); } /* Updated to Brand Colors for "Arrived" */
         
         .car-details { padding: 25px; }
-        .car-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
-        .car-specs { font-size: 0.9rem; color: #777; display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .car-specs i { color: #6600FF; margin-right: 5px; }
-        .car-price { font-family: 'Jost', sans-serif; font-size: 1.4rem; font-weight: 700; color: #6600FF; display: block; margin-bottom: 15px; }
+        .car-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; }
+        .car-specs { font-size: 0.95rem; color: #777; display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; font-weight: 300; }
+        .car-specs i { color: var(--brand-purple); margin-right: 5px; }
+        .car-price { font-size: 1.4rem; font-weight: 600; color: var(--brand-purple); display: block; margin-bottom: 15px; }
 
         /* Featured car modal (home page) */
         .home-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 14px; backdrop-filter: blur(5px); }
@@ -179,16 +591,17 @@
         .home-modal-image { flex: 1.4; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .home-modal-image img { width: 100%; height: 100%; object-fit: contain; }
         .home-modal-details { flex: 1; padding: 24px 22px 26px; overflow-y: auto; }
-        .home-modal-title { font-size: 1.6rem; margin-bottom: 6px; }
+        .home-modal-title { font-size: 1.6rem; margin-bottom: 6px; font-weight: 600; }
         .home-modal-price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-        .home-modal-price { font-size: 1.4rem; color: #6600FF; font-family: 'Jost'; font-weight: 700; }
-        .home-modal-status-pill { font-size: 0.8rem; font-weight: 600; padding: 5px 11px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .home-modal-price { font-size: 1.4rem; color: var(--brand-purple); font-weight: 600; }
+        .home-modal-status-pill { font-size: 0.8rem; font-weight: 500; padding: 5px 11px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.06em; }
         .home-modal-status-ready { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
         .home-modal-status-transit { background: linear-gradient(135deg, #eab308, #f97316); color: #fff; }
-        .home-modal-status-arrived { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; }
+        .home-modal-status-arrived { background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple)); color: #fff; }
         .home-modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; font-size: 0.9rem; }
         .home-modal-spec-item { background: #f8f9fa; padding: 8px 9px; border-radius: 8px; }
-        .home-modal-spec-item strong { display: block; color: #888; font-size: 0.76rem; margin-bottom: 2px; }
+        .home-modal-spec-item strong { display: block; color: #888; font-size: 0.76rem; margin-bottom: 2px; font-weight: 400; }
+        .home-modal-spec-item span { font-weight: 300; color: var(--text-dark); }
         .home-modal-actions { display: flex; flex-direction: column; gap: 10px; }
         .home-modal-browse-btn { width: 100%; }
 
@@ -201,76 +614,208 @@
             .home-modal-specs { grid-template-columns: 1fr 1fr; gap: 8px; }
         }
 
-        /* --- DEALER SECTION (formerly Broker) --- */
-        .broker-section { padding: 80px 0; background: var(--secondary-dark); color: white; position: relative; overflow: hidden; }
-        .broker-bg { position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2073&auto=format&fit=crop') no-repeat center center/cover; opacity: 0.2; }
-        .broker-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .broker-text h2 { color: white; font-size: 3rem; margin-bottom: 20px; }
-        .broker-text p { font-size: 1.1rem; opacity: 0.8; margin-bottom: 30px; }
-        .broker-list li { display: flex; align-items: center; margin-bottom: 15px; font-size: 1.1rem; }
-        .broker-list i { color: #00CCFF; margin-right: 15px; }
-        
-        .broker-form { background: white; padding: 40px; border-radius: var(--radius-lg); color: var(--text-dark); }
-        .broker-form h3 { margin-bottom: 20px; font-size: 1.5rem; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.3s; }
-        .form-group input:focus { border-color: #6600FF; }
-
-        /* --- TESTIMONIALS --- */
-        .testimonials { padding: 100px 0; background: #f7f8fb; }
-        .testi-carousel { position: relative; max-width: 900px; margin: 0 auto; }
-        .testi-track { position: relative; overflow: hidden; min-height: 220px; }
-        .testi-card { 
-            position: absolute; 
-            inset: 0; 
-            background: #fff; 
-            padding: 40px 34px; 
-            border-radius: var(--radius-lg); 
-            box-shadow: var(--card-shadow); 
-            border: 1px solid #f0f0f0; 
-            opacity: 0; 
-            transform: translateX(24px); 
-            transition: opacity 0.45s ease, transform 0.45s ease; 
+        /* --- DEALER SECTION (Broker) --- */
+        .text-gradient {
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .testi-card.active { opacity: 1; transform: translateX(0); position: relative; }
-        .testi-quote { font-size: 1.05rem; font-style: italic; color: #4a4a4a; margin-bottom: 18px; }
-        .testi-stars { color: #FFC107; margin-bottom: 14px; font-size: 1rem; }
-        .testi-footer-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; flex-wrap: wrap; }
-        .testi-author { display: flex; align-items: center; gap: 12px; }
-        .author-img { width: 50px; height: 50px; border-radius: 50%; background: #ccc; object-fit: cover; }
-        .author-info h4 { font-size: 1rem; margin-bottom: 2px; }
-        .author-info span { font-size: 0.85rem; color: #888; }
-        .testi-proof-link { font-size: 0.82rem; color: #4267B2; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
-        .testi-proof-link i { font-size: 1rem; }
-        .testi-proof-link span { border-bottom: 1px dashed rgba(66,103,178,0.55); }
-        .testi-proof-link:hover span { border-bottom-style: solid; }
-        .testi-nav { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .testi-dots { display: flex; gap: 8px; }
-        .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: #d0d0dd; border: none; padding: 0; cursor: pointer; transition: 0.25s; }
-        .testi-dot.active { background: #6600FF; transform: scale(1.2); box-shadow: 0 0 0 4px rgba(102,0,255,0.16); }
-        .testi-arrow-btn { border: none; background: white; border-radius: 999px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.08); font-size: 0.85rem; color: #333; }
-        .testi-arrow-btn i { color: #6600FF; }
-        .testi-arrow-btn:disabled { opacity: 0.4; cursor: default; box-shadow: none; }
-        @media (max-width: 768px) {
-            .testimonials { padding: 70px 0; }
-            .testi-card { padding: 28px 22px; }
-            .testi-footer-row { flex-direction: row; align-items: center; }
-            .testi-proof-link span { display: none; }
+
+        .broker-section {
+            padding: 90px 0;
+            background: var(--secondary-dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .broker-section::before {
+            content: '';
+            position: absolute;
+            inset: -140px -80px auto -80px;
+            height: 320px;
+            background: var(--primary-gradient);
+            opacity: 0.14;
+            filter: blur(18px);
+            transform: rotate(-6deg);
+            pointer-events: none;
+        }
+        .broker-section::after {
+            content: '';
+            position: absolute;
+            right: -140px;
+            bottom: -160px;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle at 30% 30%, rgba(34, 204, 243, 0.22), rgba(124, 39, 242, 0.0) 60%);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .broker-card-wrapper {
+            background: rgba(255,255,255,0.06);
+            border-radius: 26px;
+            padding: 56px;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 28px 70px rgba(0,0,0,0.35);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .broker-card-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(124, 39, 242, 0.16), rgba(34, 204, 243, 0.08));
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .broker-content-inner {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .broker-intro h2 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            line-height: 1.05;
+        }
+        .broker-intro p.lead {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.84);
+            margin-bottom: 26px;
+            border-left: 4px solid var(--brand-cyan);
+            padding: 10px 0 10px 18px;
+            background: rgba(34, 204, 243, 0.06);
+            border-radius: 10px;
+            font-weight: 300;
+        }
+
+        .broker-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .spec-card {
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 18px 18px;
+            border-radius: 16px;
+            transition: 0.25s;
+        }
+        .spec-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(34, 204, 243, 0.45);
+            box-shadow: 0 16px 34px rgba(0,0,0,0.25);
+        }
+        .spec-icon {
+            font-size: 1.6rem;
+            color: var(--brand-cyan);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .spec-card h4 {
+            font-size: 1.05rem;
+            color: white;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .spec-card p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.78);
+            font-weight: 300;
+        }
+
+        .dealer-portal-form {
+            background: white;
+            padding: 34px;
+            border-radius: 20px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .dealer-portal-form h3 {
+            color: var(--text-dark);
+            margin-bottom: 14px;
+            font-size: 1.45rem;
+            font-weight: 600;
+        }
+        .result-highlight {
+            background: linear-gradient(90deg, rgba(124, 39, 242, 0.12), rgba(34, 204, 243, 0.10));
+            border-left: 4px solid var(--brand-cyan);
+            padding: 14px;
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-size: 0.98rem;
+            margin-bottom: 18px;
+            font-weight: 400;
+        }
+        .dealer-portal-form .form-group { margin-bottom: 12px; }
+        .dealer-portal-form .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: rgba(26,26,26,0.8);
+        }
+        .portal-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.25s;
+            font-weight: 400;
+            background: #f8f9fa;
+        }
+        .portal-input:focus {
+            border-color: var(--brand-purple);
+            background: white;
         }
 
         /* --- PARTNER LOGOS STRIP --- */
         .partners {
-            padding: 52px 0 60px;
-            background: #f4f5f9;
+            padding: 58px 0 66px;
+            background: linear-gradient(180deg, #f4f5f9 0%, #ffffff 100%);
             border-top: 1px solid #e0e3ee;
             border-bottom: 1px solid #e0e3ee;
+            position: relative;
+            overflow: hidden;
+        }
+        .partners::before {
+            content: '';
+            position: absolute;
+            inset: -120px -160px auto -160px;
+            height: 260px;
+            background: var(--primary-gradient);
+            opacity: 0.08;
+            filter: blur(20px);
+            transform: rotate(7deg);
+            pointer-events: none;
+        }
+        .partners::after {
+            content: '';
+            position: absolute;
+            right: -200px;
+            bottom: -220px;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 30% 30%, rgba(34, 204, 243, 0.16), rgba(124, 39, 242, 0.0) 62%);
+            filter: blur(14px);
+            pointer-events: none;
         }
         .partners-inner {
             display: flex;
             flex-direction: column;
             gap: 20px;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         .partners-eyebrow {
             font-size: 0.78rem;
@@ -279,10 +824,10 @@
             color: #9ca3af;
         }
         .partners-heading {
-            font-family: 'Jost', sans-serif;
             font-size: 1.2rem;
             color: #4b5563;
             text-align: center;
+            font-weight: 400;
         }
         .partners-strip {
             width: 100%;
@@ -290,6 +835,12 @@
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 18px;
+            padding: 14px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.70);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+            backdrop-filter: blur(8px);
         }
         .partner-logo-item {
             height: 64px;
@@ -314,8 +865,8 @@
             filter: none;
             opacity: 1;
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102,0,255,0.18);
-            border-color: rgba(102,0,255,0.45);
+            box-shadow: 0 10px 25px rgba(124, 39, 242, 0.18);
+            border-color: rgba(124, 39, 242, 0.45);
         }
         .partner-logo-item:hover img {
             filter: none;
@@ -347,25 +898,25 @@
             }
         }
 
-        /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
-        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); }
+        /* --- FOOTER [cite: 13, 105] --- */
+        footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 4px solid var(--brand-purple); }
         .footer-grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1.1fr)); gap: 32px; margin-bottom: 32px; align-items: flex-start; }
-        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
-        .footer-tagline { margin-top: 8px; font-size: 0.92rem; color: #d0d4e4; }
-        .footer-logo-text { font-family: 'Jost', sans-serif; font-size: 2.4rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
-        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: linear-gradient(135deg, #6600FF, #00CCFF); box-shadow: 0 0 14px rgba(102,0,255,0.8); }
-        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; }
+        .footer-col h3 { color: #f5f6ff; margin-bottom: 18px; font-size: 0.98rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; font-weight: 500; }
+        .footer-tagline { margin-top: 8px; font-size: 1rem; color: #d0d4e4; font-weight: 400; font-style: italic; }
+        .footer-logo-text { font-size: 2.4rem; color: #ffffff; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .footer-logo-dot { width: 9px; height: 9px; border-radius: 999px; background: var(--primary-gradient); box-shadow: 0 0 14px rgba(124, 39, 242, 0.8); }
+        .footer-meta { margin-top: 16px; font-size: 0.86rem; color: #9aa2c0; font-weight: 300; }
         .footer-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
-        .footer-meta i { font-size: 0.9rem; color: #7c8cff; }
+        .footer-meta i { font-size: 0.9rem; color: var(--brand-blue); }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 10px; }
-        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; }
-        .footer-links a::before { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: linear-gradient(90deg, #6600FF, #00CCFF); transition: width 0.25s ease; }
+        .footer-links a { font-size: 0.93rem; color: #c2c8dd; display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; position: relative; overflow: hidden; font-weight: 300; }
+        .footer-links a::before { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--primary-gradient); transition: width 0.25s ease; }
         .footer-links a:hover { color: #ffffff; transform: translateX(2px); }
         .footer-links a:hover::before { width: 100%; }
-        .footer-links i { width: 16px; text-align: center; color: #7c8cff; }
+        .footer-links i { width: 16px; text-align: center; color: var(--brand-blue); }
         .footer-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #9aa2c0; margin-bottom: 6px; }
-        .footer-pill i { color: #7c8cff; font-size: 0.8rem; }
+        .footer-pill i { color: var(--brand-blue); font-size: 0.8rem; }
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #8d93aa; flex-wrap: wrap; }
         .footer-bottom-links { display: flex; gap: 16px; flex-wrap: wrap; }
         .footer-bottom a { color: #a4aac4; }
@@ -404,15 +955,19 @@
 
         /* --- RESPONSIVE --- */
         @media (max-width: 968px) {
-            .hero { padding-top: 80px; padding-bottom: 60px; }
-            .broker-content { grid-template-columns: 1fr; gap: 40px; }
-            .broker-bg { width: 100%; height: 260px; bottom: 0; top: auto; opacity: 0.12; }
-            .broker-form { padding: 24px; }
+            :root { --site-header-height: 80px; }
+            .broker-card-wrapper { padding: 32px 22px; }
+            .broker-content-inner { grid-template-columns: 1fr; gap: 28px; }
+            .broker-specs { grid-template-columns: 1fr; }
+            .dealer-portal-form { padding: 24px; }
+
+            header.header { padding: 10px 16px; }
+            header.header .logo-tab { padding: 0 44px 0 22px; min-width: auto; clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%); }
+            header.header .nav-right { padding-right: 18px; }
         }
 
         @media (max-width: 768px) {
             header { padding: 10px 0; }
-            nav { gap: 8px; }
             .nav-links { 
                 display: none; 
                 position: absolute;
@@ -430,7 +985,6 @@
             .nav-links.show { display: flex; }
             .nav-links a { padding: 6px 0; }
             .mobile-menu-btn { display: block; }
-            .hero { padding-top: 80px; padding-bottom: 60px; }
             .hero-content { padding: 0 6px; }
             .hero-btns { 
                 flex-direction: column; 
@@ -448,38 +1002,83 @@
             .testi-card { padding: 28px 22px; }
             .footer-grid { gap: 24px; }
             .sticky-whatsapp { bottom: 20px; right: 20px; width: 54px; height: 54px; font-size: 28px; }
+
+            .handover-strip { padding: 10px 0 14px; }
+            .handover-strip-title { font-size: 0.78rem; margin-bottom: 12px; }
+            .handover-track { gap: 12px; animation-duration: 42s; }
+            .handover-item { width: 190px; height: 124px; }
+            .handover-strip::before, .handover-strip::after { width: 70px; }
+        }
+
+        @media (max-width: 768px) {
+            :root { --site-header-height: 70px; }
+
+            header.header { padding: 10px 12px; }
+            header.header .nav-container { height: var(--site-header-height); }
+            header.header .logo-tab { padding: 0 40px 0 18px; }
+            header.header .logo-tab .logo img { height: 44px; }
+
+            header.header .mobile-menu-btn { display: inline-flex; }
+            header.header .nav-right { padding-right: 12px; }
+
+            header.header .nav-links {
+                display: none;
+                position: absolute;
+                top: calc(100% + 10px);
+                right: 0;
+                left: 0;
+                background: rgba(255,255,255,0.98);
+                border-radius: 18px;
+                padding: 14px 14px;
+                box-shadow: 0 18px 38px rgba(0,0,0,0.14);
+                flex-direction: column;
+                gap: 10px;
+                border: 1px solid rgba(0,0,0,0.08);
+                max-height: calc(100vh - var(--site-header-height) - 28px);
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+            }
+            header.header .nav-links.show { display: flex; }
+            header.header .nav-links a { width: 100%; padding: 10px 12px; }
+        }
+
+        @media (max-width: 420px) {
+            .handover-item { width: 170px; height: 118px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Motor Trading logo"></a>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-tab">
+                <a href="index.html" class="logo">
+                    <img src="img/logo.svg" alt="Vinvel Motor Trading logo">
+                </a>
+            </div>
+
+            <div class="nav-right">
                 <ul class="nav-links" id="primaryNav">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="cars.html">Inventory</a></li>
                     <li><a href="auction.html">Auction</a></li>
                     <li><a href="#process">Process</a></li>
-                    <li><a href="#testimonials">Reviews</a></li>
-                    <li><a href="#broker" class="btn btn-primary" style="padding: 10px 25px;">Become a Dealer</a></li>
+                    <li><a href="#broker" class="btn btn-primary">Become a Dealer</a></li>
                 </ul>
-                <div class="mobile-menu-btn" id="navToggle"><i class="fa-solid fa-bars"></i></div>
-            </nav>
-        </div>
+                <div class="mobile-menu-btn" id="navToggle" role="button" tabindex="0" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation menu"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
             <div class="hero-eyebrow">Since 2010 • Trusted by Sri Lankan buyers & dealers</div>
-            <h1>Victory Starts With<br>The Keys.</h1>
+            <h1 aria-label="Victory Starts With The Keys."><span class="hero-typed" id="heroTyped" data-text="Victory Starts With&#10;The Keys." aria-hidden="true">Victory Starts With<br>The Keys.</span><span class="typed-cursor" aria-hidden="true"></span></h1>
             <p class="hero-subtitle">Your trusted route into high-grade Japanese vehicles from USS, TAA and ARAI auctions — with every delivery documented publicly.</p>
             <div class="hero-trust-row">
                 <div class="hero-trust-metric">
-                    <strong>500+</strong>
+                    <strong>1000+</strong>
                     <span>units sourced for local market</span>
                 </div>
                 <div class="hero-trust-metric">
@@ -496,36 +1095,66 @@
                 <a href="#broker" class="btn btn-white-outline">Join as a Dealer</a>
             </div>
         </div>
+        <div class="handover-strip" aria-label="Recent Vinvel Victories">
+            <div class="handover-strip-title"><i class="fa-solid fa-users"></i> Recent Vinvel Victories</div>
+            <div class="handover-track" id="handoverTrack">
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_1.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_2.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_3.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_4.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_5.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_6.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_7.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_8.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_9.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_10.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_11.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_12.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_13.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_14.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_15.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_16.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_17.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_18.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_19.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_20.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+                <div class="handover-item"><img src="img/customer_photos/vinvel_cus_21.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+            </div>
+        </div>
     </section>
 
-    <!-- Why Choose Vinvel + Export Journey (Integrated Section) -->
     <section class="features" id="process">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title" data-aos="fade-up">
                 <h2>Why Dealers Choose Vinvel</h2>
                 <p>From first WhatsApp message to handover, we keep the journey simple and transparent.</p>
             </div>
             <div class="features-layout">
                 <div>
                     <div class="features-grid">
-                        <div class="feature-card">
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
                             <i class="fa-solid fa-gavel feature-icon"></i>
                             <h3>Direct Auction Access</h3>
                             <p>No middlemen. We bid directly on your behalf at major Japanese auction houses ensuring transparent pricing.</p>
                         </div>
-                        <div class="feature-card">
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                             <i class="fa-solid fa-shield-heart feature-icon"></i>
                             <h3>Vinvel Warranty™ &amp; Certified™</h3>
                             <p>Hand-picked, low-risk units backed by Vinvel Warranty™ and our Vinvel Certified™ checklist — from auction sheet to engine bay. If we can't stand behind the condition, we don't ship it.</p>
                         </div>
-                        <div class="feature-card">
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
                             <i class="fa-solid fa-ship feature-icon"></i>
                             <h3>Fast Logistics</h3>
                             <p>We handle all documentation, deregistration, and shipping logistics to ensure timely arrival.</p>
                         </div>
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fa-solid fa-comments feature-icon"></i>
+                            <h3>Friendly Support, Proven Track Record</h3>
+                            <p>We explain auction sheets in plain language, keep you updated on WhatsApp, and back it up with real handovers you can verify.</p>
+                        </div>
                     </div>
                 </div>
-                <aside class="process-side" aria-label="Export journey steps">
+                <aside class="process-side" aria-label="Export journey steps" data-aos="fade-left" data-aos-delay="150">
                     <div class="process-chip"><i class="fa-solid fa-route"></i> The Vinvel Journey</div>
                     <h3 class="process-title">From shortlisting to long-term care</h3>
                     <p class="process-subtitle">Hands-on support from choosing the right unit to servicing it with trusted partners.</p>
@@ -578,171 +1207,34 @@
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>Client Stories</h2>
-                <p>Real feedback from Sri Lankan buyers and dealers partnering with Vinvel.</p>
-            </div>
-            <div class="testi-carousel">
-                <div class="testi-track" id="testiTrack">
-                    <article class="testi-card active">
-                        <div class="testi-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="testi-quote">"Vinvel made the import process so easy. The car was exactly as described in the auction sheet, down to every scratch. I felt updated at every step."</p>
-                        <div class="testi-footer-row">
-                            <div class="testi-author">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-img">
-                                <div class="author-info">
-                                    <h4>Nimal Perera</h4>
-                                    <span>Retail Buyer • Colombo</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="testi-proof-link">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>See this delivery on Facebook</span>
-                            </a>
-                        </div>
-                    </article>
-                    <article class="testi-card">
-                        <div class="testi-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="testi-quote">"Transparency is key in this business and Gayan and his team delivered 100%. Grade sheets, videos and landed cost were all crystal clear."</p>
-                        <div class="testi-footer-row">
-                            <div class="testi-author">
-                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="author-img">
-                                <div class="author-info">
-                                    <h4>Suresh Kumar</h4>
-                                    <span>Dealer • Kandy</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="testi-proof-link">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>See this delivery on Facebook</span>
-                            </a>
-                        </div>
-                    </article>
-                    <article class="testi-card">
-                        <div class="testi-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="testi-quote">"Great service for dealers. I've imported 5 cars through Vinvel this year and every shipment has arrived on schedule with clean documentation."</p>
-                        <div class="testi-footer-row">
-                            <div class="testi-author">
-                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="author-img">
-                                <div class="author-info">
-                                    <h4>Kasun Jayawardena</h4>
-                                    <span>Dealer • Galle</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="testi-proof-link">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>See this delivery on Facebook</span>
-                            </a>
-                        </div>
-                    </article>
-                    <article class="testi-card">
-                        <div class="testi-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="testi-quote">"The WhatsApp support was next-level. I could review auction options in real time, place bids quickly and lock in units my clients loved."</p>
-                        <div class="testi-footer-row">
-                            <div class="testi-author">
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="author-img">
-                                <div class="author-info">
-                                    <h4>Dinusha Fernando</h4>
-                                    <span>Independent Broker • Negombo</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="testi-proof-link">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>See this delivery on Facebook</span>
-                            </a>
-                        </div>
-                    </article>
-                    <article class="testi-card">
-                        <div class="testi-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="testi-quote">"For our showroom we needed consistent supply of Grade 4+ cars. Vinvel's sourcing from major auctions has kept our stock fresh and high quality."</p>
-                        <div class="testi-footer-row">
-                            <div class="testi-author">
-                                <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="User" class="author-img">
-                                <div class="author-info">
-                                    <h4>Malith Ranasinghe</h4>
-                                    <span>Showroom Owner • Kurunegala</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="testi-proof-link">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>See this delivery on Facebook</span>
-                            </a>
-                        </div>
-                    </article>
-                </div>
-                <div class="testi-nav">
-                    <button class="testi-arrow-btn" id="testiPrev"><i class="fa-solid fa-arrow-left"></i>Prev</button>
-                    <div class="testi-dots" id="testiDots"></div>
-                    <button class="testi-arrow-btn" id="testiNext">Next<i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Partners / Trusted Networks -->
     <section class="partners" aria-label="Partner brands and dealer logos">
         <div class="container">
-            <div class="partners-inner">
+            <div class="partners-inner" data-aos="fade-up">
                 <div class="partners-eyebrow">Trusted Ecosystem</div>
                 <div class="partners-heading">Working with banks, Japanese dealers, insurers and service networks</div>
-                <div class="partners-strip">
+                <div class="partners-strip" id="partnersStrip">
                     <div class="partner-logo-item"><img src="img/partners/hnb-logo-new.png" alt="HNB Bank"></div>
                     <div class="partner-logo-item"><img src="img/partners/cdb-logo.png" alt="CDB Finance"></div>
                     <div class="partner-logo-item"><img src="img/partners/kobe-new-logo.png" alt="Kobe Motors Japan"></div>
                     <div class="partner-logo-item"><img src="img/partners/carp.png" alt="Carp Japan"></div>
                     <div class="partner-logo-item"><img src="img/partners/autoparts.png" alt="Auto Parts Partner"></div>
-                    <div class="partner-logo-item"><img src="img/partners/idj8JWh5iI_1765102898084.png" alt="Service / Insurance Partner"></div>
-                    <div class="partner-logo-item"><img src="img/partners/hnb-logo-new.png" alt="HNB Bank"></div>
-                    <div class="partner-logo-item"><img src="img/partners/cdb-logo.png" alt="CDB Finance"></div>
-                    <div class="partner-logo-item"><img src="img/partners/kobe-new-logo.png" alt="Kobe Motors Japan"></div>
-                    <div class="partner-logo-item"><img src="img/partners/carp.png" alt="Carp Japan"></div>
+                    <div class="partner-logo-item"><img src="img/partners/ndb-sri-lanka-bank-logo.png" alt="NDB Bank"></div>
+                    <div class="partner-logo-item"><img src="img/partners/lb.png" alt="LB Finance"></div>
+                    <div class="partner-logo-item"><img src="img/partners/UB Logo PNG (1).png" alt="Union Bank"></div>
+                    <div class="partner-logo-item"><img src="img/partners/Sri_Lanka_Insurance_new_logo.jpg" alt="Sri Lanka Insurance"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Inventory Preview -->
     <section class="featured-cars">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title" data-aos="fade-up">
                 <h2>Latest Arrivals</h2>
                 <p>Vinvel Certified™ vehicles ready for sale.</p>
             </div>
             
-            <div class="car-grid" id="featuredGrid"></div>
+            <div class="car-grid" id="featuredGrid" data-aos="fade-up" data-aos-delay="100"></div>
 
             <div style="text-align: center;">
                 <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
@@ -750,7 +1242,16 @@
         </div>
     </section>
 
-    <!-- Featured Car Detail Modal (Home) -->
+    <div id="handoverModal" class="handover-modal-overlay" aria-hidden="true">
+        <div class="handover-modal-content" role="dialog" aria-modal="true" aria-label="Expanded image">
+            <button type="button" class="handover-modal-close" id="handoverModalClose" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="handover-modal-review" id="handoverModalReview" role="note" aria-live="polite"></div>
+            <img id="handoverModalImage" src="" alt="">
+        </div>
+    </div>
+
     <div id="featuredModal" class="home-modal-overlay">
         <div class="home-modal-content">
             <div class="home-modal-close" onclick="closeFeaturedModal()">&times;</div>
@@ -779,48 +1280,42 @@
         </div>
     </div>
 
-    <!-- BROKER PROGRAM SECTION -->
     <section class="broker-section" id="broker">
-        <div class="broker-bg"></div>
-        <div class="container broker-content">
-            <div class="broker-text">
-                <h2>Partner with Vinvel</h2>
-                <p>Are you a vehicle dealer? Join our network and get exclusive access to auction data, wholesale pricing, and priority shipping.</p>
-                <ul class="broker-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Competitive Commission Rates</li>
-                    <li><i class="fa-solid fa-circle-check"></i> White-label Auction Sheets</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Dedicated Account Manager</li>
-                </ul>
-            </div>
-            <div class="broker-form">
-                <h3>Register as Dealer</h3>
-                <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you on WhatsApp shortly.');">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="John Doe" required>
+        <div class="container">
+            <div class="broker-card-wrapper">
+                <div class="broker-content-inner">
+                    <div class="broker-intro" data-aos="fade-right">
+                        <h2 class="text-gradient">Your Own Digital Showroom.<br>Your Brand. Zero Cost.</h2>
+                        <p class="lead">Building a vehicle inventory website typically costs $500+ and takes weeks. With Vinvel Dealer Link, you get a professional, mobile-optimized digital showroom in under 60 seconds—for free.</p>
+                        <div class="broker-specs">
+                            <div class="spec-card"><i class="fa-solid fa-user-secret spec-icon"></i><h4>100% White Label</h4><p>Your logo, your colors. Vinvel is invisible.</p></div>
+                            <div class="spec-card"><i class="fa-solid fa-chart-line spec-icon"></i><h4>Automatic Markup</h4><p>Set your profit margin, we update prices.</p></div>
+                            <div class="spec-card"><i class="fa-brands fa-whatsapp spec-icon"></i><h4>Direct Lead Gen</h4><p>Leads go to your phone, not ours.</p></div>
+                            <div class="spec-card"><i class="fa-solid fa-bolt spec-icon"></i><h4>Live Inventory</h4><p>Instantly populate your site with stock.</p></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" placeholder="+94 77..." required>
+                    <div class="dealer-portal-form" data-aos="fade-left">
+                        <h3>Initialize Dealer Setup</h3>
+                        <div class="result-highlight"><i class="fa-solid fa-quote-left"></i> Stop sending loose photos. Send a professional link.</div>
+                        <form onsubmit="event.preventDefault(); alert('We will contact you shortly.');">
+                            <div class="form-group"><label>Dealership Name</label><input type="text" class="portal-input" required></div>
+                            <div class="form-group"><label>WhatsApp Number</label><input type="tel" class="portal-input" required></div>
+                            <div class="form-group"><label>Region</label><input type="text" class="portal-input" required></div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Create My Showroom</button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label>Region / City</label>
-                        <input type="text" placeholder="e.g. Kurunegala" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
-                </form>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid" data-aos="fade-up">
                 <div class="footer-col">
                     <div class="footer-pill"><i class="fa-solid fa-shield-halved"></i>Direct from Japan</div>
                     <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
-                    <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
+                    <p class="footer-tagline">"A Beginning, A Victory."</p>
                     <div class="footer-meta">
                         <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
                         <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
@@ -868,26 +1363,125 @@
         </div>
     </footer>
 
-    <!-- Sticky WhatsApp Button -->
     <a href="https://wa.me/94714878393?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
+        // Scroll animations (AOS): reset + repeat on scroll up/down
+        if (window.AOS) {
+            AOS.init({
+                duration: 750,
+                easing: 'ease-out-cubic',
+                offset: 120,
+                once: false,
+                mirror: true,
+            });
+        }
+
         const navToggle = document.getElementById('navToggle');
         const primaryNav = document.getElementById('primaryNav');
 
+        // LASSCO-style header: elevate on scroll
+        (function initLasscoHeaderScroll() {
+            const headerEl = document.querySelector('header.header');
+            if (!headerEl) return;
+
+            const onScroll = () => {
+                headerEl.classList.toggle('is-scrolled', window.scrollY > 8);
+            };
+
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+        })();
+
         if (navToggle && primaryNav) {
-            navToggle.addEventListener('click', () => {
-                primaryNav.classList.toggle('show');
+            const headerContainer = document.querySelector('header.header .nav-container');
+
+            function setNavOpen(open) {
+                primaryNav.classList.toggle('show', !!open);
+                navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            }
+
+            function toggleNav() {
+                setNavOpen(!primaryNav.classList.contains('show'));
+            }
+
+            navToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleNav();
             });
 
-            primaryNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    primaryNav.classList.remove('show');
-                });
+            navToggle.addEventListener('keydown', (e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                e.preventDefault();
+                toggleNav();
+            });
+
+            primaryNav.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => setNavOpen(false));
+            });
+
+            // Close when tapping outside the menu
+            document.addEventListener('click', (e) => {
+                if (!primaryNav.classList.contains('show')) return;
+                const target = e.target;
+                if (target === navToggle || (navToggle.contains && navToggle.contains(target))) return;
+                if (headerContainer && headerContainer.contains && headerContainer.contains(target)) {
+                    // Clicking within header (but not the toggle) keeps menu open unless it's a link.
+                    return;
+                }
+                setNavOpen(false);
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (primaryNav.classList.contains('show')) setNavOpen(false);
+            });
+
+            // Avoid stuck open state when switching breakpoints
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) setNavOpen(false);
             });
         }
+
+        // Hero title: typed animation (respects prefers-reduced-motion)
+        (function initHeroTypedTitle() {
+            const el = document.getElementById('heroTyped');
+            if (!el) return;
+
+            const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+
+            const text = (el.dataset && typeof el.dataset.text === 'string' && el.dataset.text) ? el.dataset.text : (el.textContent || '').trim();
+            if (!text) return;
+
+            // Start from empty, then type into DOM (supports \n as <br>)
+            while (el.firstChild) el.removeChild(el.firstChild);
+
+            const chars = Array.from(text);
+            let i = 0;
+            const baseDelay = 55;
+            const startDelay = 220;
+
+            function step() {
+                if (i >= chars.length) return;
+                const ch = chars[i++];
+
+                if (ch === '\n') {
+                    el.appendChild(document.createElement('br'));
+                } else {
+                    el.appendChild(document.createTextNode(ch));
+                }
+
+                const jitter = (ch === ' ' ? 0 : Math.floor(Math.random() * 25));
+                window.setTimeout(step, baseDelay + jitter);
+            }
+
+            window.setTimeout(step, startDelay);
+        })();
 
         // Featured cars data for home modal
         const featuredCars = [
@@ -966,100 +1560,212 @@
             }
         });
 
-        // Testimonials carousel
-        const testiTrack = document.getElementById('testiTrack');
-        const testiCards = testiTrack ? Array.from(testiTrack.querySelectorAll('.testi-card')) : [];
-        const prevBtn = document.getElementById('testiPrev');
-        const nextBtn = document.getElementById('testiNext');
-        const dotsContainer = document.getElementById('testiDots');
-        let testiIndex = 0;
-        let testiTimer;
+        // Handover strip: seamless scroll + click-to-expand
+        const handoverTrack = document.getElementById('handoverTrack');
+        const handoverModal = document.getElementById('handoverModal');
+        const handoverModalImage = document.getElementById('handoverModalImage');
+        const handoverModalClose = document.getElementById('handoverModalClose');
+        const handoverModalReview = document.getElementById('handoverModalReview');
+        let handoverScrollY = 0;
 
-        function updateTestimonials(index) {
-            if (!testiCards.length) return;
-            testiCards.forEach((card, i) => {
-                card.classList.toggle('active', i === index);
-            });
-            const dots = dotsContainer.querySelectorAll('.testi-dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-            // arrows always enabled for continuous carousel
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
+        const handoverPlaceholderReviews = [
+            '“Smooth process from auction to handover. Updates at every step.”',
+            '“Exactly as described — clean documents and on-time delivery.”',
+            '“Trusted team. Clear communication and transparent costs.”',
+            '“Dealer-friendly service. Fast turnaround and great support.”',
+            '“Highly recommended. The car arrived in perfect condition.”',
+        ];
+
+        function pickHandoverReview(src) {
+            const list = handoverPlaceholderReviews;
+            if (!list.length) return '';
+            const s = String(src || '');
+            let hash = 0;
+            for (let i = 0; i < s.length; i++) {
+                hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
+            }
+            return list[hash % list.length];
         }
 
-        if (testiCards.length && dotsContainer && prevBtn && nextBtn) {
-            testiCards.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = 'testi-dot' + (i === 0 ? ' active' : '');
-                dot.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
-                dot.addEventListener('click', () => {
-                    testiIndex = i;
-                    updateTestimonials(testiIndex);
+        function buildHandoverItemsMarkup(files, basePath) {
+            const list = Array.isArray(files) ? files : [];
+            const base = typeof basePath === 'string' ? basePath : 'img/customer_photos/';
+            const allowed = /\.(jpg|jpeg|png|webp|svg)$/i;
+            return list
+                .filter((name) => typeof name === 'string' && allowed.test(name))
+                .map((name) => {
+                    const src = base + name;
+                    return `<div class="handover-item"><img src="${src}" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>`;
+                })
+                .join('');
+        }
+
+        async function tryLoadHandoverManifest() {
+            if (!handoverTrack) return false;
+            try {
+                const url = `img/customer_photos/manifest.json?v=${Date.now()}`;
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) return false;
+                const data = await res.json();
+                const files = Array.isArray(data) ? data : data && data.files;
+                const basePath = data && data.basePath;
+                const html = buildHandoverItemsMarkup(files, basePath);
+                if (!html) return false;
+
+                handoverTrack.innerHTML = html;
+                delete handoverTrack.dataset.cloned;
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        function initHandoverMarqueeAndClicks() {
+            if (!handoverTrack) return;
+
+            // Duplicate items once so the -50% animation loops seamlessly
+            if (!handoverTrack.dataset.cloned) {
+                const originalItems = Array.from(handoverTrack.children);
+                originalItems.forEach((item) => {
+                    const clone = item.cloneNode(true);
+                    clone.setAttribute('aria-hidden', 'true');
+                    handoverTrack.appendChild(clone);
                 });
-                dotsContainer.appendChild(dot);
-            });
-
-            prevBtn.addEventListener('click', () => {
-                testiIndex = (testiIndex - 1 + testiCards.length) % testiCards.length;
-                updateTestimonials(testiIndex);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                testiIndex = (testiIndex + 1) % testiCards.length;
-                updateTestimonials(testiIndex);
-            });
-            
-            function startAutoRotate() {
-                // only auto-rotate on desktop widths
-                if (window.innerWidth < 992) return;
-                clearInterval(testiTimer);
-                testiTimer = setInterval(() => {
-                    if (!document.body.contains(testiTrack)) {
-                        clearInterval(testiTimer);
-                        return;
-                    }
-                    testiIndex = (testiIndex + 1) % testiCards.length;
-                    updateTestimonials(testiIndex);
-                }, 7000);
+                handoverTrack.dataset.cloned = 'true';
             }
 
-            function stopAutoRotate() {
-                clearInterval(testiTimer);
+            // Bind only once
+            if (!handoverTrack.dataset.bound) {
+                handoverTrack.addEventListener('click', (e) => {
+                    const img = e.target && e.target.closest ? e.target.closest('.handover-item img') : null;
+                    if (!img) return;
+                    openHandoverModal(img.currentSrc || img.src, img.alt);
+                });
+                handoverTrack.dataset.bound = 'true';
+            }
+        }
+
+        function pauseHandoverScroll() {
+            if (!handoverTrack) return;
+            handoverTrack.style.animationPlayState = 'paused';
+        }
+
+        function resumeHandoverScroll() {
+            if (!handoverTrack) return;
+            handoverTrack.style.animationPlayState = '';
+        }
+
+        function openHandoverModal(src, alt) {
+            if (!handoverModal || !handoverModalImage) return;
+
+            pauseHandoverScroll();
+
+            handoverScrollY = window.scrollY || 0;
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.documentElement.classList.add('handover-modal-open');
+            document.body.classList.add('handover-modal-open');
+            if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+            handoverModalImage.src = src;
+            handoverModalImage.alt = alt || 'Handover';
+            if (handoverModalReview) handoverModalReview.textContent = pickHandoverReview(src);
+            handoverModal.classList.add('show');
+            handoverModal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeHandoverModal() {
+            if (!handoverModal) return;
+
+            handoverModal.classList.remove('show');
+            handoverModal.setAttribute('aria-hidden', 'true');
+            if (handoverModalReview) handoverModalReview.textContent = '';
+
+            const y = handoverScrollY;
+            document.documentElement.classList.remove('handover-modal-open');
+            document.body.classList.remove('handover-modal-open');
+            document.body.style.paddingRight = '';
+            window.scrollTo(0, y);
+
+            resumeHandoverScroll();
+        }
+
+        (async function setupHandoverStrip() {
+            if (!handoverTrack) return;
+            await tryLoadHandoverManifest();
+            initHandoverMarqueeAndClicks();
+        })();
+
+        // Partners strip: load logos from manifest (Netlify build-time) with HTML fallback
+        const partnersStrip = document.getElementById('partnersStrip');
+
+        function buildPartnersItemsMarkup(files, basePath) {
+            const list = Array.isArray(files) ? files : [];
+            const base = typeof basePath === 'string' ? basePath : 'img/partners/';
+            const allowed = /\.(jpg|jpeg|png|webp|svg)$/i;
+
+            function altFromFilename(filename) {
+                const name = String(filename || '');
+                const noExt = name.replace(/\.[^/.]+$/, '');
+                const cleaned = noExt
+                    .replace(/[_-]+/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                return cleaned ? `${cleaned} logo` : 'Partner logo';
             }
 
-            // start on load for desktop
-            startAutoRotate();
+            return list
+                .filter((name) => typeof name === 'string' && allowed.test(name))
+                .map((name) => {
+                    const src = base + name;
+                    return `<div class="partner-logo-item"><img src="${src}" alt="${altFromFilename(name)}" loading="lazy" decoding="async"></div>`;
+                })
+                .join('');
+        }
 
-            // restart on resize crossing desktop breakpoint
-            window.addEventListener('resize', () => {
-                stopAutoRotate();
-                startAutoRotate();
-            });
+        async function tryLoadPartnersManifest() {
+            if (!partnersStrip) return false;
+            const fallback = partnersStrip.innerHTML;
+            try {
+                const url = `img/partners/manifest.json?v=${Date.now()}`;
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) return false;
+                const data = await res.json();
+                const files = Array.isArray(data) ? data : data && data.files;
+                const basePath = data && data.basePath;
+                const html = buildPartnersItemsMarkup(files, basePath);
+                if (!html) return false;
+                partnersStrip.innerHTML = html;
+                partnersStrip.dataset.loadedFromManifest = 'true';
+                return true;
+            } catch {
+                partnersStrip.innerHTML = fallback;
+                return false;
+            }
+        }
 
-            // pause when hovering the card area on desktop
-            testiTrack.addEventListener('mouseenter', () => {
-                if (window.innerWidth >= 992) stopAutoRotate();
-            });
-            testiTrack.addEventListener('mouseleave', () => {
-                if (window.innerWidth >= 992) startAutoRotate();
-            });
+        (async function setupPartnersStrip() {
+            if (!partnersStrip) return;
+            await tryLoadPartnersManifest();
+        })();
 
-            // move to clicked slide also restarts timing
-            dotsContainer.addEventListener('click', () => {
-                stopAutoRotate();
-                startAutoRotate();
-            });
-            prevBtn.addEventListener('click', () => {
-                stopAutoRotate();
-                startAutoRotate();
-            });
-            nextBtn.addEventListener('click', () => {
-                stopAutoRotate();
-                startAutoRotate();
+        if (handoverModal) {
+            handoverModal.addEventListener('click', (e) => {
+                // Only close when clicking outside the dialog content
+                if (e.target === handoverModal) closeHandoverModal();
             });
         }
+
+        if (handoverModalClose) {
+            handoverModalClose.addEventListener('click', closeHandoverModal);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (handoverModal && handoverModal.classList.contains('show')) {
+                closeHandoverModal();
+            }
+        });
+
     </script>
 
     <script type="module">
@@ -1067,6 +1773,7 @@
 
     async function loadFeatured() {
         const grid = document.getElementById('featuredGrid');
+        if (!grid) return;
         
         try {
             const cars = await getFeaturedCars();
@@ -1111,6 +1818,7 @@
             
         } catch (err) {
             console.error(err);
+            grid.innerHTML = '<p style="text-align:center; opacity:0.85;">Unable to load latest arrivals right now. Please refresh in a moment.</p>';
         }
     }
 

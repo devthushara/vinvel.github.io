@@ -1,5 +1,6 @@
-import { createClient } from 'https://esm.sh/@sanity/client'
-import { createImageUrlBuilder } from 'https://esm.sh/@sanity/image-url'
+// Use pinned, browser-friendly ESM builds to avoid CDN/export breakages.
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@sanity/client@6.21.3/+esm'
+import imageUrlBuilder from 'https://cdn.jsdelivr.net/npm/@sanity/image-url@1.0.2/+esm'
 
 // --- CONFIGURATION ---
 export const client = createClient({
@@ -9,7 +10,7 @@ export const client = createClient({
   apiVersion: '2023-12-16',
 })
 
-const builder = createImageUrlBuilder(client)
+const builder = imageUrlBuilder(client)
 
 // Helper: Single Image URL
 export function urlFor(source) {

@@ -4,32 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions | Vinvel Motor Trading</title>
+
+    <!-- Favicons (favicon_io) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* REUSING STYLES FROM PRIVACY POLICY FOR CONSISTENCY */
+        /* --- INHERITED STYLES FROM privacy.html (Brand Consistency) --- */
         :root {
             --primary-gradient: linear-gradient(135deg, #6600FF 0%, #00CCFF 100%);
+            --secondary-dark: #0a0a0a;
             --text-dark: #1A1A1A;
             --text-grey: #444444;
             --bg-light: #F8F9FA;
+            --white: #FFFFFF;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        h1, h2, h3 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
-        body { color: var(--text-grey); line-height: 1.7; }
+        h1, h2, h3, h4 { font-family: 'Jost', sans-serif; color: var(--text-dark); }
+        body { background-color: var(--white); color: var(--text-grey); line-height: 1.7; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        header { padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); }
+        /* --- HEADER (Keep Consistent) --- */
+        header { padding: 12px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); z-index: 100; }
+        .logo img { height:64px; width:auto; display:block; }
+
+        @media (max-width: 640px) {
+            .logo img { height:56px; }
+        }
+
         .legal-header { background: var(--bg-light); padding: 80px 0; text-align: center; }
-        .legal-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .legal-header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        .legal-header p { color: #666; font-size: 1.1rem; }
         
         .legal-content { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
         .legal-section { margin-bottom: 40px; }
         .legal-section h2 { font-size: 1.5rem; color: #6600FF; margin-bottom: 15px; }
+        .legal-section h3 { font-size: 1.1rem; margin-bottom: 10px; font-weight: 600; margin-top: 20px; }
         .legal-section p { margin-bottom: 15px; text-align: justify; }
+        .legal-section ul { list-style: disc; padding-left: 20px; margin-bottom: 20px; }
+        .legal-section li { margin-bottom: 8px; }
         .alert-box { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.95rem; }
 
         /* --- FOOTER (SHARED STYLE WITH cars.html) --- */
@@ -65,15 +89,14 @@
             .footer-logo-text { font-size: 1.9rem; }
             .footer-bottom { flex-direction: column-reverse; align-items: flex-start; }
         }
-        a { text-decoration: none; color: inherit; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="index.html" style="font-family:'Jost'; font-size:1.5rem; font-weight:700; color:#333;">vinvel</a>
-            <a href="index.html" style="font-weight:600;">&larr; Back to Home</a>
+            <a href="index.html" class="logo"><img src="img/logo.svg" alt="Vinvel Logo"></a>
+            <a href="index.html" style="font-weight:600; color:#333;">&larr; Back to Home</a>
         </div>
     </header>
 
@@ -86,7 +109,7 @@
 
     <div class="legal-content">
         <div class="alert-box">
-            <strong>Important Note:</strong> By placing a deposit or requesting a bid on a vehicle, you agree to be bound by these Terms and Conditions governed by the laws of Sri Lanka.
+            <strong>Important Note:</strong> By placing a deposit or requesting a bid on a vehicle, you agree to be bound by these Terms and Conditions governed by applicable laws and regulations.
         </div>
 
         <div class="legal-section">
@@ -96,11 +119,11 @@
 
         <div class="legal-section">
             <h2>2. Pricing & Currency Fluctuations</h2>
-            <p>Vehicle prices quoted on our website or via WhatsApp are estimates based on the current Japanese Yen (JPY) to Sri Lankan Rupee (LKR) exchange rate and prevailing Customs Duties.</p>
+            <p>Vehicle prices quoted on our website or via WhatsApp are estimates based on the current Japanese Yen (JPY) to your local currency exchange rate and prevailing import duties/taxes in your destination market.</p>
             <p><strong>The Final Invoice Value may change due to:</strong></p>
             <ul>
                 <li>Fluctuations in the JPY/LKR exchange rate at the time of LC settlement.</li>
-                <li>Changes in Sri Lanka Customs Import Duty or Luxury Tax imposed by the Government of Sri Lanka between the date of order and the date of clearance.</li>
+                <li>Changes in import duty, taxes, or other charges imposed by the destination country between the date of order and the date of clearance.</li>
                 <li>Freight charge increases by shipping lines.</li>
             </ul>
             <p>The Client agrees to pay any such difference prior to the release of the vehicle.</p>
@@ -130,7 +153,7 @@
 
         <div class="legal-section">
             <h2>7. Governing Law</h2>
-            <p>These terms are governed by the laws of the Democratic Socialist Republic of Sri Lanka. Any disputes arising shall be subject to the exclusive jurisdiction of the courts of Colombo.</p>
+            <p>These terms are governed by the laws of the applicable jurisdiction. Any disputes arising shall be subject to the jurisdiction of the competent courts.</p>
         </div>
     </div>
 
@@ -143,7 +166,7 @@
                     <span class="footer-logo-text">vinvel<span class="footer-logo-dot"></span></span>
                     <p class="footer-tagline">A Beginning, A Victory. Premium-grade Japanese vehicles for modern drivers and brokers.</p>
                     <div class="footer-meta">
-                        <span><i class="fa-solid fa-location-dot"></i>Colombo, Sri Lanka</span>
+                        <span><i class="fa-solid fa-location-dot"></i>Nagoya, Japan</span>
                         <span><i class="fa-solid fa-globe"></i>Serving brokers worldwide</span>
                     </div>
                 </div>

@@ -31,7 +31,7 @@ export function getCarImages(sanityImageArray) {
 
 export async function getFeaturedCars() {
   const query = `*[_type == "car" && stockType == "inventory" && status != "Sold"] | order(priority desc, _createdAt desc)[0...3]{
-    _id, title, year, mileage, engine, price, hidePrice, status, images
+    _id, title, year, mileage, engine, fuel, transmission, grade, price, hidePrice, status, images
   }`
   return await client.fetch(query)
 }

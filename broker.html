@@ -454,7 +454,7 @@
         let currentPage = 1;
         
         const config = {
-            name: "Premium Auto", phone: "", email: "info@broker.com", address: "Sri Lanka",
+            name: "Premium Auto", phone: "", email: "info@broker.com", address: "Nagoya, Japan",
             primary: "#333333", bg: "#f8f9fa", font: "A", markup: 0, logo: "",
             layout: "top", filters: "top", hero: "", intro: "", sticky: false, hidePrice: false, cta: "View Details",
             corners: "round", dealer_id: "", cardStyle: "shadow",
@@ -488,7 +488,8 @@
             if(params.has('cta')) config.cta = params.get('cta');
             if(params.has('corners')) config.corners = params.get('corners');
             if(params.has('id')) config.dealer_id = params.get('id');
-            if(params.has('style')) config.cardStyle = params.get('style');
+            if(params.has('cardStyle')) config.cardStyle = params.get('cardStyle');
+            else if(params.has('style')) config.cardStyle = params.get('style');
             if(params.has('fb')) config.fb = params.get('fb');
             if(params.has('ig')) config.ig = params.get('ig');
             if(params.has('disclaimer')) config.disclaimer = params.get('disclaimer');

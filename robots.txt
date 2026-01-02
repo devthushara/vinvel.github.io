@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /tools/
+
+Sitemap: https://vinvelmotors.com/sitemap.xml

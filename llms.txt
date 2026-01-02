@@ -1,0 +1,26 @@
+# Vinvel Motor Trading
+
+Vinvel Motor Trading is a vehicle sourcing/import service focused on Japan-sourced vehicles and customer handovers.
+
+## Canonical site
+https://vinvelmotors.com/
+
+## Key pages
+- Home: https://vinvelmotors.com/
+- Cars: https://vinvelmotors.com/cars.html
+- Auctions: https://vinvelmotors.com/auction.html
+- Broker showroom: https://vinvelmotors.com/broker.html
+
+## Policies
+- Privacy Policy: https://vinvelmotors.com/privacy.html
+- Terms & Conditions: https://vinvelmotors.com/tnc.html
+- Auction Disclaimer: https://vinvelmotors.com/auction_disclaimer.html
+
+## Contact
+- Email: vinvelmotortrading@gmail.com
+- WhatsApp: https://wa.me/94714878393
+- Facebook: https://www.facebook.com/vinvelsl
+
+## Crawling notes
+- This site is a static website.
+- Public pages are listed in the sitemap: https://vinvelmotors.com/sitemap.xml

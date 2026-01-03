@@ -1212,7 +1212,7 @@
 
         @media (max-width: 768px) {
             header { padding: 10px 0; }
-            .nav-links { 
+            header:not(.header) .nav-links { 
                 display: none; 
                 position: absolute;
                 top: 60px;
@@ -1226,9 +1226,9 @@
                 gap: 12px;
                 z-index: 200;
             }
-            .nav-links.show { display: flex; }
-            .nav-links a { padding: 6px 0; }
-            .mobile-menu-btn { display: block; }
+            header:not(.header) .nav-links.show { display: flex; }
+            header:not(.header) .nav-links a { padding: 6px 0; }
+            header:not(.header) .mobile-menu-btn { display: block; }
             .hero-content { padding: 0 6px; }
             .hero-btns { 
                 flex-direction: column; 
@@ -1263,7 +1263,7 @@
             header.header .logo-tab .logo img { height: 44px; }
 
             header.header .mobile-menu-btn { display: inline-flex; }
-            header.header .nav-right { padding-right: 12px; }
+            header.header .nav-right { padding-right: 12px; position: static; }
 
             .nav-mobile-cta { display: inline-flex; }
 
@@ -1272,10 +1272,10 @@
 
             header.header .nav-links {
                 display: none;
-                position: absolute;
-                top: calc(100% + 10px);
-                right: 0;
-                left: 0;
+                position: fixed;
+                top: calc(var(--site-header-height) + 22px);
+                right: 12px;
+                left: 12px;
                 background: rgba(255,255,255,0.98);
                 border-radius: 18px;
                 padding: 14px 14px;
@@ -1283,16 +1283,32 @@
                 flex-direction: column;
                 gap: 10px;
                 border: 1px solid rgba(0,0,0,0.08);
-                max-height: calc(100vh - var(--site-header-height) - 28px);
+                max-height: calc(100vh - var(--site-header-height) - 48px);
                 overflow: auto;
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
+                z-index: 2205;
             }
             header.header .nav-links.show { display: flex; }
             header.header .nav-links a { width: 100%; padding: 10px 12px; }
+
+            /* Broker demo cards: avoid cramped 2-col layout on phones */
+            .broker-demo-links {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .broker-demo-card img { height: 156px; }
+            .broker-demo-meta { flex-wrap: wrap; align-items: flex-start; }
+            .broker-demo-badge {
+                font-size: 0.74rem;
+                padding: 4px 10px;
+            }
         }
 
         @media (max-width: 420px) {
+            header.header .logo-tab { padding: 0 28px 0 14px; }
+            header.header .nav-right { gap: 10px; padding-right: 10px; }
+            .nav-mobile-cta { display: none; }
             .handover-item { width: 170px; height: 118px; }
             .car-grid { grid-template-columns: 1fr; gap: 18px; }
             .car-details { padding: 18px; }
@@ -1572,14 +1588,14 @@
                         <h2 class="text-gradient">Your Own Digital Showroom.<br>Your Brand. Zero Cost.</h2>
                         <p class="lead">Building a vehicle inventory website typically costs $500+ and takes weeks. With Vinvel Dealer Link, you get a professional, mobile-optimized digital showroom in under 60 seconds—for free.</p>
                         <div class="broker-demo-links" data-aos="fade-up" data-aos-delay="150">
-                            <a class="broker-demo-card" href="broker.html?name=Your+Company+Here&phone=819012345678&email=youremail%40gmail.com&address=Nagoya%2C+Japan&primary=7c27f2&bg=0b0b12&headerBg=0f1020&footerBg=070815&cardBg=12132a&font=D&corners=round&filters=sidebar&hero=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1503376780353-7e6692767b70%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D80&intro=Worldwide+Selection%2C+Japan-Sourced&markup=250000&cta=Book+Now&logo=img%2Flogo.svg&id=VV-INT-001&cardStyle=shadow&fb=https%3A%2F%2Ffacebook.com%2Fvinvel&ig=https%3A%2F%2Finstagram.com%2Fvinvel&disclaimer=Worldwide+sourcing+from+Japan.+Final+pricing+varies+by+destination+taxes+%26+shipping.&cols=3&limit=9&sticky=true&hidePrice=false" target="_blank" rel="noopener" aria-label="Open International broker showroom demo">
+                            <a class="broker-demo-card" href="broker.html?name=Your+Company+Here&phone=819012345678&email=youremail%40gmail.com&address=Nagoya%2C+Japan&primary=7c27f2&bg=0b0b12&headerBg=0f1020&footerBg=070815&cardBg=12132a&font=D&corners=round&filters=sidebar&hero=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1503376780353-7e6692767b70%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D80&intro=Worldwide+Selection%2C+Japan-Sourced&markup=250000&cta=Book+Now&logo=img%2Flogo.svg&id=VV-INT-001&cardStyle=shadow&fb=https%3A%2F%2Ffacebook.com%2Fvinvel&ig=https%3A%2F%2Fwww.instagram.com%2Fvinvel_motors&disclaimer=Worldwide+sourcing+from+Japan.+Final+pricing+varies+by+destination+taxes+%26+shipping.&cols=3&limit=9&sticky=true&hidePrice=false" target="_blank" rel="noopener" aria-label="Open International broker showroom demo">
                                 <img src="img/int_broker.png" alt="International broker showroom preview">
                                 <div class="broker-demo-meta">
                                     <div class="broker-demo-title">International Demo</div>
                                     <div class="broker-demo-badge">Open demo</div>
                                 </div>
                             </a>
-                            <a class="broker-demo-card" href="broker.html?name=%E0%B6%94%E0%B6%B6%E0%B6%9C%E0%B7%99+%E0%B6%B1%E0%B6%B8+%E0%B7%84%E0%B7%9C+%E0%B7%83%E0%B6%B8%E0%B7%8F%E0%B6%9C%E0%B6%B8%E0%B7%99+%E0%B6%B1%E0%B6%B8+%E0%B6%B8%E0%B7%99%E0%B6%AD%E0%B6%B1&phone=94776226655&email=youremail%40gmail.com&address=%E0%B6%9A%E0%B7%9C%E0%B7%85%E0%B6%B9%2C+%E0%B7%81%E0%B7%8A%E2%80%8D%E0%B6%BB%E0%B7%93+%E0%B6%BD%E0%B6%82%E0%B6%9A%E0%B7%8F%E0%B7%80&primary=8d153a&bg=fff7f0&headerBg=ffffff&footerBg=8d153a&cardBg=ffffff&font=A&corners=round&filters=top&hero=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1492144534655-ae79c964c9d7%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D80&intro=%E0%B6%A2%E0%B6%B4%E0%B7%8F%E0%B6%B1%E0%B6%BA%E0%B7%99%E0%B6%B1%E0%B7%8A+%E0%B7%83%E0%B7%98%E0%B6%A2%E0%B7%94%E0%B7%80%E0%B6%B8+%E0%B7%80%E0%B7%8F%E0%B7%84%E0%B6%B1+%E0%B6%86%E0%B6%B1%E0%B6%BA%E0%B6%B1%E0%B6%BA&markup=150000&cta=WhatsApp+%E0%B6%9A%E0%B6%BB%E0%B6%B1%E0%B7%8A%E0%B6%B1&logo=img%2Flogo.svg&id=VINVEL-LK-001&cardStyle=shadow&fb=https%3A%2F%2Ffacebook.com%2Fvinvelsl&ig=https%3A%2F%2Finstagram.com%2Fvinvel&disclaimer=%E0%B6%A2%E0%B6%B4%E0%B7%8F%E0%B6%B1%E0%B6%BA%E0%B7%99%E0%B6%B1%E0%B7%8A+%E0%B7%83%E0%B7%98%E0%B6%A2%E0%B7%94%E0%B7%80%E0%B6%B8.+%E0%B6%B8%E0%B7%92%E0%B6%BD+%E0%B6%9C%E0%B6%AB%E0%B6%B1%E0%B7%8A+%E0%B6%B6%E0%B6%AF%E0%B7%94%2F%E0%B6%B1%E0%B7%8F%E0%B7%80%E0%B7%92%E0%B6%9A+%E0%B6%9C%E0%B7%8F%E0%B7%83%E0%B7%8A%E0%B6%AD%E0%B7%94+%E0%B6%85%E0%B6%B1%E0%B7%94%E0%B7%80+%E0%B7%80%E0%B7%99%E0%B6%B1%E0%B7%83%E0%B7%8A+%E0%B7%80%E0%B7%92%E0%B6%BA+%E0%B7%84%E0%B7%90%E0%B6%9A.&cols=3&limit=9&sticky=true&hidePrice=false" target="_blank" rel="noopener" aria-label="Open Sri Lanka (Sinhala) broker showroom demo">
+                            <a class="broker-demo-card" href="broker.html?name=%E0%B6%94%E0%B6%B6%E0%B6%9C%E0%B7%99+%E0%B6%B1%E0%B6%B8+%E0%B7%84%E0%B7%9C+%E0%B7%83%E0%B6%B8%E0%B7%8F%E0%B6%9C%E0%B6%B8%E0%B7%99+%E0%B6%B1%E0%B6%B8+%E0%B6%B8%E0%B7%99%E0%B6%AD%E0%B6%B1&phone=94776226655&email=youremail%40gmail.com&address=%E0%B6%9A%E0%B7%9C%E0%B7%85%E0%B6%B9%2C+%E0%B7%81%E0%B7%8A%E2%80%8D%E0%B6%BB%E0%B7%93+%E0%B6%BD%E0%B6%82%E0%B6%9A%E0%B7%8F%E0%B7%80&primary=8d153a&bg=fff7f0&headerBg=ffffff&footerBg=8d153a&cardBg=ffffff&font=A&corners=round&filters=top&hero=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1492144534655-ae79c964c9d7%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D80&intro=%E0%B6%A2%E0%B6%B4%E0%B7%8F%E0%B6%B1%E0%B6%BA%E0%B7%99%E0%B6%B1%E0%B7%8A+%E0%B7%83%E0%B7%98%E0%B6%A2%E0%B7%94%E0%B7%80%E0%B6%B8+%E0%B7%80%E0%B7%8F%E0%B7%84%E0%B6%B1+%E0%B6%86%E0%B6%B1%E0%B6%BA%E0%B6%B1%E0%B6%BA&markup=150000&cta=WhatsApp+%E0%B6%9A%E0%B6%BB%E0%B6%B1%E0%B7%8A%E0%B6%B1&logo=img%2Flogo.svg&id=VINVEL-LK-001&cardStyle=shadow&fb=https%3A%2F%2Ffacebook.com%2Fvinvelsl&ig=https%3A%2F%2Fwww.instagram.com%2Fvinvel_motors&disclaimer=%E0%B6%A2%E0%B6%B4%E0%B7%8F%E0%B6%B1%E0%B6%BA%E0%B7%99%E0%B6%B1%E0%B7%8A+%E0%B7%83%E0%B7%98%E0%B6%A2%E0%B7%94%E0%B7%80%E0%B6%B8.+%E0%B6%B8%E0%B7%92%E0%B6%BD+%E0%B6%9C%E0%B6%AB%E0%B6%B1%E0%B7%8A+%E0%B6%B6%E0%B6%AF%E0%B7%94%2F%E0%B6%B1%E0%B7%8F%E0%B7%80%E0%B7%92%E0%B6%9A+%E0%B6%9C%E0%B7%8F%E0%B7%83%E0%B7%8A%E0%B6%AD%E0%B7%94+%E0%B6%85%E0%B6%B1%E0%B7%94%E0%B7%80+%E0%B7%80%E0%B7%99%E0%B6%B1%E0%B7%83%E0%B7%8A+%E0%B7%80%E0%B7%92%E0%B6%BA+%E0%B7%84%E0%B7%90%E0%B6%9A.&cols=3&limit=9&sticky=true&hidePrice=false" target="_blank" rel="noopener" aria-label="Open Sri Lanka (Sinhala) broker showroom demo">
                                 <img src="img/sl_broker.png" alt="Sri Lanka broker showroom preview">
                                 <div class="broker-demo-meta">
                                     <div class="broker-demo-title">සිංහල Demo</div>
@@ -1647,7 +1663,7 @@
                     <h3>Social</h3>
                     <ul>
                         <li><a href="https://www.facebook.com/vinvelsl"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-                        <li><a href="https://www.instagram.com/vinvel_motors"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://www.instagram.com/vinvel_motors" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
                         <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
                         <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
                     </ul>

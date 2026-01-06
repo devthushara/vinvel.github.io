@@ -290,13 +290,311 @@
             .typed-cursor { animation: none; opacity: 0; }
         }
         .hero-subtitle { font-size: clamp(1.02rem, 3.4vw, 1.35rem); margin-bottom: 1.8rem; opacity: 0.95; font-weight: 300; }
-        .hero-trust-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-bottom: 2.2rem; font-size: 0.95rem; color: #fff; }
-        .hero-trust-metric { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); }
-        .hero-trust-metric strong { font-weight: 500; font-size: 1rem; }
-        .hero-proof-link { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 400; }
-        .hero-proof-link i { color: var(--brand-purple); background: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-        .hero-proof-link span { border-bottom: 1px dashed rgba(255,255,255,0.6); }
-        .hero-proof-link:hover span { border-bottom-style: solid; }
+        /* Trust Dashboard - Modern Speedometer Style */
+        .trust-dashboard {
+            padding: 80px 0;
+            background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .trust-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 39, 242, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .trust-metric {
+            text-align: center;
+            padding: 45px 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(124, 39, 242, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Trust metric count badge (top-left) */
+        .trust-count {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(124, 39, 242, 0.14);
+            box-shadow: 0 10px 24px rgba(124, 39, 242, 0.10);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-variant-numeric: tabular-nums;
+            z-index: 2;
+        }
+        .trust-count .count {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .trust-count .plus {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--brand-purple);
+            opacity: 0.9;
+            animation: trustPlusBlink 2.2s ease-in-out infinite;
+        }
+        @keyframes trustPlusBlink {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 1; }
+        }
+        .trust-metric::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+        .trust-metric.animated::before {
+            transform: scaleX(1);
+        }
+        .trust-metric:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(124, 39, 242, 0.2);
+        }
+        .speedometer {
+            position: relative;
+            width: 200px;
+            height: 130px;
+            margin: 0 auto 25px;
+            --cap-size: 16px;
+            --cap-bottom: 18px;
+        }
+        .speedo-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 8px rgba(124, 39, 242, 0.1));
+            will-change: filter;
+        }
+        .speedo-progress {
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 251.2;
+        }
+        .speedo-value { display: none; }
+
+        /* Speedometer needle */
+        .speedo-needle {
+            position: absolute;
+            left: 50%;
+            bottom: calc(var(--cap-bottom) + (var(--cap-size) / 2));
+            width: 4px;
+            height: 62px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(124, 39, 242, 0.95) 0%, rgba(75, 117, 243, 0.92) 45%, rgba(34, 204, 243, 0.90) 100%);
+            transform-origin: 50% 100%;
+            --needle-angle: -90deg;
+            transform: translateX(-50%) rotate(var(--needle-angle));
+            transition: transform 2.5s cubic-bezier(0.65, 0, 0.35, 1);
+            box-shadow: 0 8px 16px rgba(124, 39, 242, 0.18);
+            will-change: transform;
+            z-index: 2;
+        }
+        .speedo-needle::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 10px solid rgba(124, 39, 242, 0.95);
+            filter: drop-shadow(0 4px 8px rgba(124, 39, 242, 0.18));
+        }
+        .speedo-cap {
+            position: absolute;
+            left: 50%;
+            bottom: var(--cap-bottom);
+            width: var(--cap-size);
+            height: var(--cap-size);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            box-shadow: 0 8px 18px rgba(124, 39, 242, 0.22);
+            z-index: 3;
+        }
+        .speedo-cap::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+        }
+
+        /* Rave effect (repeats while in view) */
+        .trust-metric.rave.is-active .speedo-svg {
+            animation: speedoRaveGlow 1.25s ease-in-out infinite;
+        }
+        .trust-metric.rave.is-active .speedo-progress {
+            animation: speedoRavePulse 1.25s ease-in-out infinite;
+        }
+        .trust-metric.rave.is-active .speedo-needle {
+            animation: needleRave 0.95s ease-in-out infinite;
+        }
+
+        @keyframes speedoRaveGlow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(124, 39, 242, 0.26)) drop-shadow(0 0 22px rgba(124, 39, 242, 0.14));
+            }
+            33% {
+                filter: drop-shadow(0 0 10px rgba(75, 117, 243, 0.26)) drop-shadow(0 0 22px rgba(75, 117, 243, 0.14));
+            }
+            66% {
+                filter: drop-shadow(0 0 10px rgba(34, 204, 243, 0.26)) drop-shadow(0 0 22px rgba(34, 204, 243, 0.14));
+            }
+            100% {
+                filter: drop-shadow(0 0 10px rgba(124, 39, 242, 0.26)) drop-shadow(0 0 22px rgba(124, 39, 242, 0.14));
+            }
+        }
+        @keyframes speedoRavePulse {
+            0%, 100% { opacity: 0.88; }
+            50% { opacity: 1; }
+        }
+        @keyframes needleRave {
+            0% {
+                transform: translateX(-50%) rotate(calc(var(--needle-angle) - 10deg));
+            }
+            50% {
+                transform: translateX(-50%) rotate(calc(var(--needle-angle) + 14deg));
+            }
+            100% {
+                transform: translateX(-50%) rotate(calc(var(--needle-angle) - 10deg));
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .trust-metric.rave.is-active .speedo-svg,
+            .trust-metric.rave.is-active .speedo-progress,
+            .trust-metric.rave.is-active .speedo-needle {
+                animation: none !important;
+            }
+            .speedo-needle { transition: none; }
+        }
+        .trust-metric h3 {
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        .trust-metric p {
+            font-size: 0.98rem;
+            color: var(--text-grey);
+            line-height: 1.6;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        
+        /* Social Proof Card */
+        .trust-social {
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(124, 39, 242, 0.02) 0%, rgba(34, 204, 243, 0.02) 100%);
+        }
+        .social-proof-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 45px 35px;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .social-proof-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(124, 39, 242, 0.05) 0%, rgba(34, 204, 243, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .social-proof-card:hover::after {
+            opacity: 1;
+        }
+        .social-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(124, 39, 242, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            opacity: 0.3;
+            filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        .social-icon i {
+            font-size: 2.2rem;
+            color: white;
+        }
+        .social-proof-card:hover .social-icon {
+            transform: scale(1.15) rotate(-5deg);
+            box-shadow: 0 12px 30px rgba(124, 39, 242, 0.4);
+        }
+        .social-proof-card:hover .social-icon::before {
+            opacity: 0.5;
+            inset: -8px;
+        }
+        .social-link-arrow {
+            margin-top: 15px;
+            color: var(--brand-purple);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .social-proof-card:hover .social-link-arrow {
+            transform: translateX(8px);
+            color: var(--brand-cyan);
+        }
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
         /* --- HANDOVER STRIP --- */
@@ -1210,6 +1508,10 @@
             header.header { padding: 10px 16px; }
             header.header .logo-tab { padding: 0 44px 0 22px; min-width: auto; clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%); }
             header.header .nav-right { padding-right: 18px; }
+
+            /* Trust Dashboard Tablet */
+            .trust-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 35px; }
+            .trust-metric { padding: 35px 25px; }
         }
 
         @media (max-width: 768px) {
@@ -1271,6 +1573,19 @@
 
             /* Move hero CTA into navigation on mobile */
             .hero-btns .btn-white-outline { display: none; }
+
+            /* Trust Dashboard Mobile */
+            .trust-dashboard { padding: 50px 0; }
+            .trust-grid { grid-template-columns: 1fr; gap: 25px; }
+            .trust-metric { padding: 35px 25px; }
+            .trust-count { top: 14px; left: 14px; padding: 7px 10px; }
+            .trust-count .count { font-size: 1.15rem; }
+            .trust-count .plus { font-size: 1.0rem; }
+            .speedometer { width: 170px; height: 115px; }
+            .trust-metric h3 { font-size: 1.2rem; }
+            .trust-metric p { font-size: 0.92rem; }
+            .social-icon { width: 75px; height: 75px; }
+            .social-icon i { font-size: 2rem; }
 
             header.header .nav-links {
                 display: none;
@@ -1344,21 +1659,6 @@
         <div class="container hero-content">
             <div class="hero-eyebrow">Since 2010 • Trusted by buyers & dealers worldwide</div>
             <h1 aria-label="Victory Starts With The Keys."><span class="hero-typed" id="heroTyped" data-text="Victory Starts With&#10;The Keys." aria-hidden="true">Victory Starts With<br>The Keys.</span><span class="typed-cursor" aria-hidden="true"></span></h1>
-            <p class="hero-subtitle">Your trusted route into high-grade Japanese vehicles from USS, TAA and ARAI auctions — with every delivery documented publicly.</p>
-            <div class="hero-trust-row">
-                <div class="hero-trust-metric">
-                    <strong>1000+</strong>
-                    <span>units sourced for local market</span>
-                </div>
-                <div class="hero-trust-metric">
-                    <strong>14+ years</strong>
-                    <span>operating with repeat buyers</span>
-                </div>
-                <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="hero-proof-link">
-                    <i class="fa-brands fa-facebook-f"></i>
-                    <span>See real handovers on Facebook</span>
-                </a>
-            </div>
             <div class="hero-btns">
                 <a href="cars.html" class="btn btn-primary">Browse Live Inventory</a>
                 <a href="#broker" class="btn btn-white-outline">Start Earning With Us</a>
@@ -1388,6 +1688,66 @@
                 <div class="handover-item"><img src="img/customer_photos/vinvel_cus_19.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
                 <div class="handover-item"><img src="img/customer_photos/vinvel_cus_20.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
                 <div class="handover-item"><img src="img/customer_photos/vinvel_cus_21.jpg" alt="Vinvel customer handover" loading="lazy" decoding="async"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Metrics Dashboard -->
+    <section class="trust-dashboard">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-metric" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="trust-count" aria-label="Units sourced">
+                        <span class="count" data-target="1000">0</span><span class="plus" aria-hidden="true">+</span>
+                    </div>
+                    <div class="speedometer">
+                        <svg viewBox="0 0 200 120" class="speedo-svg">
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#7C27F2;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#22CCF3;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e0e0e0" stroke-width="12" stroke-linecap="round"/>
+                            <path class="speedo-progress" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gradient1)" stroke-width="12" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                        </svg>
+                        <div class="speedo-needle" aria-hidden="true"></div>
+                        <div class="speedo-cap" aria-hidden="true"></div>
+                    </div>
+                    <h3>Units Sourced</h3>
+                    <p>High-grade vehicles delivered to the local market</p>
+                </div>
+                <div class="trust-metric" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="trust-count" aria-label="Years operating">
+                        <span class="count" data-target="14">0</span><span class="plus" aria-hidden="true">+</span>
+                    </div>
+                    <div class="speedometer">
+                        <svg viewBox="0 0 200 120" class="speedo-svg">
+                            <defs>
+                                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#4B75F3;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#7C27F2;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e0e0e0" stroke-width="12" stroke-linecap="round"/>
+                            <path class="speedo-progress" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gradient2)" stroke-width="12" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                        </svg>
+                        <div class="speedo-needle" aria-hidden="true"></div>
+                        <div class="speedo-cap" aria-hidden="true"></div>
+                    </div>
+                    <h3>Years Operating</h3>
+                    <p>Consistent service with repeat buyers</p>
+                </div>
+                <div class="trust-metric trust-social" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="social-proof-card">
+                        <div class="social-icon">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </div>
+                        <h3>See Real Handovers</h3>
+                        <p>Every delivery documented publicly on Facebook</p>
+                        <span class="social-link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -1655,7 +2015,7 @@
                 <div class="footer-col footer-links">
                     <h3>Support</h3>
                     <ul>
-                        <li><a href="mailto:vinvelmotortrading@gmail.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
+                        <li><a href="mailto:hello@vinvelmotors.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
                         <li><a href="https://wa.me/94714878393"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
                         <li><a href="tnc.html"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
                         <li><a href="privacy.html"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
@@ -2130,6 +2490,139 @@
                 const url = `https://wa.me/${officialPhone}?text=${encodeURIComponent(text)}`;
                 window.open(url, '_blank', 'noopener');
             });
+        })();
+
+        // Trust Dashboard Animation (runs outside module so it never gets skipped)
+        (function initTrustDashboard() {
+            const start = () => {
+                const trustMetrics = document.querySelectorAll('.trust-metric');
+                if (trustMetrics.length === 0) return;
+
+                function easeOutQuart(x) {
+                    return 1 - Math.pow(1 - x, 4);
+                }
+
+                function animateNumber(element, target, duration = 2000) {
+                    let startTime = null;
+
+                    function animation(currentTime) {
+                        if (!startTime) startTime = currentTime;
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = easeOutQuart(progress);
+                        const current = Math.floor(eased * target);
+
+                        element.textContent = current;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animation);
+                        } else {
+                            element.textContent = target;
+                        }
+                    }
+
+                    requestAnimationFrame(animation);
+                }
+
+                function animateSpeedometer(svgPath, percentage) {
+                    if (!svgPath) return;
+                    const totalLength = 251.2;
+                    const targetOffset = totalLength - (totalLength * percentage / 100);
+
+                    svgPath.style.transition = 'none';
+                    svgPath.style.strokeDashoffset = '251.2';
+                    void svgPath.offsetWidth;
+                    svgPath.style.transition = 'stroke-dashoffset 2.5s cubic-bezier(0.65, 0, 0.35, 1)';
+                    svgPath.style.strokeDashoffset = String(targetOffset);
+                }
+
+                function animateNeedle(needleEl, percentage) {
+                    if (!needleEl) return;
+                    const clamped = Math.max(0, Math.min(percentage, 100));
+                    const angle = -90 + (clamped * 180) / 100;
+
+                    needleEl.style.transition = 'none';
+                    needleEl.style.setProperty('--needle-angle', '-90deg');
+                    void needleEl.offsetWidth;
+                    needleEl.style.transition = 'transform 2.5s cubic-bezier(0.65, 0, 0.35, 1)';
+                    needleEl.style.setProperty('--needle-angle', `${angle}deg`);
+                }
+
+                function triggerMetric(metricEl) {
+                    if (!metricEl) return;
+
+                    metricEl.classList.add('animated');
+                    metricEl.classList.add('is-active');
+
+                    // If we've already swept/count-animated once, just ensure rave resumes when visible.
+                    if (metricEl.dataset.swept) {
+                        if (metricEl.dataset.raveReady) metricEl.classList.add('rave');
+                        return;
+                    }
+
+                    metricEl.dataset.swept = 'true';
+
+                    const countElement = metricEl.querySelector('.count');
+                    const speedoPath = metricEl.querySelector('.speedo-progress');
+                    const needleEl = metricEl.querySelector('.speedo-needle');
+                    if (!countElement) return;
+
+                    const target = parseInt(countElement.getAttribute('data-target')) || 0;
+                    setTimeout(() => {
+                        animateNumber(countElement, target, 2200);
+                        if (speedoPath) {
+                            const percentage = target >= 1000 ? 85 : 75;
+                            animateSpeedometer(speedoPath, percentage);
+                            animateNeedle(needleEl, percentage);
+                        }
+
+                        // Start the repeating rave effect after the first sweep finishes.
+                        window.setTimeout(() => {
+                            metricEl.dataset.raveReady = 'true';
+                            if (metricEl.classList.contains('is-active')) {
+                                metricEl.classList.add('rave');
+                            }
+                        }, 2600);
+                    }, 150);
+                }
+
+                if (!('IntersectionObserver' in window)) {
+                    trustMetrics.forEach((metric) => {
+                        metric.classList.add('is-active');
+                        triggerMetric(metric);
+                    });
+                    return;
+                }
+
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            const metricEl = entry.target;
+                            if (entry.isIntersecting) {
+                                metricEl.classList.add('is-active');
+                                triggerMetric(metricEl);
+                                if (metricEl.dataset.raveReady) metricEl.classList.add('rave');
+                            } else {
+                                metricEl.classList.remove('is-active');
+                                // Keep the class for state, but stop the animation while out of view.
+                                metricEl.classList.remove('rave');
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.18,
+                        rootMargin: '0px 0px -12% 0px',
+                    }
+                );
+
+                trustMetrics.forEach((metric) => observer.observe(metric));
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', start, { once: true });
+            } else {
+                start();
+            }
         })();
 
     </script>

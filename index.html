@@ -547,6 +547,40 @@
         .social-proof-card:hover::after {
             opacity: 1;
         }
+        .social-bokeh {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            width: 180px;
+            height: 150px;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 1;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+        .social-bokeh img {
+            position: absolute;
+            width: 66px;
+            height: 66px;
+            border-radius: 999px;
+            object-fit: cover;
+            opacity: 0.78;
+            filter: blur(0.35px) saturate(1.08) contrast(1.05);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+            outline: 2px solid rgba(255, 255, 255, 0.55);
+            outline-offset: -2px;
+        }
+        .social-bokeh img:nth-child(1) { top: 0; left: 0; }
+        .social-bokeh img:nth-child(2) { top: 18px; left: 102px; width: 68px; height: 68px; opacity: 0.74; }
+        .social-bokeh img:nth-child(3) { top: 74px; left: 44px; width: 74px; height: 74px; opacity: 0.70; }
+        .social-bokeh img:nth-child(4) { top: 74px; left: 122px; width: 64px; height: 64px; opacity: 0.68; }
+        .social-bokeh img:nth-child(5) { top: 36px; left: 54px; width: 58px; height: 58px; opacity: 0.66; }
+
+        .social-proof-card:hover .social-bokeh {
+            transform: translateX(-50%) scale(1.06);
+            opacity: 1;
+        }
         .social-icon {
             width: 90px;
             height: 90px;
@@ -570,10 +604,13 @@
             opacity: 0.3;
             filter: blur(10px);
             transition: all 0.4s ease;
+            z-index: 0;
         }
         .social-icon i {
             font-size: 2.2rem;
             color: white;
+            position: relative;
+            z-index: 1;
         }
         .social-proof-card:hover .social-icon {
             transform: scale(1.15) rotate(-5deg);
@@ -824,6 +861,37 @@
         .step h4 { font-size: 1rem; margin-bottom: 4px; color: #e5e7eb; font-weight: 500; }
         .step p { font-size: 0.9rem; color: #9ca3af; margin: 0; font-weight: 300; }
         .step:not(:last-child)::after { content: ""; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: linear-gradient(to bottom, rgba(148,163,184,0.7), rgba(15,23,42,0)); opacity: 0.7; }
+
+        /* Process steps: unfold/assemble on scroll (enabled by JS) */
+        .process-steps.process-steps--reveal .step {
+            opacity: 0;
+            transform: translateY(18px) scale(0.985);
+            filter: blur(1px);
+            transition: opacity 760ms ease, transform 1050ms cubic-bezier(0.18, 0.9, 0.22, 1), filter 1050ms ease;
+            will-change: transform, opacity;
+        }
+        .process-steps.process-steps--reveal .step.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: none;
+        }
+        .process-steps.process-steps--reveal .step .step-icon-box {
+            transform: scale(0.92);
+            transition: transform 1050ms cubic-bezier(0.18, 0.9, 0.22, 1);
+        }
+        .process-steps.process-steps--reveal .step.is-visible .step-icon-box {
+            transform: scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .process-steps.process-steps--reveal .step {
+                opacity: 1;
+                transform: none;
+                filter: none;
+                transition: none;
+            }
+            .process-steps.process-steps--reveal .step .step-icon-box { transition: none; transform: none; }
+        }
 
         @media (max-width: 992px) {
             .features-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -1740,6 +1808,13 @@
                 </div>
                 <div class="trust-metric trust-social" data-aos="zoom-in" data-aos-delay="200">
                     <a href="https://www.facebook.com/vinvelsl" target="_blank" rel="noopener" class="social-proof-card">
+                        <div class="social-bokeh" aria-hidden="true">
+                            <img src="img/customer_photos/vinvel_cus_1.jpg" alt="" loading="lazy" decoding="async">
+                            <img src="img/customer_photos/vinvel_cus_2.jpg" alt="" loading="lazy" decoding="async">
+                            <img src="img/customer_photos/vinvel_cus_3.jpg" alt="" loading="lazy" decoding="async">
+                            <img src="img/customer_photos/vinvel_cus_4.jpg" alt="" loading="lazy" decoding="async">
+                            <img src="img/customer_photos/vinvel_cus_5.jpg" alt="" loading="lazy" decoding="async">
+                        </div>
                         <div class="social-icon">
                             <i class="fa-brands fa-facebook-f"></i>
                         </div>
@@ -2502,22 +2577,42 @@
                     return 1 - Math.pow(1 - x, 4);
                 }
 
+                function easeOutBack(x) {
+                    const c1 = 1.70158;
+                    const c3 = c1 + 1;
+                    return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+                }
+
                 function animateNumber(element, target, duration = 2000) {
+                    const fmt = new Intl.NumberFormat('en-US');
+                    const safeTarget = Math.max(0, Number.isFinite(target) ? target : 0);
+                    const overshoot = safeTarget >= 100 ? Math.round(safeTarget * 1.06) : Math.round(safeTarget * 1.22);
+
+                    const phase1 = Math.max(300, Math.floor(duration * 0.76));
+                    const phase2 = Math.max(220, duration - phase1);
                     let startTime = null;
 
                     function animation(currentTime) {
                         if (!startTime) startTime = currentTime;
                         const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = easeOutQuart(progress);
-                        const current = Math.floor(eased * target);
 
-                        element.textContent = current;
+                        let current = 0;
+                        if (elapsed < phase1) {
+                            const p = Math.min(elapsed / phase1, 1);
+                            const eased = easeOutQuart(p);
+                            current = Math.round(eased * overshoot);
+                        } else {
+                            const p = Math.min((elapsed - phase1) / phase2, 1);
+                            const eased = easeOutBack(p);
+                            current = Math.round(overshoot + (safeTarget - overshoot) * eased);
+                        }
 
-                        if (progress < 1) {
+                        element.textContent = fmt.format(current);
+
+                        if (elapsed < duration) {
                             requestAnimationFrame(animation);
                         } else {
-                            element.textContent = target;
+                            element.textContent = fmt.format(safeTarget);
                         }
                     }
 
@@ -2586,6 +2681,22 @@
                     }, 150);
                 }
 
+                function isInViewport(el) {
+                    if (!el || !el.getBoundingClientRect) return false;
+                    const rect = el.getBoundingClientRect();
+                    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+                    return rect.top < vh * 0.86 && rect.bottom > vh * 0.12;
+                }
+
+                function triggerVisibleMetrics() {
+                    trustMetrics.forEach((metricEl) => {
+                        if (metricEl && !metricEl.dataset.swept && isInViewport(metricEl)) {
+                            metricEl.classList.add('is-active');
+                            triggerMetric(metricEl);
+                        }
+                    });
+                }
+
                 if (!('IntersectionObserver' in window)) {
                     trustMetrics.forEach((metric) => {
                         metric.classList.add('is-active');
@@ -2616,6 +2727,84 @@
                 );
 
                 trustMetrics.forEach((metric) => observer.observe(metric));
+
+                // Backup trigger: ensures counting works even if observers/AOS interplay is odd.
+                triggerVisibleMetrics();
+                window.addEventListener('scroll', triggerVisibleMetrics, { passive: true });
+                window.addEventListener('resize', triggerVisibleMetrics, { passive: true });
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', start, { once: true });
+            } else {
+                start();
+            }
+        })();
+
+        // Process steps: unfold/assemble on scroll (stagger)
+        (function initProcessStepsScrollReveal() {
+            const start = () => {
+                const container = document.querySelector('.process-steps');
+                if (!container) return;
+
+                const steps = Array.from(container.querySelectorAll('.step'));
+                if (steps.length === 0) return;
+
+                const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (prefersReduced) return;
+
+                container.classList.add('process-steps--reveal');
+
+                const STAGGER_MS = 170;
+                let lastY = window.scrollY || 0;
+                let lastDir = 1;
+                let rafId = 0;
+
+                function updateDir() {
+                    if (rafId) return;
+                    rafId = window.requestAnimationFrame(() => {
+                        const y = window.scrollY || 0;
+                        lastDir = y >= lastY ? 1 : -1;
+                        lastY = y;
+                        rafId = 0;
+                    });
+                }
+
+                window.addEventListener('scroll', updateDir, { passive: true });
+
+                function revealForward() {
+                    steps.forEach((stepEl, i) => {
+                        window.setTimeout(() => stepEl.classList.add('is-visible'), i * STAGGER_MS);
+                    });
+                }
+
+                function hideReverse() {
+                    const reversed = steps.slice().reverse();
+                    reversed.forEach((stepEl, i) => {
+                        window.setTimeout(() => stepEl.classList.remove('is-visible'), i * STAGGER_MS);
+                    });
+                }
+
+                if (!('IntersectionObserver' in window)) {
+                    revealForward();
+                    return;
+                }
+
+                const obs = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                revealForward();
+                            } else {
+                                // Reverse the sequence when leaving while scrolling up.
+                                if (lastDir < 0) hideReverse();
+                            }
+                        });
+                    },
+                    { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
+                );
+
+                obs.observe(container);
             };
 
             if (document.readyState === 'loading') {

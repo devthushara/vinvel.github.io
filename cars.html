@@ -115,7 +115,7 @@
         }
         .car-card:hover .car-img-wrapper img { transform: scale(1.05); }
 
-        .badge-grade { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; backdrop-filter: blur(4px); z-index: 2; }
+        .badge-grade { position: absolute; right: 10px; bottom: 10px; top: auto; background: rgba(0,0,0,0.7); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; backdrop-filter: blur(4px); z-index: 2; }
         .badge-status { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; color: #fff; z-index: 2; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
         .badge-status.ready { background: linear-gradient(135deg, #16a34a, #22c55e); }
         .badge-status.transit { background: linear-gradient(135deg, #eab308, #f97316); }
@@ -157,6 +157,31 @@
         .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .spec-item { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
         .spec-item strong { display: block; color: #888; font-size: 0.75rem; margin-bottom: 3px; }
+
+        /* Share row (deep link) */
+        .share-row { display:flex; flex-direction:column; gap:10px; margin: 4px 0 16px; padding: 12px; border-radius: 12px; border: 1px solid rgba(102,0,255,0.18); background: #f8f7ff; }
+        .share-brand { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+        .share-brand-left { display:flex; align-items:center; gap:10px; min-width: 0; }
+        .share-logo { height: 22px; width:auto; display:block; }
+        .share-label { font-size: 0.88rem; font-weight: 700; color: #111827; font-family: 'Jost', sans-serif; letter-spacing: 0.02em; white-space: nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .share-buttons { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .btn-share { padding: 10px 12px; border-radius: 999px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-weight: 700; font-size: 0.86rem; letter-spacing: 0.02em; background: var(--primary-gradient); color: #fff; box-shadow: 0 4px 12px rgba(102,0,255,0.35); display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; }
+        .btn-share:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(102,0,255,0.5); }
+        .btn-share.secondary { background: #ffffff; color: #3b3b5a; border: 1px solid rgba(102,0,255,0.18); box-shadow: none; }
+        .btn-share.secondary:hover { background: #f3f3ff; box-shadow: none; }
+        .btn-icon { width: 42px; height: 42px; border-radius: 999px; border: 1px solid rgba(102,0,255,0.18); background: #fff; color: #3b3b5a; cursor: pointer; display:inline-flex; align-items:center; justify-content:center; transition: 0.2s; }
+        .btn-icon:hover { background:#f3f3ff; transform: translateY(-1px); }
+
+        /* Card-level share/copy (image overlay) */
+        .share-row--card { position:absolute; top:0px; right:2px; display:flex; flex-direction:row; gap:8px; padding:6px; border-radius:999px; background: rgba(255,255,255,0.92); border: 1px solid rgba(148,163,184,0.65); z-index: 3; backdrop-filter: blur(8px); }
+        .share-row--card .card-icon { width: 32px; height: 32px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.7); background: #fff; color: #334155; cursor: pointer; display:inline-flex; align-items:center; justify-content:center; transition: 0.2s; }
+        .share-row--card .card-icon:hover { background: #f8fafc; border-color: rgba(102,0,255,0.35); }
+
+        @media (max-width: 600px) {
+            .btn-share { width: 100%; }
+            .share-buttons { flex-direction: column; align-items: stretch; }
+            .btn-icon { width: 100%; }
+        }
 
         /* FOOTER */
         footer { background: radial-gradient(circle at top left, #1b1433 0, #05040a 55%, #020308 100%); color: #b5bcd1; padding: 48px 0 26px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
@@ -210,6 +235,7 @@
             .modal-content { flex-direction: column; height: auto; max-height: 100vh; border-radius: 18px; }
             .modal-gallery { height: 38vh; flex: none; }
             .modal-details { flex: 1; padding: 20px 18px 22px; }
+            .modal-close { width: 46px; height: 46px; top: 12px; right: 12px; font-size: 1.65rem; }
             .modal-title { font-size: 1.4rem; }
             .modal-price { font-size: 1.3rem; }
             .spec-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -345,6 +371,25 @@
                     <span class="modal-price" id="modalPrice">LKR 0</span>
                     <span id="modalStatus" class="modal-status-pill modal-status-ready">Ready to Ship</span>
                 </div>
+
+                <div class="share-row" aria-label="Share this car">
+                    <div class="share-brand">
+                        <div class="share-brand-left">
+                            <img class="share-logo" src="img/logo.svg" alt="Vinvel">
+                            <div class="share-label">Share this Vinvel car</div>
+                        </div>
+                    </div>
+                    <div class="share-buttons">
+                        <button type="button" class="btn-share secondary" id="modalShareBtn" onclick="window.shareCarLink()" title="Share">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            Share
+                        </button>
+                        <button type="button" class="btn-icon" id="modalCopyBtn" onclick="window.copyCarLink()" title="Copy link" aria-label="Copy link">
+                            <i class="fa-solid fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <p style="margin-bottom: 20px; color: #666; font-size: 0.95rem;">
                     Verified Auction Grade <span id="modalGrade" style="font-weight: 700; color: #333;">4.5</span>. 
                     This vehicle includes a full translation sheet and mechanical warranty.
@@ -373,6 +418,108 @@
         let pageSize = 10;
         let currentCarImages = []; // For modal gallery
         let currentSlideIndex = 0;
+        let currentOpenCarId = null;
+
+        function getCarDeepLinkParam() {
+            return new URLSearchParams(window.location.search).get('car');
+        }
+
+        function setCarDeepLinkParam(carId) {
+            const url = new URL(window.location.href);
+            if (carId) url.searchParams.set('car', carId);
+            else url.searchParams.delete('car');
+            history.replaceState(null, '', url);
+        }
+
+        function getShareUrlForCarId(carId) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('car', carId);
+            return url.toString();
+        }
+
+        async function copyTextToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return;
+            }
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(textarea);
+            if (!ok) throw new Error('execCommand copy failed');
+        }
+
+        function flashCopiedIcon(buttonEl, originalHtml) {
+            if (!buttonEl) return;
+            buttonEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+            setTimeout(() => {
+                if (buttonEl && originalHtml) buttonEl.innerHTML = originalHtml;
+            }, 1400);
+        }
+
+        window.copyCarLink = async () => {
+            if (!currentOpenCarId) return;
+            const url = getShareUrlForCarId(currentOpenCarId);
+            const btn = document.getElementById('modalCopyBtn');
+            const original = btn ? btn.innerHTML : null;
+            try {
+                await copyTextToClipboard(url);
+                flashCopiedIcon(btn, original);
+            } catch (e) {
+                window.prompt('Copy this Vinvel link:', url);
+            }
+        };
+
+        window.shareCarLink = async () => {
+            if (!currentOpenCarId) return;
+            const url = getShareUrlForCarId(currentOpenCarId);
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Vinvel | Car',
+                        text: 'View this car on Vinvel',
+                        url,
+                    });
+                    return;
+                } catch (e) {
+                    // user cancelled or share failed; fall back to copy
+                }
+            }
+            await window.copyCarLink();
+        };
+
+        window.copyCarLinkById = async (carId, btnEl) => {
+            const url = getShareUrlForCarId(carId);
+            const original = btnEl ? btnEl.innerHTML : null;
+            try {
+                await copyTextToClipboard(url);
+                flashCopiedIcon(btnEl, original);
+            } catch (e) {
+                window.prompt('Copy this Vinvel link:', url);
+            }
+        };
+
+        window.shareCarLinkById = async (carId, btnEl) => {
+            const url = getShareUrlForCarId(carId);
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Vinvel | Car',
+                        text: 'View this car on Vinvel',
+                        url,
+                    });
+                    return;
+                } catch (e) {
+                    // fall back to copy
+                }
+            }
+            await window.copyCarLinkById(carId, btnEl);
+        };
 
         // --- INIT ---
         async function initInventory() {
@@ -387,6 +534,11 @@
                 filteredCars = allCars;
                 populateDropdowns(allCars);
                 render();
+
+                const deepLinkId = getCarDeepLinkParam();
+                if (deepLinkId) {
+                    window.openModal(deepLinkId);
+                }
             } catch (error) {
                 console.error("Sanity Error:", error);
                 grid.innerHTML = "<p>Sorry, we couldn't load the inventory. Please try again later.</p>";
@@ -444,6 +596,14 @@
                     <div class="car-card">
                         <div class="car-img-wrapper">
                             <span class="badge-status ${statusClass}">${statusLabel}</span>
+                            <div class="share-row share-row--card" aria-label="Share actions">
+                                <button type="button" class="card-icon" title="Share" aria-label="Share" onclick="window.shareCarLinkById('${car._id}', this)">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                                <button type="button" class="card-icon" title="Copy link" aria-label="Copy link" onclick="window.copyCarLinkById('${car._id}', this)">
+                                    <i class="fa-solid fa-link"></i>
+                                </button>
+                            </div>
                             <span class="badge-grade">Grade ${car.grade || '-'}</span>
                             <img src="${thumbUrl}" alt="${car.title}" onerror="this.src='https://via.placeholder.com/800x600?text=No+Image'">
                         </div>
@@ -614,6 +774,9 @@
             const car = allCars.find(c => c._id === carId);
             if (!car) return;
 
+            currentOpenCarId = carId;
+            setCarDeepLinkParam(carId);
+
             document.getElementById('modalTitle').innerText = car.title;
             document.getElementById('modalPrice').innerText = car.hidePrice 
                 ? "Call for Price" 
@@ -652,6 +815,8 @@
 
         window.closeModal = () => {
             document.getElementById('carModal').style.display = 'none';
+            currentOpenCarId = null;
+            setCarDeepLinkParam(null);
         };
 
         // Gallery Nav
@@ -688,6 +853,18 @@
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         };
+
+        function setupModalDismissOnOverlayClick() {
+            const overlay = document.getElementById('carModal');
+            if (!overlay) return;
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    window.closeModal();
+                }
+            });
+        }
+
+        setupModalDismissOnOverlayClick();
 
         // Initialize on load
         initInventory();

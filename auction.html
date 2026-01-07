@@ -556,9 +556,9 @@
         }
 
         function getShareUrlForCarId(carId) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('car', carId);
-            return url.toString();
+            const id = String(carId || '').trim();
+            if (!id) return window.location.href;
+            return new URL(`/c/${encodeURIComponent(id)}`, window.location.origin).toString();
         }
 
         async function copyTextToClipboard(text) {

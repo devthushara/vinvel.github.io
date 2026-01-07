@@ -38,3 +38,8 @@ next-env.d.ts
 .vscode/
 
 .DS_Store
+# Local Netlify folder
+.netlify
+
+# Netlify/deno tooling lock (not used by this repo)
+deno.lock

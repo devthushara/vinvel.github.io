@@ -2,6 +2,8 @@
   "name": "vinvel.github.io",
   "private": true,
   "scripts": {
-    "build": "node tools/generate_customer_photos_manifest.mjs"
+    "build": "node tools/generate_customer_photos_manifest.mjs",
+    "dev": "netlify dev",
+    "verify:share": "node tools/verify_car_share.cjs"
   }
 }

@@ -1,2 +1,7 @@
 [build]
   publish = "."
+
+[[redirects]]
+  from = "/c/*"
+  to = "/.netlify/functions/car-share?id=:splat"
+  status = 200

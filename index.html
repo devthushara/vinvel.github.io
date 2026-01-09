@@ -1705,6 +1705,322 @@
             .car-grid { grid-template-columns: 1fr; gap: 18px; }
             .car-details { padding: 18px; }
         }
+
+        /* --- FAQ SECTION --- */
+        .faq-section {
+            padding: 86px 0;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(34, 204, 243, 0.03) 60%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            right: -220px;
+            top: -240px;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 70% 30%, rgba(34, 204, 243, 0.14), rgba(124, 39, 242, 0.0) 62%);
+            filter: blur(14px);
+            pointer-events: none;
+        }
+
+        .faq-search-wrapper {
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .faq-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid rgba(124, 39, 242, 0.15);
+            border-radius: 50px;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-search-box:focus-within {
+            border-color: var(--brand-purple);
+            box-shadow: 0 8px 24px rgba(124, 39, 242, 0.15);
+        }
+
+        .faq-search-box i {
+            color: var(--brand-purple);
+            font-size: 1.1rem;
+            margin-right: 12px;
+        }
+
+        .faq-search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px 0;
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        .faq-clear-btn {
+            background: transparent;
+            border: none;
+            color: #999;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1;
+            display: none;
+            transition: color 0.2s;
+        }
+
+        .faq-clear-btn:hover {
+            color: var(--brand-purple);
+        }
+
+        .faq-clear-btn.visible {
+            display: block;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(124, 39, 242, 0.08);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 12px 35px rgba(124, 39, 242, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .faq-item.hidden {
+            display: none;
+        }
+
+        .faq-question {
+            padding: 22px 60px 22px 24px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(124, 39, 242, 0.02);
+        }
+
+        .faq-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .faq-question h3 {
+            font-size: 1.08rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin: 0;
+            flex: 1;
+        }
+
+        .faq-toggle {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: rgba(124, 39, 242, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-toggle i {
+            color: var(--brand-purple);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            background: var(--primary-gradient);
+        }
+
+        .faq-item.active .faq-toggle i {
+            transform: rotate(180deg);
+            color: white;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 24px 24px 78px;
+        }
+
+        .faq-answer p {
+            color: var(--text-grey);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .faq-answer ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .faq-answer li {
+            color: var(--text-grey);
+            line-height: 1.7;
+            margin-bottom: 8px;
+            list-style: disc;
+        }
+
+        .faq-answer strong {
+            color: var(--text-dark);
+        }
+
+        .faq-load-more {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .faq-load-more .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-load-more i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-load-more.show-less i {
+            transform: rotate(180deg);
+        }
+
+        .faq-count {
+            margin-top: 16px;
+            color: var(--text-grey);
+            font-size: 0.9rem;
+        }
+
+        .faq-no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-grey);
+        }
+
+        .faq-no-results i {
+            font-size: 3rem;
+            color: rgba(124, 39, 242, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .faq-no-results h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .faq-no-results p {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .faq-section {
+                padding: 60px 0;
+            }
+
+            .faq-search-wrapper {
+                margin-bottom: 30px;
+            }
+
+            .faq-question {
+                padding: 18px 55px 18px 20px;
+                gap: 12px;
+            }
+
+            .faq-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+
+            .faq-toggle {
+                right: 20px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 0 20px 20px 68px;
+            }
+
+            .faq-answer p,
+            .faq-answer li {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .faq-question {
+                padding: 16px 50px 16px 16px;
+                gap: 10px;
+            }
+
+            .faq-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .faq-question h3 {
+                font-size: 0.95rem;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 0 16px 16px 58px;
+            }
+
+            .faq-search-box {
+                padding: 0 16px;
+            }
+
+            .faq-search-box input {
+                padding: 14px 0;
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1953,6 +2269,35 @@
 
             <div style="text-align: center;">
                 <a href="cars.html" class="btn btn-primary">View Full Inventory</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about importing vehicles from Japan</p>
+            </div>
+
+            <div class="faq-search-wrapper" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="faqSearch" placeholder="Search questions..." aria-label="Search FAQ">
+                    <button id="clearSearch" class="faq-clear-btn" aria-label="Clear search">&times;</button>
+                </div>
+            </div>
+
+            <div class="faq-container" id="faqContainer" data-aos="fade-up" data-aos-delay="200">
+                <!-- FAQ items will be populated by JavaScript -->
+            </div>
+
+            <div class="faq-load-more">
+                <button id="loadMoreBtn" class="btn btn-outline">
+                    <span id="loadMoreText">Show More Questions</span>
+                    <i class="fa-solid fa-chevron-down" id="loadMoreIcon"></i>
+                </button>
+                <p class="faq-count"><span id="currentCount">5</span> of <span id="totalCount">0</span> questions shown</p>
             </div>
         </div>
     </section>
@@ -2971,6 +3316,334 @@
     });
 
     loadFeatured();
+</script>
+
+<script>
+    // FAQ Data - 35 questions about vehicle imports, Japanese auctions, and exports
+    const faqData = [
+        {
+            icon: 'fa-car',
+            question: 'What types of vehicles can I import from Japan?',
+            answer: 'You can import a wide range of vehicles including sedans, SUVs, vans, trucks, hybrid vehicles, electric vehicles, sports cars, and commercial vehicles. Japan offers both left-hand drive (LHD) and right-hand drive (RHD) vehicles suitable for countries like Sri Lanka, Australia, New Zealand, UK, Kenya, and other RHD markets.'
+        },
+        {
+            icon: 'fa-yen-sign',
+            question: 'How do Japanese auto auctions work?',
+            answer: 'Japanese auto auctions are wholesale marketplaces where dealers bid on vehicles. The main auction houses include USS, JAA, TAA, and ARAI. Vehicles are graded by professional inspectors (grades range from R to S), and detailed inspection sheets are provided. Auctions occur daily across Japan, offering thousands of vehicles weekly.'
+        },
+        {
+            icon: 'fa-certificate',
+            question: 'What do Japanese auction grades mean?',
+            answer: 'Japanese auction grades indicate vehicle condition: <strong>Grade S</strong> (nearly new, under 1000km), <strong>Grade 6</strong> (excellent condition), <strong>Grade 5</strong> (very good), <strong>Grade 4.5</strong> (good with minor issues), <strong>Grade 4</strong> (average), <strong>Grade 3.5</strong> (below average), <strong>Grade 3</strong> (poor), <strong>Grade R/RA</strong> (repaired/accident history). Higher grades typically mean better condition and higher prices.'
+        },
+        {
+            icon: 'fa-clock',
+            question: 'How long does the import process take?',
+            answer: 'The typical timeline is: Finding and purchasing a vehicle (1-2 weeks), shipping preparation and documentation (1-2 weeks), ocean freight (3-6 weeks depending on destination), customs clearance (1-2 weeks), and final delivery (few days). Total time is usually 2-3 months from purchase to delivery.'
+        },
+        {
+            icon: 'fa-ship',
+            question: 'What are the shipping costs to my country?',
+            answer: 'Shipping costs vary by destination and vehicle size. Approximate costs: <strong>Sri Lanka</strong>: $800-$1,500, <strong>Australia</strong>: $1,200-$2,000, <strong>New Zealand</strong>: $1,500-$2,500, <strong>UK</strong>: $1,800-$3,000, <strong>Kenya</strong>: $1,500-$2,200. These include basic insurance and port handling. Larger vehicles or roll-on/roll-off (RORO) vs container shipping affects pricing.'
+        },
+        {
+            icon: 'fa-file-invoice',
+            question: 'What documents are required for importing?',
+            answer: 'Required documents include: Export Certificate from Japan, Bill of Lading, Commercial Invoice, Auction inspection sheet, Original registration documents, Insurance certificate, and Import permit from your country. Additional documents may include emission compliance certificates, safety certificates, and age verification depending on your country\'s regulations.'
+        },
+        {
+            icon: 'fa-percent',
+            question: 'What are the import duties and taxes in Sri Lanka?',
+            answer: 'Sri Lanka has complex import duties based on vehicle type, age, and engine capacity. Duties can range from 100% to over 300% of the vehicle\'s CIF value. Additional taxes include VAT (15%), Ports and Airports Development Levy (PAL), and CESS. It\'s crucial to check current regulations as they change frequently. We provide accurate estimates based on latest government circulars.'
+        },
+        {
+            icon: 'fa-map-location-dot',
+            question: 'Can I import vehicles to Australia?',
+            answer: 'Yes, but Australia has strict regulations. Vehicles must be eligible under the Specialist and Enthusiast Vehicle Scheme (SEVS), be classics (25+ years old), or meet specific criteria. All vehicles must comply with Australian Design Rules (ADR) and undergo RAWS (Registered Automotive Workshop Scheme) approval. We guide you through compliance requirements and necessary modifications.'
+        },
+        {
+            icon: 'fa-flag',
+            question: 'What are New Zealand\'s import requirements?',
+            answer: 'New Zealand allows import of vehicles under 7 years old (measured from month of manufacture). Vehicles must meet NZ safety and emission standards, pass inspection by an approved vehicle inspector, and be registered with NZTA. Right-hand drive vehicles from Japan are popular and generally straightforward to import. Compliance costs typically range from NZD $500-$2,000.'
+        },
+        {
+            icon: 'fa-shield-halved',
+            question: 'How reliable are Japanese used vehicles?',
+            answer: 'Japanese used vehicles are renowned for reliability due to strict maintenance culture, rigorous vehicle inspections (Shaken), excellent road conditions, and quality manufacturing. Many Japanese drivers replace vehicles at relatively low mileage. The auction grading system provides transparent condition assessment. Vehicles are generally well-maintained and offer excellent value.'
+        },
+        {
+            icon: 'fa-calendar-days',
+            question: 'What is the best age of vehicle to import?',
+            answer: 'The ideal age depends on your budget and country regulations. Generally, 3-7 year old vehicles offer the best balance of price, condition, and features. They\'ve depreciated significantly but remain modern and reliable. Check your country\'s age restrictions - some countries prohibit imports over certain ages, while others have reduced duties for older vehicles.'
+        },
+        {
+            icon: 'fa-car-burst',
+            question: 'What if the vehicle has accident history?',
+            answer: 'Japanese auctions transparently disclose accident history with "R" or "RA" grades. Minor repairs are acceptable and clearly documented on auction sheets. We advise on severity and provide photos of damage areas. Many grade R vehicles are professionally repaired and represent good value if repairs were done properly. We recommend thorough inspection reports for peace of mind.'
+        },
+        {
+            icon: 'fa-money-bill-wave',
+            question: 'What payment methods do you accept?',
+            answer: 'We accept bank wire transfers (telegraphic transfer/TT), which is the most common method for international transactions. Some regions may have additional payment options like PayPal for deposits. Payment is typically made in stages: deposit to secure vehicle (10-30%), balance before shipping. All transactions are documented with proper invoicing.'
+        },
+        {
+            icon: 'fa-magnifying-glass',
+            question: 'Can I inspect the vehicle before purchase?',
+            answer: 'For auction purchases, physical inspection isn\'t possible before bidding as vehicles are stored at auction sites. However, we provide: Detailed auction inspection sheets, High-resolution photos from multiple angles, Professional grading reports, Pre-bid inspection services (additional fee), and Video inspection for high-value vehicles. Post-purchase, pre-shipment inspection is available.'
+        },
+        {
+            icon: 'fa-steering-wheel',
+            question: 'Are left-hand drive vehicles available?',
+            answer: 'Yes, Japan has both RHD and LHD vehicles. LHD vehicles are less common but available, particularly European imports sold in Japan, sports cars, and American vehicles. They typically command higher prices. We can source LHD vehicles for countries requiring them, though selection is more limited than RHD options.'
+        },
+        {
+            icon: 'fa-bolt',
+            question: 'Can I import hybrid or electric vehicles?',
+            answer: 'Absolutely! Japan is a leader in hybrid and EV technology. Popular models include Toyota Prius, Aqua, Nissan Leaf, Mitsubishi Outlander PHEV, and many others. Battery health reports are crucial for EVs. We provide battery capacity reports and recommend vehicles with good battery condition. Shipping precautions are taken for EVs per maritime safety regulations.'
+        },
+        {
+            icon: 'fa-wrench',
+            question: 'What modifications are needed for compliance?',
+            answer: 'Required modifications vary by destination country. Common requirements include: Speedometer conversion (km/h to mph if required), Headlight alignment adjustments, Installation of daytime running lights (DRL), Seatbelt compliance updates, Emission control modifications, and Child restraint anchor points. We work with certified workshops to ensure full compliance.'
+        },
+        {
+            icon: 'fa-hand-holding-dollar',
+            question: 'What are the hidden costs I should know about?',
+            answer: 'Beyond vehicle and shipping costs, budget for: Auction fees (¥10,000-¥30,000), Pre-shipment inspection, Export documentation, Marine insurance (1-2% of value), Import duties and taxes, Port storage if delayed, Compliance modifications, Registration fees, and Initial servicing/detailing. We provide detailed cost breakdowns upfront to avoid surprises.'
+        },
+        {
+            icon: 'fa-building-columns',
+            question: 'Do you offer financing options?',
+            answer: 'While we don\'t directly provide financing, we can connect you with partner financial institutions in your country that specialize in imported vehicle loans. Some customers arrange personal loans or use equity from property. Payment plans may be available for established clients. Requirements and rates vary by country and lender.'
+        },
+        {
+            icon: 'fa-shield',
+            question: 'What warranty or guarantee do you provide?',
+            answer: 'We provide transparent auction grading reports and pre-shipment inspection services. While used vehicles don\'t typically come with manufacturer warranties, we ensure accurate representation of vehicle condition. Extended warranties may be available through third-party providers in your country. We stand behind our inspection reports and address any misrepresentation issues.'
+        },
+        {
+            icon: 'fa-language',
+            question: 'How do I read Japanese auction sheets?',
+            answer: 'Japanese auction sheets contain detailed information including grade, mileage, equipment, condition diagrams, and inspection notes. We provide full English translations of auction sheets. Key elements: Overall grade (top right), interior/exterior ratings, equipment codes (A/C, PS, PW, etc.), damage diagrams with severity markers, and inspector comments. We explain everything clearly.'
+        },
+        {
+            icon: 'fa-gas-pump',
+            question: 'What fuel types are available?',
+            answer: 'Japanese vehicles come in various fuel types: Regular petrol (gasoline), Premium petrol, Diesel (very popular for SUVs and trucks), Hybrid (petrol-electric), Electric (battery only), and Plug-in Hybrid (PHEV). Japan has excellent hybrid technology with models like Prius, Aqua, Harrier Hybrid, and Alphard Hybrid being very popular.'
+        },
+        {
+            icon: 'fa-gears',
+            question: 'Manual or automatic transmission - which is better?',
+            answer: 'Japan predominantly has automatic transmissions - over 95% of vehicles. Manual transmissions are mainly found in sports cars and some light commercial vehicles. Automatics are generally: Better for city driving, More fuel-efficient (modern CVT), Easier to resell, and Better maintained (less clutch wear). Manuals offer more control and are preferred by driving enthusiasts.'
+        },
+        {
+            icon: 'fa-road',
+            question: 'What is the average mileage of Japanese used cars?',
+            answer: 'Japanese vehicles typically have lower mileage than equivalent age vehicles from other countries. Average annual mileage is around 8,000-10,000 km (5,000-6,000 miles) compared to 15,000-20,000 km in many other countries. This is due to excellent public transportation, compact geography, and strict vehicle inspection costs encouraging earlier replacement.'
+        },
+        {
+            icon: 'fa-snowflake',
+            question: 'Do vehicles come with air conditioning?',
+            answer: 'Almost all Japanese vehicles come with air conditioning as standard equipment. Japan has hot, humid summers making A/C essential. Many vehicles also have automatic climate control. Auction sheets indicate A/C presence. We ensure A/C is functional during pre-shipment inspection. Rear A/C is common in minivans and larger vehicles.'
+        },
+        {
+            icon: 'fa-satellite-dish',
+            question: 'What about GPS navigation systems?',
+            answer: 'Many Japanese vehicles have built-in navigation systems. However, they\'re designed for Japan with Japanese maps and language. These can\'t typically be updated for other countries. Most buyers either: Use smartphone navigation, Install aftermarket international GPS, or Replace the head unit with Android Auto/Apple CarPlay compatible systems. We can arrange installation before shipping.'
+        },
+        {
+            icon: 'fa-truck',
+            question: 'Can I import commercial vehicles and trucks?',
+            answer: 'Yes! Japan offers excellent commercial vehicles including light trucks (kei trucks), vans, buses, dump trucks, refrigerated trucks, and specialty vehicles. These are known for reliability and durability. Import regulations for commercial vehicles may differ from passenger cars - some countries have relaxed age restrictions and duties for commercial use. Verification of business use may be required.'
+        },
+        {
+            icon: 'fa-car-side',
+            question: 'What are the most popular models to import?',
+            answer: 'Popular imports include: <strong>Toyota</strong>: Prius, Aqua, Voxy, Harrier, Land Cruiser, Alphard; <strong>Nissan</strong>: Leaf, Serena, X-Trail, Note; <strong>Honda</strong>: Fit, Vezel, Freed, Civic; <strong>Mazda</strong>: Demio, CX-5, Axela; <strong>Subaru</strong>: Impreza, Forester, Legacy. Choices depend on country preferences and regulations.'
+        },
+        {
+            icon: 'fa-award',
+            question: 'What makes your service different from others?',
+            answer: 'Our advantages include: Direct access to all major Japanese auctions, Transparent pricing with no hidden fees, Full English translations of all documents, Expert knowledge of destination country regulations, White-label dealer programs for brokers, Pre-shipment inspection services, Real-time auction participation, Post-sale support and guidance, and Over 15 years of industry experience serving global markets.'
+        },
+        {
+            icon: 'fa-headset',
+            question: 'What support do you provide after delivery?',
+            answer: 'Post-delivery support includes: Assistance with registration process, Connecting with local mechanics familiar with imports, Helping source spare parts if needed, Providing maintenance recommendations, Translation of Japanese service manuals, Support with any import documentation issues, and Advice on future imports. We maintain long-term relationships with clients and are always available to help.'
+        },
+        {
+            icon: 'fa-earth-asia',
+            question: 'Which countries do you export to?',
+            answer: 'We regularly export to: <strong>Asia</strong>: Sri Lanka, Pakistan, Bangladesh, Myanmar, Singapore; <strong>Oceania</strong>: Australia, New Zealand, Papua New Guinea, Fiji; <strong>Africa</strong>: Kenya, Tanzania, Uganda, Zambia, Zimbabwe, Mauritius, Botswana; <strong>Caribbean</strong>: Jamaica, Trinidad, Barbados; <strong>Europe</strong>: UK, Ireland, Cyprus, Malta. We can arrange shipment to almost any country.'
+        },
+        {
+            icon: 'fa-circle-question',
+            question: 'Can you source specific vehicles not at auction?',
+            answer: 'Yes! Beyond auctions, we can source vehicles from: Japanese dealerships, Private sellers, Trade-in vehicles, Corporate fleet vehicles, and Direct manufacturer outlets. This is particularly useful for rare models, specific configurations, or when you need a particular color/option combination. Sourcing timelines vary but we leverage our extensive network throughout Japan.'
+        },
+        {
+            icon: 'fa-users',
+            question: 'Do you work with car dealers and brokers?',
+            answer: 'Absolutely! We offer special programs for dealers and brokers including: Wholesale pricing structures, White-label solutions (Vinvel Dealer Link), Your branding on all customer communications, Flexible payment terms for established partners, Priority access to inventory, and Dedicated account management. Many international dealers use our services to source inventory without maintaining Japan presence.'
+        },
+        {
+            icon: 'fa-book',
+            question: 'What should I know before starting the import process?',
+            answer: 'Key preparation steps: Research your country\'s import regulations and age restrictions, Calculate total costs including all duties and taxes, Secure financing or budget adequately, Choose a reputable agent with proven track record, Understand auction grading system, Verify currency exchange rates, Plan for 2-3 month timeline, Arrange insurance coverage, and Prepare registration documentation. We guide you through every step to ensure smooth import experience.'
+        },
+        {
+            icon: 'fa-screwdriver-wrench',
+            question: 'What about parts availability and maintenance?',
+            answer: 'Japanese vehicles have excellent parts availability globally due to their popularity. Major brands have authorized dealers in most countries. Options for parts: Manufacturer dealers, Online Japanese parts suppliers, Local aftermarket suppliers, Used parts importers, and Direct import from Japan if needed. Common service items like brakes, filters, and fluids are universally available. Japanese vehicles are known for reliability and lower maintenance costs.'
+        }
+    ];
+
+    // FAQ functionality
+    let allFAQs = [];
+    let visibleCount = 5;
+    let showingAll = false;
+
+    function initializeFAQ() {
+        allFAQs = [...faqData];
+        renderFAQs();
+        updateCounter();
+        setupEventListeners();
+    }
+
+    function renderFAQs(faqs = allFAQs.slice(0, visibleCount)) {
+        const container = document.getElementById('faqContainer');
+        
+        if (faqs.length === 0) {
+            container.innerHTML = `
+                <div class="faq-no-results">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h3>No questions found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            `;
+            document.getElementById('loadMoreBtn').style.display = 'none';
+            return;
+        }
+
+        container.innerHTML = faqs.map((faq, index) => `
+            <div class="faq-item" data-index="${index}">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i class="fa-solid ${faq.icon}"></i>
+                    </div>
+                    <h3>${faq.question}</h3>
+                    <div class="faq-toggle">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <p>${faq.answer}</p>
+                </div>
+            </div>
+        `).join('');
+
+        // Add click handlers
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.closest('.faq-item');
+                const wasActive = item.classList.contains('active');
+                
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // Toggle current item
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        document.getElementById('loadMoreBtn').style.display = 'inline-flex';
+    }
+
+    function updateCounter() {
+        const currentCount = Math.min(visibleCount, allFAQs.length);
+        document.getElementById('currentCount').textContent = currentCount;
+        document.getElementById('totalCount').textContent = allFAQs.length;
+
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadMoreText = document.getElementById('loadMoreText');
+        const loadMoreIcon = document.getElementById('loadMoreIcon');
+        const loadMoreWrapper = document.querySelector('.faq-load-more');
+
+        if (showingAll) {
+            loadMoreText.textContent = 'Show Less';
+            loadMoreWrapper.classList.add('show-less');
+        } else {
+            loadMoreText.textContent = 'Show More Questions';
+            loadMoreWrapper.classList.remove('show-less');
+        }
+
+        if (currentCount >= allFAQs.length) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    function setupEventListeners() {
+        // Search functionality
+        const searchInput = document.getElementById('faqSearch');
+        const clearBtn = document.getElementById('clearSearch');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            if (searchTerm) {
+                clearBtn.classList.add('visible');
+                const filtered = faqData.filter(faq => 
+                    faq.question.toLowerCase().includes(searchTerm) ||
+                    faq.answer.toLowerCase().includes(searchTerm)
+                );
+                renderFAQs(filtered);
+                document.querySelector('.faq-count').style.display = 'none';
+            } else {
+                clearBtn.classList.remove('visible');
+                showingAll = false;
+                visibleCount = 5;
+                renderFAQs();
+                updateCounter();
+                document.querySelector('.faq-count').style.display = 'block';
+            }
+        });
+
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            clearBtn.classList.remove('visible');
+            showingAll = false;
+            visibleCount = 5;
+            renderFAQs();
+            updateCounter();
+            document.querySelector('.faq-count').style.display = 'block';
+        });
+
+        // Load more functionality
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+            if (showingAll) {
+                visibleCount = 5;
+                showingAll = false;
+                renderFAQs();
+                updateCounter();
+                // Scroll to FAQ section
+                document.querySelector('.faq-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                visibleCount = allFAQs.length;
+                showingAll = true;
+                renderFAQs(allFAQs);
+                updateCounter();
+            }
+        });
+    }
+
+    // Initialize FAQ when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeFAQ);
+    } else {
+        initializeFAQ();
+    }
 </script>
 </body>
 </html>

@@ -912,7 +912,7 @@
             updateSlide();
 
             // WhatsApp
-            const phone = "94714878393";
+            const phone = "819012345678";
             const text = `Hi Vinvel, I'm interested in the auction pick ${car.title} (Ref: ${car._id.slice(-6)}). Can you share the sheet?`;
             document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             
@@ -967,7 +967,7 @@
             const whatsapp = document.getElementById('bidWhatsapp').value.trim();
             const notes = document.getElementById('bidNotes').value.trim();
 
-            const phone = "94714878393";
+            const phone = "819012345678";
             let message = `Auction bid from vinvel.lk\n\n`;
             message += `Car: ${currentCar.title} (Ref: ${currentCar._id.slice(-6)})\n`;
             if (amount) message += `Bid: ${amount} ${currency}\n`;
@@ -1027,5 +1027,18 @@
         // Start
         initAuction();
     </script>
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6968ae7b8c45b7197bb15a60/1jf0ej5f8';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

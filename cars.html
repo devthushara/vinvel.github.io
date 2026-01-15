@@ -817,7 +817,7 @@
             updateSlide();
 
             // WhatsApp Link
-            const phone = "94714878393";
+            const phone = "819012345678";
             const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${car._id.slice(-6)}). Is it still available?`;
             document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             
@@ -859,7 +859,7 @@
 
         window.openWhatsApp = (e, title, id) => {
             e.preventDefault();
-            const phone = "94714878393";
+            const phone = "819012345678";
             const text = `Hi Vinvel, I am interested in the ${title} (Ref: ${id.slice(-6)}). Is it still available?`;
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
@@ -880,5 +880,18 @@
         // Initialize on load
         initInventory();
     </script>
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6968ae7b8c45b7197bb15a60/1jf0ej5f8';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

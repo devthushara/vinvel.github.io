@@ -912,9 +912,11 @@
             updateSlide();
 
             // WhatsApp
-            const phone = "819012345678";
+            const phone = "817091226742";
             const text = `Hi Vinvel, I'm interested in the auction pick ${car.title} (Ref: ${car._id.slice(-6)}). Can you share the sheet?`;
-            document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            const modalWhatsapp = document.getElementById('modalWhatsapp');
+            modalWhatsapp.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            modalWhatsapp.target = '_blank';
             
             document.getElementById('carModal').style.display = 'flex';
         };
@@ -967,7 +969,7 @@
             const whatsapp = document.getElementById('bidWhatsapp').value.trim();
             const notes = document.getElementById('bidNotes').value.trim();
 
-            const phone = "819012345678";
+            const phone = "817091226742";
             let message = `Auction bid from vinvel.lk\n\n`;
             message += `Car: ${currentCar.title} (Ref: ${currentCar._id.slice(-6)})\n`;
             if (amount) message += `Bid: ${amount} ${currency}\n`;

@@ -2332,7 +2332,7 @@
                 </div>
                 <div class="home-modal-actions">
                     <a href="cars.html" class="btn btn-primary home-modal-browse-btn">Browse Full Inventory</a>
-                    <a href="https://wa.me/819012345678?text=Hi%20Vinvel,%20I%20saw%20your%20featured%20cars%20and%20would%20like%20to%20know%20more." target="_blank" class="btn btn-outline home-modal-browse-btn">
+                    <a href="https://wa.me/817091226742?text=Hi%20Vinvel,%20I%20saw%20your%20featured%20cars%20and%20would%20like%20to%20know%20more." target="_blank" class="btn btn-outline home-modal-browse-btn">
                         <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
                     </a>
                 </div>
@@ -2447,7 +2447,7 @@
                     <h3>Support</h3>
                     <ul>
                         <li><a href="mailto:hello@vinvelmotors.com"><i class="fa-regular fa-envelope"></i> Email Support</a></li>
-                        <li><a href="https://wa.me/819012345678"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
+                        <li><a href="https://wa.me/817091226742" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Hotline</a></li>
                         <li><a href="tnc.html"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a></li>
                         <li><a href="privacy.html"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
                         <li><a href="auction_disclaimer.html"><i class="fa-solid fa-user-shield"></i> Auction Grade Disclaimer</a></li>
@@ -2476,7 +2476,7 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/819012345678?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/817091226742?text=Hi%20Vinvel,%20I%20am%20interested%20in%20your%20services." target="_blank" class="sticky-whatsapp" aria-label="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -3288,10 +3288,11 @@
         homeSlideIndex = 0;
         updateHomeCarSlide();
 
-        const phone = '819012345678';
+        const phone = '817091226742';
         const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${(car._id || '').slice(-6)}). Is it still available?`;
         const wa = document.getElementById('homeCarModalWhatsapp');
         wa.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        wa.target = '_blank';
 
         setHomeCarModalOpen(true);
     };

@@ -817,9 +817,11 @@
             updateSlide();
 
             // WhatsApp Link
-            const phone = "819012345678";
+            const phone = "817091226742";
             const text = `Hi Vinvel, I am interested in the ${car.title} (Ref: ${car._id.slice(-6)}). Is it still available?`;
-            document.getElementById('modalWhatsapp').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            const modalWhatsapp = document.getElementById('modalWhatsapp');
+            modalWhatsapp.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            modalWhatsapp.target = '_blank';
             
             document.getElementById('carModal').style.display = 'flex';
         };

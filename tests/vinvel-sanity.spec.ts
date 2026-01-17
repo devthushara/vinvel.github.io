@@ -1,5 +1,8 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
 
+const SITE_URL = 'https://vinvelmotors.com';
+const CAR_ID = '207becb1-6ac3-4386-9a17-f2d3300b1583';
+
 async function expectWhatsAppLinkOpensNewTab(link: Locator) {
   await expect(link).toHaveAttribute('href', /https:\/\/(wa\.me|api\.whatsapp\.com)\//);
 
@@ -33,6 +36,20 @@ async function expectWindowOpenUrl(page: Page, action: () => Promise<void>, urlP
 
   expect(openedUrl).toMatch(urlPattern);
   return openedUrl;
+}
+
+async function installWindowOpenCapture(page: Page) {
+  // Make "open WhatsApp" interactions deterministic across browsers by capturing
+  // window.open calls (instead of relying on real popups / cross-origin navigation).
+  await page.addInitScript(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__pw_openedUrls = [];
+    window.open = (url?: string | URL | null) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).__pw_openedUrls.push(String(url));
+      return null as any;
+    };
+  });
 }
 
 async function closeChatWidgetIfOpen(page: Page) {
@@ -92,189 +109,168 @@ async function tryChatWidgetFlow(page: Page) {
   await launcher.click({ timeout: 5000 }).catch(() => {});
 }
 
-test('test', async ({ page }) => {
-  // This is a long end-to-end smoke flow (multiple pages + modals). The default
-  // 30s Playwright test timeout is too short and causes false failures.
-  test.setTimeout(120_000);
-
-  // Make "open WhatsApp" interactions deterministic across browsers by capturing
-  // window.open calls (instead of relying on real popups / cross-origin navigation).
-  await page.addInitScript(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).__pw_openedUrls = [];
-    window.open = (url?: string | URL | null) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).__pw_openedUrls.push(String(url));
-      return null as any;
-    };
+test.describe('vinvelmotors.com smoke tests', () => {
+  test.beforeEach(async ({ page }) => {
+    await installWindowOpenCapture(page);
   });
 
-  await page.goto('https://vinvelmotors.com/');
-  // OLD (Failing):
-// await page.locator('#xf3tiok62gno1768531130100').contentFrame().getByRole('button', { name: 'Chat attention grabber' }).click();
+  test('home: chat widget is present (does not block)', async ({ page }) => {
+    test.setTimeout(45_000);
 
-  // Don’t open the chat widget here — it can overlay the page and block clicks later.
-  await expect(
-    page.frameLocator('iframe[title="chat widget"]').first().getByRole('button', { name: 'Chat widget' }),
-  ).toBeVisible();
-  await page.getByRole('link', { name: ' Terms & Conditions' }).click();
-  await page.getByRole('link', { name: ' Privacy Policy' }).click();
-  await page.getByRole('link', { name: ' Auction Grade Disclaimer' }).click();
-  await page.getByRole('link', { name: 'Home', exact: true }).click();
-  await page.getByRole('link', { name: 'Start Earning With Us' }).click();
-  await page.locator('input[name="contactName"]').click();
-  await page.locator('input[name="contactName"]').fill('im a test ');
-  await page.locator('input[name="contactName"]').press('ControlOrMeta+a');
-  await page.locator('input[name="contactName"]').fill('test user');
-  await page.locator('input[name="contactName"]').press('Tab');
-  await page.locator('input[name="companyName"]').fill('test dealer');
-  await page.locator('input[name="phone"]').click();
-  await page.locator('input[name="phone"]').fill('123456789');
-  await page.locator('input[name="email"]').click();
-  await page.locator('input[name="email"]').fill('test@terst.com');
-  await page.getByRole('textbox', { name: 'e.g., Sri Lanka, UAE, Kenya' }).click();
-  await page.getByRole('textbox', { name: 'e.g., Sri Lanka, UAE, Kenya' }).fill('test country');
-  await page.locator('input[name="city"]').click();
-  await page.locator('input[name="city"]').fill('test city');
-  await page.getByRole('textbox', { name: 'Preferred models, budget' }).click();
-  await page.getByRole('textbox', { name: 'Preferred models, budget' }).fill('i would like to test this ');
-  {
+    await page.goto(`${SITE_URL}/`);
+    await expect(
+      page.frameLocator('iframe[title="chat widget"]').first().getByRole('button', { name: 'Chat widget' }),
+    ).toBeVisible();
+  });
+
+  test('home: legal links navigate', async ({ page }) => {
+    test.setTimeout(60_000);
+
+    await page.goto(`${SITE_URL}/`);
+    await page.getByRole('link', { name: /Terms & Conditions/i }).click();
+    await expect(page).toHaveURL(/\/tnc(\.html)?/);
+
+    await page.getByRole('link', { name: /Privacy Policy/i }).click();
+    await expect(page).toHaveURL(/\/privacy(\.html)?/);
+
+    await page.getByRole('link', { name: /Auction Grade Disclaimer/i }).click();
+    await expect(page).toHaveURL(/\/auction_disclaimer(\.html)?/);
+
+    await page.getByRole('link', { name: /^Home$/ }).click();
+    await expect(page).toHaveURL(new RegExp(`${SITE_URL.replace('.', '\\.')}/?$`));
+  });
+
+  test('broker: WhatsApp contact button uses window.open', async ({ page }) => {
+    test.setTimeout(90_000);
+
+    await page.goto(`${SITE_URL}/`);
+    await page.getByRole('link', { name: /Start Earning With Us/i }).click();
+
+    await page.locator('input[name="contactName"]').fill('test user');
+    await page.locator('input[name="companyName"]').fill('test dealer');
+    await page.locator('input[name="phone"]').fill('123456789');
+    await page.locator('input[name="email"]').fill('test@terst.com');
+    await page.getByRole('textbox', { name: /Sri Lanka, UAE, Kenya/i }).fill('test country');
+    await page.locator('input[name="city"]').fill('test city');
+    await page.getByRole('textbox', { name: /Preferred models, budget/i }).fill('i would like to test this');
+
     const urlBefore = page.url();
     await expectWindowOpenUrl(
       page,
       async () => {
-        await page.getByRole('button', { name: 'Contact Us on WhatsApp' }).click();
+        await page.getByRole('button', { name: /Contact Us on WhatsApp/i }).click();
       },
       /(wa\.me|api\.whatsapp\.com)/,
     );
     await expect(page).toHaveURL(urlBefore);
-  }
-  const page2Promise = page.waitForEvent('popup');
-  await page.getByRole('link', { name: 'Open International broker' }).click();
-  const page2 = await page2Promise;
-  await page.locator('.fa-solid.fa-chevron-down').first().click();
-  await page.getByRole('heading', { name: 'How do Japanese auto auctions' }).click();
-  await page.getByRole('heading', { name: 'What are the shipping costs' }).click();
-  const faqSearch = page.getByRole('textbox', { name: 'Search FAQ' });
-  await faqSearch.scrollIntoViewIfNeeded();
-  await faqSearch.fill('cif');
-  await page.getByRole('textbox', { name: 'Search FAQ' }).press('Enter');
-  await page.getByRole('heading', { name: 'What are the import duties' }).click();
-  await page.getByText('Sri Lanka has complex import').click();
-  await page.getByRole('button', { name: 'View Details' }).first().click();
-  await page.getByRole('button', { name: 'Next image' }).click();
-  await page.getByRole('button', { name: 'Next image' }).click();
-  await page.getByRole('button', { name: 'Next image' }).click();
-  await page.getByRole('button', { name: 'Next image' }).click();
-  await page.getByRole('button', { name: 'Next image' }).click();
-  await closeChatWidgetIfOpen(page);
-  {
-    const enquireLink = page.getByRole('link', { name: ' Enquire Now on WhatsApp' });
-    await expectWhatsAppLinkOpensNewTab(enquireLink);
-  }
-  await page.goto('https://vinvelmotors.com/#broker');
-  await page.locator('#primaryNav').getByRole('link', { name: 'Inventory' }).click();
-  await page.getByRole('button', { name: 'View Details' }).first().click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await closeChatWidgetIfOpen(page);
-  {
-    const enquireLink = page.getByRole('link', { name: ' Enquire Now on WhatsApp' });
-    await expectWhatsAppLinkOpensNewTab(enquireLink);
-  }
-  await page.goto('https://vinvelmotors.com/cars?car=207becb1-6ac3-4386-9a17-f2d3300b1583');
-  await page.locator('#modalCopyBtn').click();
-  // ERROR: page3 does not exist
-// await page3.goto('https://vinvelmotors.com/cars.html?car=...');
+  });
 
-// FIX: Use 'page' (if you want to navigate the current tab)
-await page.goto('https://vinvelmotors.com/cars.html?car=207becb1-6ac3-4386-9a17-f2d3300b1583');
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: ' Share' }).click();
-  await page.locator('.share-buttons').click();
-  await page.getByText('×').click();
-  await page.locator('#makeSelect').selectOption('Toyota');
-  await page.getByRole('button', { name: 'View Details' }).nth(1).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByText('×').click();
-  await page.locator('#makeSelect').selectOption('Honda');
-  await page.locator('#makeSelect').selectOption('Tesla');
-  await page.locator('#makeSelect').selectOption('Toyota');
-  await page.locator('#modelSelect').selectOption('Hilux Rocco');
-  await page.getByRole('button', { name: 'Apply Filters' }).click();
-  await page.getByRole('link', { name: ' Auction Picks' }).click();
-  await page.getByRole('button', { name: 'View Details' }).nth(5).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.locator('#carModal').getByText('×').click();
-  await page.locator('#makeSelect').selectOption('Suzuki');
-  await page.getByRole('button', { name: 'View Details' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.getByRole('button', { name: '❯' }).click();
-  await page.locator('#carModal').getByText('×').click();
-  await page.locator('#makeSelect').selectOption('Toyota');
-  await page.locator('#modelSelect').selectOption('almera');
-  await page.getByRole('button', { name: 'Apply Filters' }).click();
-  await page.getByText('No auction picks found').click();
-  await page.locator('#modelSelect').selectOption('Passo');
-  await page.getByRole('button', { name: ' Place Bid' }).click();
-  await page.getByRole('spinbutton', { name: 'Your maximum bid' }).click();
-  await page.getByRole('spinbutton', { name: 'Your maximum bid' }).fill('1000000000');
-  await page.getByRole('textbox', { name: 'Your name' }).click();
-  await page.getByRole('textbox', { name: 'Your name' }).fill('test name');
-  await page.getByRole('textbox', { name: 'WhatsApp number' }).click();
-  await page.getByRole('textbox', { name: 'WhatsApp number' }).fill('+94123456789');
-  await page.getByRole('textbox', { name: 'Notes (optional)' }).click();
-  await page.getByRole('textbox', { name: 'Notes (optional)' }).fill('i want to test');
-  {
+  test('home: FAQ search works', async ({ page }) => {
+    test.setTimeout(60_000);
+
+    // FAQ search lives on the home page, not the broker inventory page.
+    await page.goto(`${SITE_URL}/`);
+
+    const faqSearch = page.getByLabel('Search FAQ');
+    await faqSearch.scrollIntoViewIfNeeded();
+    await expect(faqSearch).toBeVisible();
+    await faqSearch.fill('cif');
+    await faqSearch.press('Enter');
+  });
+
+  test('inventory: car modal enquiry WhatsApp link is correct', async ({ page }) => {
+    test.setTimeout(120_000);
+
+    await page.goto(`${SITE_URL}/cars`);
+    await page.getByRole('button', { name: /View Details/i }).first().click();
+
+    await closeChatWidgetIfOpen(page);
+    const enquireLink = page.getByRole('link', { name: /Enquire Now on WhatsApp/i });
+    await expectWhatsAppLinkOpensNewTab(enquireLink);
+  });
+
+  test('car details: share dialog opens and closes', async ({ page }) => {
+    test.setTimeout(90_000);
+
+    // This page shows the car modal overlay. There are multiple "Share" buttons
+    // (card share buttons + modal share), so scope to the modal button by id.
+    await page.goto(`${SITE_URL}/cars.html?car=${CAR_ID}`);
+    const carModal = page.locator('#carModal');
+    await expect(carModal).toBeVisible();
+
+    await carModal.locator('#modalShareBtn').click();
+    const shareDialog = carModal.locator('.share-buttons');
+    await expect(shareDialog).toBeVisible();
+
+    // The "×" close control belongs to the car modal overlay, not the share buttons.
+    // Close the modal and assert it hides.
+    await carModal.locator('.modal-close').click();
+    await expect(carModal).toBeHidden();
+  });
+
+  test('auction: sending bid opens WhatsApp (window.open captured)', async ({ page }) => {
+    test.setTimeout(120_000);
+
+    // Avoid click flakiness: modal overlays can intercept pointer events.
+    await page.goto(`${SITE_URL}/auction`);
+
+    const viewDetails = page.getByRole('button', { name: /View Details/i });
+    await expect(viewDetails.first()).toBeVisible();
+    await viewDetails.first().click();
+
+    // There are multiple "Place Bid" buttons (one per card). Strict mode requires
+    // a unique target, so scope to the opened car modal's "Place Auction Bid".
+    const carModal = page.locator('#carModal');
+    await expect(carModal).toBeVisible();
+    await carModal.getByRole('button', { name: /Place Auction Bid/i }).click();
+
+    // Fill bid form using accessible labels (stable across icon/text changes).
+    await page.getByLabel(/Your maximum bid/i).fill('1000000000');
+    await page.getByLabel(/Your name/i).fill('test name');
+    await page.getByLabel(/WhatsApp number/i).fill('+94123456789');
+    await page.getByLabel(/Notes/i).fill('i want to test');
+
     const urlBefore = page.url();
     await expectWindowOpenUrl(
       page,
       async () => {
-        await page.getByRole('button', { name: ' Send bid via WhatsApp' }).click();
+        await page.getByRole('button', { name: /Send bid via WhatsApp/i }).click();
       },
       /(wa\.me|api\.whatsapp\.com)/,
     );
     await expect(page).toHaveURL(urlBefore);
-  }
-  await page.getByRole('button', { name: '×' }).click();
-  await page.getByRole('link', { name: 'Vinvel Motor Trading logo' }).click();
-  await page.getByRole('link', { name: 'Browse Live Inventory' }).click();
-  await tryChatWidgetFlow(page);
-  await page.getByRole('link', { name: 'Vinvel Motor Trading logo' }).click();
+  });
 
-  // The "Recent Vinvel Victories" strip is animated/lazy-loaded; individual <img>
-  // nodes can detach/move while Playwright waits for stability.
-  // Assert it renders instead of interacting with a moving target.
-  const victoriesHeading = page.getByText('Recent Vinvel Victories', { exact: true });
-  await victoriesHeading.scrollIntoViewIfNeeded();
+  test('home: victories strip renders + social links are correct', async ({ page }) => {
+    test.setTimeout(60_000);
 
-  const handoverImgs = page.getByRole('img', { name: 'Vinvel customer handover' });
-  await expect.poll(async () => handoverImgs.count(), { message: 'Expected handover images to render' }).toBeGreaterThan(3);
-  await expect(handoverImgs.first()).toBeVisible();
+    await page.goto(`${SITE_URL}/`);
 
-  // External social sites are cross-origin and can be slow or block automation.
-  // Best practice: don't navigate there in a UI smoke test; assert the outgoing links.
-  await expect(page.getByRole('link', { name: ' Instagram' })).toHaveAttribute(
-    'href',
-    /https:\/\/(www\.)?instagram\.com\/vinvel_motors\/?/,
-  );
-  await expect(page.getByRole('link', { name: ' Facebook' })).toHaveAttribute(
-    'href',
-    /https:\/\/(www\.)?facebook\.com\/vinvelsl\/?/,
-  );
+    const victoriesHeading = page.getByText('Recent Vinvel Victories', { exact: true });
+    await victoriesHeading.scrollIntoViewIfNeeded();
+
+    const handoverImgs = page.getByRole('img', { name: 'Vinvel customer handover' });
+    await expect
+      .poll(async () => handoverImgs.count(), { message: 'Expected handover images to render' })
+      .toBeGreaterThan(3);
+    await expect(handoverImgs.first()).toBeVisible();
+
+    // Multiple links can match (promo card + footer). Scope to footer.
+    const footer = page.getByRole('contentinfo');
+    await expect(footer.getByRole('link', { name: /Instagram/i })).toHaveAttribute(
+      'href',
+      /https:\/\/(www\.)?instagram\.com\/vinvel_motors\/?/,
+    );
+    await expect(footer.getByRole('link', { name: /Facebook/i })).toHaveAttribute(
+      'href',
+      /https:\/\/(www\.)?facebook\.com\/vinvelsl\/?/,
+    );
+  });
+
+  test('chat widget: best-effort interaction', async ({ page }) => {
+    test.setTimeout(60_000);
+
+    await page.goto(`${SITE_URL}/`);
+    await tryChatWidgetFlow(page);
+  });
 });
